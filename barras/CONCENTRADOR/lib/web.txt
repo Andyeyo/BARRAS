@@ -1,0 +1,3 @@
+https://libstock.mikroe.com/projects/view/970/multi-swuart-library
+
+More info to use lib in SWUART_DOC.H

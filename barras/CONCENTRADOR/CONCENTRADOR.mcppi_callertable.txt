@@ -1,0 +1,21 @@
+main
+	__CC2DW
+	SUart0_Init_T
+	SUart2_Init_T
+	UART1_Init
+	RS485Master_Init
+	imprimirAlerta
+		SUart2_Write
+			Delay_1us
+		SUart0_Write
+			Delay_1us
+	LongWordToStrWithZeros
+		Div_32x32_U
+	SUart0_RstrNout
+		SUart0_Write
+			Delay_1us
+	SUart2_Write
+		Delay_1us
+interrupt
+	RS485Master_Receive
+		____DoIFC
