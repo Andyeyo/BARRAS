@@ -1,6 +1,6 @@
-#line 1 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/rs485.c"
-#line 1 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
-#line 31 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
+#line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/rs485.c"
+#line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 33 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -52,46 +52,50 @@ void save_data(void);
 void read_data(void);
 void write_long(unsigned int addr, unsigned long int four_byte);
 unsigned long int read_long(unsigned int addr);
-#line 3 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/rs485.c"
+
+
+extern char leerIdSlave(void);
+extern char idEsclavo;
+#line 3 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/rs485.c"
 void byte_send(char pkg);
 void wait_for_bus();
 void tx_prepare(char p0, char p1, char p2);
-#line 12 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/rs485.c"
+#line 14 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/rs485.c"
 void rs485_slave_send(void){
  unsigned int u;
  unsigned short e0,e1,e2,e3,s0,s1,s2,s3,b0,b1,b2,b3;
-
-
-
+#line 24 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/rs485.c"
  e0=ENTRAN&0xFF;
  e1=(ENTRAN&0xFF00)>>8;
  e2=(ENTRAN&0xFF0000)>>16;
  e3=(ENTRAN&0xFF000000)>>24;
+
  s0=SALEN&0xFF;
  s1=(SALEN&0xFF00)>>8;
  s2=(SALEN&0xFF0000)>>16;
  s3=(SALEN&0xFF000000)>>24;
+
  b0=BLOQUEOS&0xFF;
  b1=(BLOQUEOS&0xFF00)>>8;
  b2=(BLOQUEOS&0xFF0000)>>16;
  b3=(BLOQUEOS&0xFF000000)>>24;
 
  tx_prepare(e0,e1,e2);
- RS485Slave_Send(slave_tx_dat,3); Delay_ms(1);
+ RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
  tx_prepare(e3,s0,s1);
- RS485Slave_Send(slave_tx_dat,3); Delay_ms(1);
+ RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
  tx_prepare(s2,s3,b0);
- RS485Slave_Send(slave_tx_dat,3); Delay_ms(1);
+ RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
  tx_prepare(b1,b2,b3);
- RS485Slave_Send(slave_tx_dat,3); Delay_ms(1);
-#line 54 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/rs485.c"
+ RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
+#line 62 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/rs485.c"
 }
-#line 64 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/rs485.c"
+#line 74 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/rs485.c"
 void byte_send(char pkg){
 
 
  char x, f=0;
-#line 80 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/rs485.c"
+#line 90 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/rs485.c"
 }
 void tx_prepare(char p0, char p1, char p2){
  slave_tx_dat[0]=p0;

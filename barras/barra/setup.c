@@ -18,14 +18,20 @@ void init_setup(void){
         save_data();
     }
 
+    ADCON1= 0b00001111; // Configure AN pins as digital I/O
+    CMCON = 0b00000111; // Disable comparators
+    
+    PORTA = 0;
+    PORTB = 0;
+    PORTC = 0;
+    PORTD = 0;
+    PORTE = 0;
+    
     TRISA = 0b11011011; // salidas =0  entradas=1
     TRISB = 0b11111001;
     TRISC = 0b11011011;
     TRISD = 0b11011011;
     TRISE = 0b00000110;
-    
-    ADCON1= 0b00001111; // Configure AN pins as digital I/O
-    CMCON = 0b00000111; // Disable comparators
 
     //SUart0_Init_T(); //SW UART
     init_led();
@@ -39,22 +45,30 @@ void init_setup(void){
     PWM1_Init(36000);
     PWM1_Set_Duty(25);
     PWM1_Start();
+    
+    //add PC uartSFT
+    SUart0_Init_T();
 
     Delay_ms(100);
 }
 
-void init_485(void){
+void init_485(void)
+{
+/*
     UART1_Init(9600);                  // initialize UART1 module
     Delay_ms(100);
-    RS485Slave_Init(slave_id);              // Intialize MCU as slave, address 160
+    
+    //RS485Slave_Init(slave_id);              // Intialize MCU as slave, address 160
+    RS485Slave_Init(leerIdSlave());         //modifificacion PC
 
     //Uart interrupts
-    RCIE_bit = 0;                      // enable interrupt on UART1 receive
+    RCIE_bit = 1;                      // enable interrupt on UART1 receive     //original en 0 todo
     TXIE_bit = 0;                      // disable interrupt on UART1 transmit
 
     //disable interrupts
-    PEIE_bit = 0;                      // disable peripheral interrupts
-    GIE_bit = 0;                       // disable all interrupts
+    PEIE_bit = 1;                      // disable peripheral interrupts
+    GIE_bit = 1;                       // disable all interrupts
+*/
 }
 
 void init_var(void){
@@ -121,4 +135,26 @@ void init_led(void){
     LED_A = 1;
     LED_R = 1;
 //    BUZZER = 1;
+}
+
+//add PC
+char leerIdSlave(void)
+{
+    if(selectSL1 == 0 && selectSL0 == 0)
+    {
+        idEsclavo = 10;
+    }
+    else if(selectSL1 == 0 && selectSL0 == 1)
+    {
+        idEsclavo = 20;
+    }
+    else if(selectSL1 == 1 && selectSL0 == 0)
+    {
+        idEsclavo = 30;
+    }
+    else if(selectSL1 == 1 && selectSL0 == 1)
+    {
+        idEsclavo = 40;
+    }
+    return idEsclavo;
 }

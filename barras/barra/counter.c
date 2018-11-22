@@ -100,7 +100,7 @@ void counter(void){
                     NUMPER=ENTRAN+SALEN;
                     resultadoT='X';
                     //BUZZER=0; Delay_ms(100); BUZZER=1;
-                    rs485_slave_send();
+                    //rs485_slave_send();   //cmt PC
                     save_data();
                 }
                 if(resultadoT=='S'){
@@ -113,7 +113,7 @@ void counter(void){
                     BUZZER=0; Delay_ms(50); 
                     BUZZER=1;
                     */
-                    rs485_slave_send();
+                    //rs485_slave_send();   //cmt PC
                     save_data();
                 }
 

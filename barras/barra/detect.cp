@@ -1,6 +1,6 @@
-#line 1 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/detect.c"
-#line 1 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
-#line 31 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
+#line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/detect.c"
+#line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 33 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -52,7 +52,11 @@ void save_data(void);
 void read_data(void);
 void write_long(unsigned int addr, unsigned long int four_byte);
 unsigned long int read_long(unsigned int addr);
-#line 3 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/detect.c"
+
+
+extern char leerIdSlave(void);
+extern char idEsclavo;
+#line 3 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/detect.c"
 void detect(void){
 
  unsigned short int j1 = 0;
@@ -61,12 +65,12 @@ void detect(void){
 
  if (PORTD.B7)
  {
-#line 24 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/detect.c"
+#line 24 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/detect.c"
  }
 
  if(! PORTE.RE2 )
  {
-#line 31 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/detect.c"
+#line 31 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/detect.c"
  }
 
 

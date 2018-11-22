@@ -1,4 +1,4 @@
-#line 1 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 
 
 
@@ -27,33 +27,50 @@ char buffer[50],s_entran[11],s_salen[11],s_bloqueos[11];
 unsigned long int entran=0,salen=0,bloqueos=0 , cnt=0;
 char fbt=0, pbuffer=0, u=0, id_slave=0;
 
+char dat[10];
+char i,j;
+char esclavo = 10;
+
 
 
 unsigned long int counter1=0, counter2=0;
 short int ax=0;
 unsigned short int ee1[24]={'r','a','s','e','r','c','o','m','.','R','S','C',',','1','0','0','0','0','0','0','0',',',13,10};
 unsigned short int ee2[24]={'r','a','s','e','r','c','o','m','.','R','S','C',',','2','0','0','0','0','0','0','0',',',13,10};
-#line 40 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 44 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 char msn[5] = {'B','U','C','L','E'};
-
 
 
 void imprimirAlerta(char lugar)
 {
- for(u=0;u<5;u++){Suart2_write(msn[u]);}
- SUart0_write(lugar);
- SUart0_write('\n');
 
+ SUart0_write(lugar);
+ SUart0_write('\r');
+ SUart0_write('\n');
 }
 
 
+void peticion(char dirEsclavo)
+{
+ dat[0] = 0xFF;
+ dat[1] = 0xFF;
+ dat[2] = 0xFF;
+ dat[4] = 0;
+ dat[5] = 0;
+ dat[6] = 0;
+ RS485Master_Send(dat,1,dirEsclavo);
+ delay_ms(1);
+}
 
-void interrupt(){
+
+void interrupt()
+{
  RS485Master_Receive(master_rx_dat);
 }
 
 
-void main() {
+void main()
+{
 
  ADCON1= 0b00001111;
  CMCON = 0b00000111;
@@ -70,22 +87,23 @@ void main() {
  PEIE_bit = 1;
  GIE_bit = 1;
 
- while(1){
+ peticion(esclavo);
 
+ while(1)
+ {
 
- if (master_rx_dat[5]) {
-
+ if (master_rx_dat[5])
+ {
   PORTA.RA4 =1;
  Delay_ms(10);
   PORTA.RA4 =0;
  master_rx_dat[5]=0;
  master_rx_dat[4]=0;
-
- imprimirAlerta('E');
  }
 
 
- if(fbt>0){
+ if(fbt>0)
+ {
  cnt++;
  }
 
@@ -100,8 +118,8 @@ void main() {
  }
 
 
- if (master_rx_dat[4] && !master_rx_dat[5]){
-
+ if (master_rx_dat[4] && !master_rx_dat[5])
+ {
  if(fbt==0){
  cnt=0;
  entran=0;
@@ -113,34 +131,30 @@ void main() {
  entran+=(((unsigned long int)master_rx_dat[1])<<8);
  entran+=(((unsigned long int)master_rx_dat[2])<<16);
  fbt=1;
- imprimirAlerta('0');
  }
  else if(fbt==1){
  entran+=(((unsigned long int)master_rx_dat[0])<<24);
  salen+=(unsigned long int)master_rx_dat[1];
  salen+=(((unsigned long int)master_rx_dat[2])<<8);
  fbt=2;
- imprimirAlerta('1');
  }
  else if(fbt==2){
  salen+=(((unsigned long int)master_rx_dat[0])<<16);
  salen+=(((unsigned long int)master_rx_dat[1])<<24);
  bloqueos+=(unsigned long int)master_rx_dat[2];
  fbt=3;
- imprimirAlerta('2');
  }
  else if(fbt==3){
  bloqueos+=(((unsigned long int)master_rx_dat[1])<<8);
  bloqueos+=(((unsigned long int)master_rx_dat[2])<<16);
  bloqueos+=(((unsigned long int)master_rx_dat[1])<<24);
  fbt=4;
- imprimirAlerta('3');
  }
  master_rx_dat[4] = 0; master_rx_dat[6]=0;
-
  }
 
- if(fbt==4){
+ if(fbt==4)
+ {
   PORTA.RA3 =0;
  LongWordToStrWithZeros(entran,s_entran);
  LongWordToStrWithZeros(salen,s_salen);
@@ -154,11 +168,16 @@ void main() {
  buffer[pbuffer++]='#';
  SUart0_RstrNout(buffer,36);
 
+ SUart0_write('\r');
+ SUart0_write('\n');
 
- if(id_slave == 10){
+
+ if(id_slave == 10)
+ {
  for(u=3;u<10;u++){ ee1[11+u]=s_entran[u]; }
  }
- if(id_slave == 20){
+ if(id_slave == 20)
+ {
  for(u=3;u<10;u++){ ee2[11+u]=s_entran[u]; }
  }
 
@@ -166,35 +185,51 @@ void main() {
 
  entran=0; salen=0; bloqueos=0;
  cnt=0;
- imprimirAlerta('4');
  }
 
 
  counter2++;
- if(counter2>(14000*20)){
+ if(counter2>(14000*20))
+ {
  counter2=0;
- if(ax==0){
+ if(ax==0)
+ {
  ax=1;
  }
- else{
+ else
+ {
  ax=0;
  }
+
+
+ imprimirAlerta((esclavo/10)+48);
+ peticion(esclavo);
+ esclavo += 10;
+ if(esclavo > 30)
+ {
+ esclavo = 10;
+ }
+
  }
 
  counter1++;
- if(counter1>(14000*1)){
+ if(counter1>(14000*1))
+ {
  counter1=0;
- if(ax==0){
- for(u=0;u<24;u++){
+ if(ax==0)
+ {
+ for(u=0;u<24;u++)
+ {
  Suart2_write((char)ee1[u]);
  }
  }
- else{
- for(u=0;u<24;u++){
+ else
+ {
+ for(u=0;u<24;u++)
+ {
  Suart2_write((char)ee2[u]);
  }
  }
  }
-
  }
 }

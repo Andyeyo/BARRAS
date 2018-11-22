@@ -17,6 +17,8 @@
 #define jumper2 PORTC.RC4 // PARA QUE CUENTE SOLO EN UNA DIRECCION
 #define jumper3 PORTD.RD4 // PARA QUE CUENTE SOLO EN UNA DIRECCION original pin d4
 
+#define selectSL0 PORTC.B0  //Switch para seleccionar id de slave PC
+#define selectSL1 PORTC.B1
 
 ///////////////////////////////////////////////////////////////77
 //extern hace a las variables que se puedan usar globalmente
@@ -79,3 +81,7 @@ void save_data(void);
 void read_data(void);
 void write_long(unsigned int addr, unsigned long int four_byte);
 unsigned long int read_long(unsigned int addr);
+
+//add PC
+extern char leerIdSlave(void);
+extern char idEsclavo;

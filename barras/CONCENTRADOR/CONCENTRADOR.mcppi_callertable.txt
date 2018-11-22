@@ -4,9 +4,10 @@ main
 	SUart2_Init_T
 	UART1_Init
 	RS485Master_Init
+	peticion
+		RS485Master_Send
+			____DoIFC
 	imprimirAlerta
-		SUart2_Write
-			Delay_1us
 		SUart0_Write
 			Delay_1us
 	LongWordToStrWithZeros
@@ -14,6 +15,9 @@ main
 	SUart0_RstrNout
 		SUart0_Write
 			Delay_1us
+	SUart0_Write
+		Delay_1us
+	Div_8X8_U
 	SUart2_Write
 		Delay_1us
 interrupt

@@ -1,5 +1,5 @@
-#line 1 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/barras4.c"
-#line 1 "d:/vicente/documents/codigos_c/git_barras/barras/barra/var.h"
+#line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/var.h"
 
 unsigned long int NUMPER;
 unsigned long int ENTRAN;
@@ -45,8 +45,11 @@ sbit Scts0_pin at Stx0_pin;
 sbit Stx0_pin_Direction at TRISA.B1;
 sbit Srx0_pin_Direction at TRISA.B0;
 sbit Scts0_pin_Direction at Stx0_pin_Direction;
-#line 1 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
-#line 31 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
+
+
+int idEsclavo;
+#line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 33 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -98,16 +101,98 @@ void save_data(void);
 void read_data(void);
 void write_long(unsigned int addr, unsigned long int four_byte);
 unsigned long int read_long(unsigned int addr);
-#line 6 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/barras4.c"
-void main() {
+
+
+extern char leerIdSlave(void);
+extern char idEsclavo;
+#line 6 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+int cntax = 0;
+char cadenaF[4];
+unsigned long xx=0;
+char DIN, i, j;
+
+char datoRecibido[9];
+void verificarPeticion(char dat[9]);
+void indicadorOcupado(void);
+
+
+void interrupt()
+{
+ RS485Slave_Receive(datoRecibido);
+}
+
+void main()
+{
  init_setup();
- SUart0_Init_T();
- while(1){
+
+
+ UART1_Init(9600);
+ Delay_ms(100);
+
+ RS485Slave_Init( 10 );
+
+ slave_rx_dat[4] = 0;
+ slave_rx_dat[5] = 0;
+ slave_rx_dat[6] = 0;
+
+ RCIE_bit = 1;
+ TXIE_bit = 0;
+ PEIE_bit = 1;
+ GIE_bit = 1;
+
+
+ SUart0_Write('E');
+ SUart0_Write('S');
+ SUart0_Write((leerIdSlave()/10)+48);
+ SUart0_Write('\r');
+ SUart0_Write('\n');
+
+ while(1)
+ {
  detect();
- if( PORTD.RD6 ){
+ if( PORTD.RD6 )
+ {
  bloqueo();
  counter();
  }
+#line 58 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+ if(! PORTA.RA4  && ! PORTA.RA3  && ! PORTE.RE1  && ! PORTB.RB7  && ! PORTB.RB6 )
+ verificarPeticion(datoRecibido);
+ else
+ indicadorOcupado();
 
  }
+}
+
+void verificarPeticion(char dat[9])
+{
+ if (datoRecibido[5])
+ {
+ datoRecibido[5] = 0;
+ }
+ if (datoRecibido[4])
+ {
+ PORTB.B1 = 1; PORTB.B2 = 1;
+ datoRecibido[4] = 0;
+ j = datoRecibido[0];
+ if(j = 0xFF)
+ {
+ rs485_slave_send();
+ PORTB.B1 = 0; PORTB.B2 = 0;
+ }
+ else
+ {
+ SUart0_Write('N');
+ SUart0_Write('P');
+ SUart0_Write('I');
+ SUart0_Write('\r');
+ SUart0_Write('\n');
+ }
+ }
+}
+
+void indicadorOcupado()
+{
+#line 102 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+ PORTB.B1 = ~PORTB.B1;
 }

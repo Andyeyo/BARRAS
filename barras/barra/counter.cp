@@ -1,6 +1,6 @@
-#line 1 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/counter.c"
-#line 1 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
-#line 31 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
+#line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
+#line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 33 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -52,7 +52,11 @@ void save_data(void);
 void read_data(void);
 void write_long(unsigned int addr, unsigned long int four_byte);
 unsigned long int read_long(unsigned int addr);
-#line 3 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/counter.c"
+
+
+extern char leerIdSlave(void);
+extern char idEsclavo;
+#line 3 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
 void counter(void){
 
  if(aa!=0 && bb!=0 && cc!=0 && dd!=0 && ee!=0){
@@ -153,15 +157,14 @@ void counter(void){
  NUMPER=ENTRAN+SALEN;
  resultadoT='X';
 
- rs485_slave_send();
+
  save_data();
  }
  if(resultadoT=='S'){
  SALEN++;
  NUMPER=ENTRAN+SALEN;
  resultadoT='X';
-#line 116 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/counter.c"
- rs485_slave_send();
+#line 117 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
  save_data();
  }
 

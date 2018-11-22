@@ -26,8 +26,9 @@ File0=lib\p18_SwUart-4.mcl
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=1
-File0=CONCENTRADOR.c
+Count=2
+File0=..\barra\extern.h
+File1=CONCENTRADOR.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -35,11 +36,13 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=4
+Count=6
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\
-Path2=D:\VICENTE\Documents\CODIGOS_C\GIT_BARRAS\barras\CONCENTRADOR\
-Path3=D:\VICENTE\Documents\CODIGOS_C\GIT_BARRAS\barras\CONCENTRADOR\lib\
+Path2=D:\VICENTE\Downloads\PC\ALGORITMOS_CODIGOS\GIT_GITHUB\BARRAS\barras\CONCENTRADOR\
+Path3=D:\VICENTE\Documents\CODIGOS_C\GIT_BARRAS\barras\CONCENTRADOR\
+Path4=D:\VICENTE\Documents\CODIGOS_C\GIT_BARRAS\barras\CONCENTRADOR\lib\
+Path5=D:\VICENTE\Downloads\PC\ALGORITMOS_CODIGOS\GIT_GITHUB\BARRAS\barras\CONCENTRADOR\lib\
 [HEADER_PATH]
 Count=0
 [HEADERS]
@@ -47,7 +50,7 @@ Count=0
 [PLDS]
 Count=0
 [Useses]
-Count=55
+Count=48
 File0=ADC
 File1=Button
 File2=CAN_SPI
@@ -93,16 +96,9 @@ File41=Sprintf
 File42=Sprinti
 File43=Sprintl
 File44=T6963C
-File45=TFT
-File46=TFT_16bit
-File47=TFT_16bit_Defs
-File48=TFT_Defs
-File49=TFT_TouchPanel
-File50=Time
-File51=TouchPanel
-File52=Trigonometry
-File53=UART
-File54=USB
+File45=Time
+File46=UART
+File47=USB
 [EXPANDED_NODES]
 Node0=Sources
 Node1=Binaries

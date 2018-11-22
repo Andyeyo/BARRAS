@@ -43,3 +43,6 @@ sbit Scts0_pin at Stx0_pin; //PORTA.B2 if separated
 sbit Stx0_pin_Direction  at TRISA.B1;
 sbit Srx0_pin_Direction  at TRISA.B0;
 sbit Scts0_pin_Direction at Stx0_pin_Direction;
+
+//add PC
+int idEsclavo; //identificador del esclavo leido a traves de switch

@@ -26,6 +26,10 @@ char buffer[50],s_entran[11],s_salen[11],s_bloqueos[11];
 unsigned long int entran=0,salen=0,bloqueos=0 , cnt=0;
 char fbt=0, pbuffer=0, u=0,  id_slave=0;
 
+char dat[10];                          // add PC
+char i,j;
+char esclavo = 10;
+
 
 //array for rs232 tx
 unsigned long int counter1=0, counter2=0; //1 for periodic tx - 2 for periodic change data tx
@@ -40,23 +44,36 @@ mensaje de error pc
 char msn[5] = {'B','U','C','L','E'};
 
 //blucle de ayuda para impresion ctrl + c y ctrl + v
-
 void imprimirAlerta(char lugar)
 {
-    for(u=0;u<5;u++){Suart2_write(msn[u]);}
+    //for(u=0;u<5;u++){Suart0_write(msn[u]);}
     SUart0_write(lugar);
+    SUart0_write('\r');
     SUart0_write('\n');
-
 }
 
+//peticion de datos
+void peticion(char dirEsclavo)
+{
+    dat[0] = 0xFF;
+    dat[1] = 0xFF;
+    dat[2] = 0xFF;
+    dat[4] = 0;
+    dat[5] = 0;
+    dat[6] = 0;
+    RS485Master_Send(dat,1,dirEsclavo);
+    delay_ms(1);
+}
 
 //Interrupt
-void interrupt(){
+void interrupt()
+{
      RS485Master_Receive(master_rx_dat);
 }
 
 //MAIN
-void main() {
+void main() 
+{
     //SW UART
     ADCON1= 0b00001111; // Configure AN pins as digital I/O
     CMCON = 0b00000111; // Disable comparators
@@ -65,7 +82,7 @@ void main() {
     SUart0_Init_T();
     SUart2_Init_T();
 
-     //RS485 master
+    //RS485 master
     UART1_Init(9600); Delay_ms(100);                    // initialize UART1 module
     RS485Master_Init(); Delay_ms(100);                  // initialize MCU as Master
     RCIE_bit = 1;                        // enable interrupt on UART1 receive
@@ -73,22 +90,23 @@ void main() {
     PEIE_bit = 1;                        // enable peripheral interrupts
     GIE_bit = 1;                         // enable all interrupts
     
-    while(1){
-
+    peticion(esclavo);
+    
+    while(1)
+    {
         //if an error detected
-        if (master_rx_dat[5]) {
-
+        if (master_rx_dat[5]) 
+        {
            LED_TTR=1;
            Delay_ms(10);
            LED_TTR=0;
            master_rx_dat[5]=0;
            master_rx_dat[4]=0;
-           
-           imprimirAlerta('E'); //addPC
         }
         
         //in case of crush
-        if(fbt>0){
+        if(fbt>0)
+        {
             cnt++;
         }
 
@@ -103,8 +121,8 @@ void main() {
         }
 
         // if message received successfully
-        if (master_rx_dat[4] && !master_rx_dat[5]){
-
+        if (master_rx_dat[4] && !master_rx_dat[5])
+        {
             if(fbt==0){
                 cnt=0;
                 entran=0;
@@ -116,34 +134,30 @@ void main() {
                 entran+=(((unsigned long int)master_rx_dat[1])<<8);
                 entran+=(((unsigned long int)master_rx_dat[2])<<16);
                 fbt=1;
-                imprimirAlerta('0'); //addPC
             }
             else if(fbt==1){
                 entran+=(((unsigned long int)master_rx_dat[0])<<24);
                 salen+=(unsigned long int)master_rx_dat[1];
                 salen+=(((unsigned long int)master_rx_dat[2])<<8);
                 fbt=2;
-                imprimirAlerta('1'); //addPC
             }
             else if(fbt==2){
                 salen+=(((unsigned long int)master_rx_dat[0])<<16);
                 salen+=(((unsigned long int)master_rx_dat[1])<<24);
                 bloqueos+=(unsigned long int)master_rx_dat[2];
-                fbt=3;
-                imprimirAlerta('2'); //addPC
+                fbt=3;          //cambiado original 3
             }
             else if(fbt==3){
                 bloqueos+=(((unsigned long int)master_rx_dat[1])<<8);
                 bloqueos+=(((unsigned long int)master_rx_dat[2])<<16);
                 bloqueos+=(((unsigned long int)master_rx_dat[1])<<24);
                 fbt=4;
-                imprimirAlerta('3'); //addPC
             }
             master_rx_dat[4] = 0; master_rx_dat[6]=0;
-
         }
 
-        if(fbt==4){
+        if(fbt==4)
+        {
             LED_485=0;
             LongWordToStrWithZeros(entran,s_entran);
             LongWordToStrWithZeros(salen,s_salen);
@@ -157,11 +171,16 @@ void main() {
             buffer[pbuffer++]='#';
             SUart0_RstrNout(buffer,36);       //------------envio por bluetooth
 
+            SUart0_write('\r');  //add PC
+            SUart0_write('\n');  //add PC
+
             //especificar '#entran' por barra
-            if(id_slave == 10){
+            if(id_slave == 10)
+            {
                 for(u=3;u<10;u++){ ee1[11+u]=s_entran[u]; }
             }
-            if(id_slave == 20){
+            if(id_slave == 20)
+            {
                 for(u=3;u<10;u++){ ee2[11+u]=s_entran[u]; }
             }
             
@@ -169,35 +188,51 @@ void main() {
 
             entran=0; salen=0; bloqueos=0;
             cnt=0;
-            imprimirAlerta('4'); //addPC
         }
 
         //tx
         counter2++;
-        if(counter2>(14000*20)){
+        if(counter2>(14000*20))
+        {
             counter2=0;
-            if(ax==0){
+            if(ax==0)
+            {
                 ax=1;
             }
-            else{
+            else
+            {
                 ax=0;
             }
+            
+            //add PC
+            imprimirAlerta((esclavo/10)+48);
+            peticion(esclavo); //pedido de envio de información
+            esclavo += 10;
+            if(esclavo > 30)
+            {
+                esclavo = 10;
+            }
+
         }
         
         counter1++;
-        if(counter1>(14000*1)){
+        if(counter1>(14000*1))
+        {
             counter1=0;
-            if(ax==0){
-                for(u=0;u<24;u++){
+            if(ax==0)
+            {
+                for(u=0;u<24;u++)
+                {
                   Suart2_write((char)ee1[u]); //transmitir por RS232 puerto J2(RJ45) pc
                 }
             }
-            else{
-                for(u=0;u<24;u++){
+            else
+            {
+                for(u=0;u<24;u++)
+                {
                   Suart2_write((char)ee2[u]); //transmitir por RS232 puerto J2(RJ45) pc
                 }
             }
         }
-
     }
 }

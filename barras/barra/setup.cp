@@ -1,6 +1,6 @@
-#line 1 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/setup.c"
-#line 1 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
-#line 31 "d:/vicente/documents/codigos_c/git_barras/barras/barra/extern.h"
+#line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/setup.c"
+#line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 33 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -52,7 +52,11 @@ void save_data(void);
 void read_data(void);
 void write_long(unsigned int addr, unsigned long int four_byte);
 unsigned long int read_long(unsigned int addr);
-#line 3 "D:/VICENTE/Documents/CODIGOS_C/GIT_BARRAS/barras/barra/setup.c"
+
+
+extern char leerIdSlave(void);
+extern char idEsclavo;
+#line 3 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/setup.c"
 void init_485(void);
 void init_var(void);
 void init_led(void);
@@ -71,14 +75,20 @@ void init_setup(void){
  save_data();
  }
 
+ ADCON1= 0b00001111;
+ CMCON = 0b00000111;
+
+ PORTA = 0;
+ PORTB = 0;
+ PORTC = 0;
+ PORTD = 0;
+ PORTE = 0;
+
  TRISA = 0b11011011;
  TRISB = 0b11111001;
  TRISC = 0b11011011;
  TRISD = 0b11011011;
  TRISE = 0b00000110;
-
- ADCON1= 0b00001111;
- CMCON = 0b00000111;
 
 
  init_led();
@@ -93,21 +103,15 @@ void init_setup(void){
  PWM1_Set_Duty(25);
  PWM1_Start();
 
+
+ SUart0_Init_T();
+
  Delay_ms(100);
 }
 
-void init_485(void){
- UART1_Init(9600);
- Delay_ms(100);
- RS485Slave_Init( 10 );
-
-
- RCIE_bit = 0;
- TXIE_bit = 0;
-
-
- PEIE_bit = 0;
- GIE_bit = 0;
+void init_485(void)
+{
+#line 72 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/setup.c"
 }
 
 void init_var(void){
@@ -174,4 +178,26 @@ void init_led(void){
   PORTC.RC5  = 1;
   PORTA.RA5  = 1;
 
+}
+
+
+char leerIdSlave(void)
+{
+ if( PORTC.B1  == 0 &&  PORTC.B0  == 0)
+ {
+ idEsclavo = 10;
+ }
+ else if( PORTC.B1  == 0 &&  PORTC.B0  == 1)
+ {
+ idEsclavo = 20;
+ }
+ else if( PORTC.B1  == 1 &&  PORTC.B0  == 0)
+ {
+ idEsclavo = 30;
+ }
+ else if( PORTC.B1  == 1 &&  PORTC.B0  == 1)
+ {
+ idEsclavo = 40;
+ }
+ return idEsclavo;
 }

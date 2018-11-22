@@ -1,4 +1,5 @@
 main
+	__CC2DW
 	init_setup
 		read_long
 			EEPROM_Read
@@ -10,8 +11,6 @@ main
 				EEPROM_Write
 		init_led
 		init_485
-			UART1_Init
-			RS485Slave_Init
 		init_var
 		logA_reset
 		logB_reset
@@ -19,7 +18,13 @@ main
 		PWM1_Set_Duty
 			Mul_16X16_U
 		PWM1_Start
-	SUart0_Init_T
+		SUart0_Init_T
+	UART1_Init
+	RS485Slave_Init
+	SUart0_Write
+		Delay_1us
+	leerIdSlave
+	Div_8X8_U
 	detect
 		SUart0_Write
 			Delay_1us
@@ -31,10 +36,15 @@ main
 				FIXSIGN32
 		Equals_Double
 	counter
+		save_data
+			write_long
+				EEPROM_Write
+	verificarPeticion
 		rs485_slave_send
 			tx_prepare
 			RS485Slave_Send
 				____DoIFC
-		save_data
-			write_long
-				EEPROM_Write
+	indicadorOcupado
+interrupt
+	RS485Slave_Receive
+		____DoIFC

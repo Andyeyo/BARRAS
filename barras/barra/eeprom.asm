@@ -58,15 +58,20 @@ _save_data:
 	MOVWF       FARG_write_long_four_byte+3 
 	CALL        _write_long+0, 0
 ;eeprom.c,8 :: 		Delay_ms(20);
-	MOVLW       7
+	MOVLW       2
+	MOVWF       R11, 0
+	MOVLW       4
 	MOVWF       R12, 0
-	MOVLW       125
+	MOVLW       186
 	MOVWF       R13, 0
 L_save_data0:
 	DECFSZ      R13, 1, 1
 	BRA         L_save_data0
 	DECFSZ      R12, 1, 1
 	BRA         L_save_data0
+	DECFSZ      R11, 1, 1
+	BRA         L_save_data0
+	NOP
 ;eeprom.c,9 :: 		}
 L_end_save_data:
 	RETURN      0
@@ -118,15 +123,20 @@ _read_data:
 	MOVF        R3, 0 
 	MOVWF       _BLOQUEOS+3 
 ;eeprom.c,15 :: 		Delay_ms(20);
-	MOVLW       7
+	MOVLW       2
+	MOVWF       R11, 0
+	MOVLW       4
 	MOVWF       R12, 0
-	MOVLW       125
+	MOVLW       186
 	MOVWF       R13, 0
 L_read_data1:
 	DECFSZ      R13, 1, 1
 	BRA         L_read_data1
 	DECFSZ      R12, 1, 1
 	BRA         L_read_data1
+	DECFSZ      R11, 1, 1
+	BRA         L_read_data1
+	NOP
 ;eeprom.c,16 :: 		}
 L_end_read_data:
 	RETURN      0

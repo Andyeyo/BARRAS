@@ -388,8 +388,6 @@ L_counter39:
 ;counter.c,101 :: 		resultadoT='X';
 	MOVLW       88
 	MOVWF       _resultadoT+0 
-;counter.c,103 :: 		rs485_slave_send();
-	CALL        _rs485_slave_send+0, 0
 ;counter.c,104 :: 		save_data();
 	CALL        _save_data+0, 0
 ;counter.c,105 :: 		}
@@ -422,8 +420,6 @@ L_counter57:
 ;counter.c,109 :: 		resultadoT='X';
 	MOVLW       88
 	MOVWF       _resultadoT+0 
-;counter.c,116 :: 		rs485_slave_send();
-	CALL        _rs485_slave_send+0, 0
 ;counter.c,117 :: 		save_data();
 	CALL        _save_data+0, 0
 ;counter.c,118 :: 		}

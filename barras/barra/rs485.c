@@ -4,38 +4,46 @@ void byte_send(char pkg);
 void wait_for_bus();
 void tx_prepare(char p0, char p1, char p2);
 
-/*// Interrupt routine
+/*
+// Interrupt routine
 void interrupt() {
     RS485Slave_Receive(slave_rx_dat);
-}*/
+}
+*/
 
 void rs485_slave_send(void){
     unsigned int u;
     unsigned short e0,e1,e2,e3,s0,s1,s2,s3,b0,b1,b2,b3;
-
-   // wait_for_bus();
     
+    // wait_for_bus();
+    /*
+    ENTRAN = 0;
+    SALEN = 0;
+    BLOQUEOS = 0;
+    */
     e0=ENTRAN&0xFF;
     e1=(ENTRAN&0xFF00)>>8;
     e2=(ENTRAN&0xFF0000)>>16;
     e3=(ENTRAN&0xFF000000)>>24;
+    
     s0=SALEN&0xFF;
     s1=(SALEN&0xFF00)>>8;
     s2=(SALEN&0xFF0000)>>16;
     s3=(SALEN&0xFF000000)>>24;
+    
     b0=BLOQUEOS&0xFF;
     b1=(BLOQUEOS&0xFF00)>>8;
     b2=(BLOQUEOS&0xFF0000)>>16;
     b3=(BLOQUEOS&0xFF000000)>>24;
     
     tx_prepare(e0,e1,e2);
-    RS485Slave_Send(slave_tx_dat,3); Delay_ms(1);     //tiempo cambiado de 3 a 2 ms
+    RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);     //tiempo cambiado de 3 a 2 ms
     tx_prepare(e3,s0,s1);
-    RS485Slave_Send(slave_tx_dat,3); Delay_ms(1);
+    RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
     tx_prepare(s2,s3,b0);
-    RS485Slave_Send(slave_tx_dat,3); Delay_ms(1);
+    RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
     tx_prepare(b1,b2,b3);
-    RS485Slave_Send(slave_tx_dat,3); Delay_ms(1);
+    RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
     
     /*//ENVÍO
     LongWordToStrWithZeros(ENTRAN,s_entran);
@@ -53,13 +61,15 @@ void rs485_slave_send(void){
     byte_send('#');*/
 }
 
-/*void wait_for_bus(){
+/*
+void wait_for_bus(){
     unsigned int u=0;
     while(1){
         if(PORTC.RC7==1){u++;}else{u=0;}
         if(u>(35+slave_id*2)){break;}
     }
-}*/
+}
+*/
 
 void byte_send(char pkg){
     //whe only have to edit msg bytes
