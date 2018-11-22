@@ -20,10 +20,10 @@ main
 		PWM1_Start
 		SUart0_Init_T
 	UART1_Init
+	leerIdSlave
 	RS485Slave_Init
 	SUart0_Write
 		Delay_1us
-	leerIdSlave
 	Div_8X8_U
 	detect
 		SUart0_Write

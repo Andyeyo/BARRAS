@@ -43,8 +43,9 @@ L_main0:
 	BRA         L_main0
 	NOP
 	NOP
-;barras4.c,29 :: 		RS485Slave_Init(slave_id);
-	MOVLW       10
+;barras4.c,28 :: 		RS485Slave_Init(leerIdSlave()); //ORIGINAL PC obtiene la direccion seteada
+	CALL        _leerIdSlave+0, 0
+	MOVF        R0, 0 
 	MOVWF       FARG_RS485Slave_Init_slave_address+0 
 	CALL        _RS485Slave_Init+0, 0
 ;barras4.c,31 :: 		slave_rx_dat[4] = 0;                        // ensure that message received flag is 0

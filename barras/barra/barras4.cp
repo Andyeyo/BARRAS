@@ -128,8 +128,8 @@ void main()
 
  UART1_Init(9600);
  Delay_ms(100);
+ RS485Slave_Init(leerIdSlave());
 
- RS485Slave_Init( 10 );
 
  slave_rx_dat[4] = 0;
  slave_rx_dat[5] = 0;

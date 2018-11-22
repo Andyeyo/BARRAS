@@ -25,8 +25,8 @@ void main()
     // inicio el 485 aparte
     UART1_Init(9600);                  // initialize UART1 module
     Delay_ms(100);
-    //RS485Slave_Init(leerIdSlave()); //ORIGINAL PC obtiene la direccion seteada
-    RS485Slave_Init(slave_id);
+    RS485Slave_Init(leerIdSlave()); //ORIGINAL PC obtiene la direccion seteada
+    //RS485Slave_Init(slave_id);
 
     slave_rx_dat[4] = 0;                        // ensure that message received flag is 0
     slave_rx_dat[5] = 0;                        // ensure that message received flag is 0
