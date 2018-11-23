@@ -25,6 +25,9 @@ main
 	SUart0_Write
 		Delay_1us
 	Div_8X8_U
+	read_data
+		read_long
+			EEPROM_Read
 	detect
 		SUart0_Write
 			Delay_1us
@@ -36,9 +39,13 @@ main
 				FIXSIGN32
 		Equals_Double
 	counter
+	almacenarDatos
 		save_data
 			write_long
 				EEPROM_Write
+		read_data
+			read_long
+				EEPROM_Read
 	verificarPeticion
 		rs485_slave_send
 			tx_prepare

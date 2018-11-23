@@ -101,7 +101,7 @@ void counter(void){
                     resultadoT='X';
                     //BUZZER=0; Delay_ms(100); BUZZER=1;
                     //rs485_slave_send();   //cmt PC
-                    save_data();
+                    //save_data();          //cmt PC para evitar que se guarde cada que pasa alguna persona
                 }
                 if(resultadoT=='S'){
                     SALEN++;
@@ -114,7 +114,7 @@ void counter(void){
                     BUZZER=1;
                     */
                     //rs485_slave_send();   //cmt PC
-                    save_data();
+                    //save_data();          //cmt PC para evitar que se guarde cada que pasa alguna persona
                 }
 
             }

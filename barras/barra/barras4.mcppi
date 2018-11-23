@@ -35,8 +35,8 @@ ActiveImageIndex=-1
 [OPENED_FILES]
 Count=3
 File0=barras4.c
-File1=setup.c
-File2=extern.h
+File1=counter.c
+File2=eeprom.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

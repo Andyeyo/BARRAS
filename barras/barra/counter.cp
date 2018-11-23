@@ -1,6 +1,6 @@
 #line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
 #line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
-#line 33 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 34 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -158,14 +158,13 @@ void counter(void){
  resultadoT='X';
 
 
- save_data();
+
  }
  if(resultadoT=='S'){
  SALEN++;
  NUMPER=ENTRAN+SALEN;
  resultadoT='X';
-#line 117 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
- save_data();
+#line 118 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
  }
 
  }

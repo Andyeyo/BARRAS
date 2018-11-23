@@ -225,6 +225,7 @@ adon_bit
 adres
 adresh
 adresl
+almacenardatos
 an10
 an10_bit
 an11
@@ -647,6 +648,7 @@ go_done
 go_done_bit
 go_not_done
 go_not_done_bit
+guardado_flag
 halfbits
 hlvdcon
 hlvden

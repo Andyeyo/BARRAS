@@ -49,7 +49,7 @@ sbit Scts0_pin_Direction at Stx0_pin_Direction;
 
 int idEsclavo;
 #line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
-#line 33 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 34 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -114,6 +114,8 @@ char DIN, i, j;
 char datoRecibido[9];
 void verificarPeticion(char dat[9]);
 void indicadorOcupado(void);
+int almacenarDatos(void);
+int guardado_flag;
 
 
 void interrupt()
@@ -147,6 +149,8 @@ void main()
  SUart0_Write('\r');
  SUart0_Write('\n');
 
+ read_data();
+
  while(1)
  {
  detect();
@@ -155,7 +159,32 @@ void main()
  bloqueo();
  counter();
  }
-#line 58 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 64 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+ while(! PORTD.B1 )
+ {
+ SUart0_Write('S');
+ SUart0_Write('I');
+ SUart0_Write('N');
+ SUart0_Write('\r');
+ SUart0_Write('\n');
+#line 76 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+ if(almacenarDatos() == 1 && guardado_flag == 0)
+ {
+ SUart0_Write('G');
+ SUart0_Write('O');
+ SUart0_Write('K');
+ SUart0_Write('\r');
+ SUart0_Write('\n');
+ guardado_flag = 1;
+ }
+ }
+#line 89 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+ if( PORTD.B1 )
+ {
+ guardado_flag = 0;
+ PORTD.B1 = 0;
+ }
+#line 97 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  if(! PORTA.RA4  && ! PORTA.RA3  && ! PORTE.RE1  && ! PORTB.RB7  && ! PORTB.RB6 )
  verificarPeticion(datoRecibido);
  else
@@ -191,8 +220,35 @@ void verificarPeticion(char dat[9])
  }
 }
 
+int almacenarDatos(void)
+{
+ unsigned long int V_in,V_sal,V_bloc;
+
+ V_in = ENTRAN;
+ V_sal = SALEN;
+ V_bloc = BLOQUEOS;
+
+ save_data();
+
+
+ read_data();
+
+ if(ENTRAN == V_in && SALEN == V_sal && BLOQUEOS == V_bloc)
+ {
+ return 1;
+ }
+ else
+ {
+ ENTRAN = V_in;
+ SALEN = V_sal;
+ BLOQUEOS = V_bloc;
+#line 155 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+ return 0;
+ }
+}
+
 void indicadorOcupado()
 {
-#line 102 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 168 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  PORTB.B1 = ~PORTB.B1;
 }
