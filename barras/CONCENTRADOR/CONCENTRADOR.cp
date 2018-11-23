@@ -3,6 +3,9 @@
 
 
 
+
+
+
 sbit Stx0_pin at PORTB.B1;
 sbit Srx0_pin at PORTB.B2;
 sbit Scts0_pin at Stx0_pin;
@@ -30,6 +33,7 @@ char fbt=0, pbuffer=0, u=0, id_slave=0;
 char dat[10];
 char i,j;
 char esclavo = 10;
+unsigned long seg_off = 0;
 
 
 
@@ -37,7 +41,7 @@ unsigned long int counter1=0, counter2=0;
 short int ax=0;
 unsigned short int ee1[24]={'r','a','s','e','r','c','o','m','.','R','S','C',',','1','0','0','0','0','0','0','0',',',13,10};
 unsigned short int ee2[24]={'r','a','s','e','r','c','o','m','.','R','S','C',',','2','0','0','0','0','0','0','0',',',13,10};
-#line 44 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 48 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 char msn[5] = {'B','U','C','L','E'};
 
 
@@ -78,6 +82,11 @@ void main()
  PORTA.RA3=0; PORTA.RA4=0;
  SUart0_Init_T();
  SUart2_Init_T();
+
+ TRISC.RC0 = 1;
+ PORTC.RC0 = 0;
+ TRISB.RB5 = 0;
+ PORTB.RB5 = 0;
 
 
  UART1_Init(9600); Delay_ms(100);
@@ -230,6 +239,31 @@ void main()
  Suart2_write((char)ee2[u]);
  }
  }
+ }
+
+ if( PORTC.RC0 )
+ {
+ seg_off++;
+ if(seg_off > 4000 * 60)
+ {
+ seg_off = 0;
+  PORTB.RB5  = 1;
+ SUart0_write('A');
+ SUart0_write('P');
+ SUart0_write('A');
+ SUart0_write('G');
+ SUart0_write('A');
+ SUart0_write('N');
+ SUart0_write('D');
+ SUart0_write('O');
+ SUart0_write('\r');
+ SUart0_write('\n');
+ }
+ }
+ else
+ {
+ seg_off = 0;
+  PORTB.RB5  = 0;
  }
  }
 }

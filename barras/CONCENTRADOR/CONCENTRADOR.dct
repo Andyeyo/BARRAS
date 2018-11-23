@@ -1453,6 +1453,7 @@ scts2_pin_direction
 sdiv3232l
 se0
 se0_bit
+seg_off
 sen
 sen_bit
 sendb

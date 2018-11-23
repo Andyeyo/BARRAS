@@ -2,6 +2,7 @@
 #define LED_TTR PORTA.RA4
 
 #define SWITCH_ON PORTC.RC0 //add PC para leer el estado del Switch de encendido
+#define DS_FUENTE PORTB.RB5 //add PC control de desenergización del sistema
 
 //SOFTWARE UART SERIAL
 sbit Stx0_pin  at PORTB.B1;
@@ -31,6 +32,7 @@ char fbt=0, pbuffer=0, u=0,  id_slave=0;
 char dat[10];                          // add PC
 char i,j;
 char esclavo = 10;
+unsigned long seg_off = 0;
 
 
 //array for rs232 tx
@@ -83,6 +85,11 @@ void main()
     PORTA.RA3=0; PORTA.RA4=0;
     SUart0_Init_T();
     SUart2_Init_T();
+    
+    TRISC.RC0 = 1;    //add PC para lectura del SW_ON
+    PORTC.RC0 = 0;
+    TRISB.RB5 = 0;
+    PORTB.RB5 = 0;
 
     //RS485 master
     UART1_Init(9600); Delay_ms(100);                    // initialize UART1 module
@@ -235,6 +242,31 @@ void main()
                   Suart2_write((char)ee2[u]); //transmitir por RS232 puerto J2(RJ45) pc
                 }
             }
+        }
+        
+        if(SWITCH_ON)   //bucle de lectura de switch_on
+        {
+            seg_off++;
+            if(seg_off > 4000 * 60) //1 MINUTO (4000 CYCLOS = 1 SEG)
+            {
+                seg_off = 0;
+                DS_FUENTE = 1;
+                SUart0_write('A');  //add PC
+                SUart0_write('P');  //add PC
+                SUart0_write('A');  //add PC
+                SUart0_write('G');  //add PC
+                SUart0_write('A');  //add PC
+                SUart0_write('N');  //add PC
+                SUart0_write('D');  //add PC
+                SUart0_write('O');  //add PC
+                SUart0_write('\r');  //add PC
+                SUart0_write('\n');  //add PC
+            }
+        }
+        else //en el caso de volver a encender el sistema, reiniciar contador
+        {
+            seg_off = 0;
+            DS_FUENTE = 0;
         }
     }
 }
