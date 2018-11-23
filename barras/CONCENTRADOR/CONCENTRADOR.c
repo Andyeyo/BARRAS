@@ -1,6 +1,8 @@
 #define LED_485 PORTA.RA3
 #define LED_TTR PORTA.RA4
 
+#define SWITCH_ON PORTC.RC0 //add PC para leer el estado del Switch de encendido
+
 //SOFTWARE UART SERIAL
 sbit Stx0_pin  at PORTB.B1;
 sbit Srx0_pin  at PORTB.B2;
