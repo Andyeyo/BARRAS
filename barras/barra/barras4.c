@@ -158,12 +158,5 @@ int almacenarDatos(void)
 
 void indicadorOcupado()
 {
-/*
-    SUart0_Write('O');
-    SUart0_Write('C');
-    SUart0_Write('U');
-    SUart0_Write('\r');
-    SUart0_Write('\n');
-*/
     PORTB.B1 = ~PORTB.B1;
 }

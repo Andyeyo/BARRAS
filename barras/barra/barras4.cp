@@ -249,6 +249,5 @@ int almacenarDatos(void)
 
 void indicadorOcupado()
 {
-#line 168 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  PORTB.B1 = ~PORTB.B1;
 }

@@ -390,9 +390,9 @@ L_end_almacenarDatos:
 _indicadorOcupado:
 
 ;barras4.c,159 :: 		void indicadorOcupado()
-;barras4.c,168 :: 		PORTB.B1 = ~PORTB.B1;
+;barras4.c,161 :: 		PORTB.B1 = ~PORTB.B1;
 	BTG         PORTB+0, 1 
-;barras4.c,169 :: 		}
+;barras4.c,162 :: 		}
 L_end_indicadorOcupado:
 	RETURN      0
 ; end of _indicadorOcupado

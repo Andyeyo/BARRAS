@@ -33,7 +33,7 @@ char fbt=0, pbuffer=0, u=0, id_slave=0;
 char dat[10];
 char i,j;
 char esclavo = 10;
-unsigned long seg_off = 0;
+unsigned long int seg_off = 0;
 
 
 
@@ -244,7 +244,10 @@ void main()
  if( PORTC.RC0 )
  {
  seg_off++;
- if(seg_off > 4000 * 60)
+
+
+
+ if((seg_off > (54026 * 60) * 30) &&  PORTB.RB5  == 0)
  {
  seg_off = 0;
   PORTB.RB5  = 1;

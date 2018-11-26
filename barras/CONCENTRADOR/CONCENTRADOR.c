@@ -32,7 +32,7 @@ char fbt=0, pbuffer=0, u=0,  id_slave=0;
 char dat[10];                          // add PC
 char i,j;
 char esclavo = 10;
-unsigned long seg_off = 0;
+unsigned long int seg_off = 0;
 
 
 //array for rs232 tx
@@ -247,7 +247,10 @@ void main()
         if(SWITCH_ON)   //bucle de lectura de switch_on
         {
             seg_off++;
-            if(seg_off > 4000 * 60) //1 MINUTO (4000 CYCLOS = 1 SEG)
+            //53572 = 1 seg en 30 min se pierden 30 seg
+            //54480 = 1 seg en 10 min aumentan 8 seg
+            //54026 = 1 seg en 10 min aumenta 1 seg (error 0.1%) +-0.05
+            if((seg_off > (54026 * 60) * 30) && DS_FUENTE == 0) //1 MINUTO (4000 CYCLOS = 1 SEG)
             {
                 seg_off = 0;
                 DS_FUENTE = 1;

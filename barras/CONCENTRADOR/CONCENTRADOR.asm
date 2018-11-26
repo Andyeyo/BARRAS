@@ -73,7 +73,7 @@ _interrupt:
 	CALL        _RS485Master_Receive+0, 0
 ;CONCENTRADOR.c,76 :: 		}
 L_end_interrupt:
-L__interrupt57:
+L__interrupt60:
 	RETFIE      1
 ; end of _interrupt
 
@@ -201,18 +201,18 @@ L_main7:
 	MOVF        _cnt+3, 0 
 	SUBLW       0
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main59
+	GOTO        L__main62
 	MOVF        _cnt+2, 0 
 	SUBLW       0
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main59
+	GOTO        L__main62
 	MOVF        _cnt+1, 0 
 	SUBLW       54
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main59
+	GOTO        L__main62
 	MOVF        _cnt+0, 0 
 	SUBLW       176
-L__main59:
+L__main62:
 	BTFSC       STATUS+0, 0 
 	GOTO        L_main8
 ;CONCENTRADOR.c,123 :: 		cnt=0;
@@ -252,7 +252,7 @@ L_main8:
 	MOVF        _master_rx_dat+5, 1 
 	BTFSS       STATUS+0, 2 
 	GOTO        L_main11
-L__main53:
+L__main56:
 ;CONCENTRADOR.c,135 :: 		if(fbt==0){
 	MOVF        _fbt+0, 0 
 	XORLW       0
@@ -894,18 +894,18 @@ L_main19:
 	MOVF        _counter2+3, 0 
 	SUBLW       0
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main60
+	GOTO        L__main63
 	MOVF        _counter2+2, 0 
 	SUBLW       4
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main60
+	GOTO        L__main63
 	MOVF        _counter2+1, 0 
 	SUBLW       69
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main60
+	GOTO        L__main63
 	MOVF        _counter2+0, 0 
 	SUBLW       192
-L__main60:
+L__main63:
 	BTFSC       STATUS+0, 0 
 	GOTO        L_main37
 ;CONCENTRADOR.c,206 :: 		counter2=0;
@@ -971,18 +971,18 @@ L_main37:
 	MOVF        _counter1+3, 0 
 	SUBLW       0
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main61
+	GOTO        L__main64
 	MOVF        _counter1+2, 0 
 	SUBLW       0
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main61
+	GOTO        L__main64
 	MOVF        _counter1+1, 0 
 	SUBLW       54
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main61
+	GOTO        L__main64
 	MOVF        _counter1+0, 0 
 	SUBLW       176
-L__main61:
+L__main64:
 	BTFSC       STATUS+0, 0 
 	GOTO        L_main41
 ;CONCENTRADOR.c,230 :: 		counter1=0;
@@ -1060,88 +1060,91 @@ L_main41:
 	ADDWFC      _seg_off+1, 1 
 	ADDWFC      _seg_off+2, 1 
 	ADDWFC      _seg_off+3, 1 
-;CONCENTRADOR.c,250 :: 		if(seg_off > 4000 * 60) //1 MINUTO (4000 CYCLOS = 1 SEG)
+;CONCENTRADOR.c,253 :: 		if((seg_off > (54026 * 60) * 30) && DS_FUENTE == 0) //1 MINUTO (4000 CYCLOS = 1 SEG)
 	MOVF        _seg_off+3, 0 
-	SUBLW       0
+	SUBLW       5
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main62
+	GOTO        L__main65
 	MOVF        _seg_off+2, 0 
-	SUBLW       3
+	SUBLW       203
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main62
+	GOTO        L__main65
 	MOVF        _seg_off+1, 0 
-	SUBLW       169
+	SUBLW       222
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main62
+	GOTO        L__main65
 	MOVF        _seg_off+0, 0 
-	SUBLW       128
-L__main62:
+	SUBLW       80
+L__main65:
 	BTFSC       STATUS+0, 0 
-	GOTO        L_main51
-;CONCENTRADOR.c,252 :: 		seg_off = 0;
+	GOTO        L_main53
+	BTFSC       PORTB+0, 5 
+	GOTO        L_main53
+L__main55:
+;CONCENTRADOR.c,255 :: 		seg_off = 0;
 	CLRF        _seg_off+0 
 	CLRF        _seg_off+1 
 	CLRF        _seg_off+2 
 	CLRF        _seg_off+3 
-;CONCENTRADOR.c,253 :: 		DS_FUENTE = 1;
+;CONCENTRADOR.c,256 :: 		DS_FUENTE = 1;
 	BSF         PORTB+0, 5 
-;CONCENTRADOR.c,254 :: 		SUart0_write('A');  //add PC
+;CONCENTRADOR.c,257 :: 		SUart0_write('A');  //add PC
 	MOVLW       65
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,255 :: 		SUart0_write('P');  //add PC
+;CONCENTRADOR.c,258 :: 		SUart0_write('P');  //add PC
 	MOVLW       80
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,256 :: 		SUart0_write('A');  //add PC
+;CONCENTRADOR.c,259 :: 		SUart0_write('A');  //add PC
 	MOVLW       65
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,257 :: 		SUart0_write('G');  //add PC
+;CONCENTRADOR.c,260 :: 		SUart0_write('G');  //add PC
 	MOVLW       71
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,258 :: 		SUart0_write('A');  //add PC
+;CONCENTRADOR.c,261 :: 		SUart0_write('A');  //add PC
 	MOVLW       65
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,259 :: 		SUart0_write('N');  //add PC
+;CONCENTRADOR.c,262 :: 		SUart0_write('N');  //add PC
 	MOVLW       78
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,260 :: 		SUart0_write('D');  //add PC
+;CONCENTRADOR.c,263 :: 		SUart0_write('D');  //add PC
 	MOVLW       68
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,261 :: 		SUart0_write('O');  //add PC
+;CONCENTRADOR.c,264 :: 		SUart0_write('O');  //add PC
 	MOVLW       79
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,262 :: 		SUart0_write('\r');  //add PC
+;CONCENTRADOR.c,265 :: 		SUart0_write('\r');  //add PC
 	MOVLW       13
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,263 :: 		SUart0_write('\n');  //add PC
+;CONCENTRADOR.c,266 :: 		SUart0_write('\n');  //add PC
 	MOVLW       10
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,264 :: 		}
-L_main51:
-;CONCENTRADOR.c,265 :: 		}
-	GOTO        L_main52
+;CONCENTRADOR.c,267 :: 		}
+L_main53:
+;CONCENTRADOR.c,268 :: 		}
+	GOTO        L_main54
 L_main50:
-;CONCENTRADOR.c,268 :: 		seg_off = 0;
+;CONCENTRADOR.c,271 :: 		seg_off = 0;
 	CLRF        _seg_off+0 
 	CLRF        _seg_off+1 
 	CLRF        _seg_off+2 
 	CLRF        _seg_off+3 
-;CONCENTRADOR.c,269 :: 		DS_FUENTE = 0;
+;CONCENTRADOR.c,272 :: 		DS_FUENTE = 0;
 	BCF         PORTB+0, 5 
-;CONCENTRADOR.c,270 :: 		}
-L_main52:
-;CONCENTRADOR.c,271 :: 		}
+;CONCENTRADOR.c,273 :: 		}
+L_main54:
+;CONCENTRADOR.c,274 :: 		}
 	GOTO        L_main3
-;CONCENTRADOR.c,272 :: 		}
+;CONCENTRADOR.c,275 :: 		}
 L_end_main:
 	GOTO        $+0
 ; end of _main
