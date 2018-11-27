@@ -247,7 +247,8 @@ void main()
 
 
 
- if((seg_off > (54026 * 60) * 30) &&  PORTB.RB5  == 0)
+
+ if((seg_off > (54026 * 5)) &&  PORTB.RB5  == 0)
  {
  seg_off = 0;
   PORTB.RB5  = 1;

@@ -1060,91 +1060,91 @@ L_main41:
 	ADDWFC      _seg_off+1, 1 
 	ADDWFC      _seg_off+2, 1 
 	ADDWFC      _seg_off+3, 1 
-;CONCENTRADOR.c,253 :: 		if((seg_off > (54026 * 60) * 30) && DS_FUENTE == 0) //1 MINUTO (4000 CYCLOS = 1 SEG)
+;CONCENTRADOR.c,254 :: 		if((seg_off > (54026 * 5)) && DS_FUENTE == 0) //1 MINUTO (4000 CYCLOS = 1 SEG)
 	MOVF        _seg_off+3, 0 
-	SUBLW       5
+	SUBLW       0
 	BTFSS       STATUS+0, 2 
 	GOTO        L__main65
 	MOVF        _seg_off+2, 0 
-	SUBLW       203
+	SUBLW       4
 	BTFSS       STATUS+0, 2 
 	GOTO        L__main65
 	MOVF        _seg_off+1, 0 
-	SUBLW       222
+	SUBLW       31
 	BTFSS       STATUS+0, 2 
 	GOTO        L__main65
 	MOVF        _seg_off+0, 0 
-	SUBLW       80
+	SUBLW       50
 L__main65:
 	BTFSC       STATUS+0, 0 
 	GOTO        L_main53
 	BTFSC       PORTB+0, 5 
 	GOTO        L_main53
 L__main55:
-;CONCENTRADOR.c,255 :: 		seg_off = 0;
+;CONCENTRADOR.c,256 :: 		seg_off = 0;
 	CLRF        _seg_off+0 
 	CLRF        _seg_off+1 
 	CLRF        _seg_off+2 
 	CLRF        _seg_off+3 
-;CONCENTRADOR.c,256 :: 		DS_FUENTE = 1;
+;CONCENTRADOR.c,257 :: 		DS_FUENTE = 1;
 	BSF         PORTB+0, 5 
-;CONCENTRADOR.c,257 :: 		SUart0_write('A');  //add PC
+;CONCENTRADOR.c,258 :: 		SUart0_write('A');  //add PC
 	MOVLW       65
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,258 :: 		SUart0_write('P');  //add PC
+;CONCENTRADOR.c,259 :: 		SUart0_write('P');  //add PC
 	MOVLW       80
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,259 :: 		SUart0_write('A');  //add PC
+;CONCENTRADOR.c,260 :: 		SUart0_write('A');  //add PC
 	MOVLW       65
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,260 :: 		SUart0_write('G');  //add PC
+;CONCENTRADOR.c,261 :: 		SUart0_write('G');  //add PC
 	MOVLW       71
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,261 :: 		SUart0_write('A');  //add PC
+;CONCENTRADOR.c,262 :: 		SUart0_write('A');  //add PC
 	MOVLW       65
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,262 :: 		SUart0_write('N');  //add PC
+;CONCENTRADOR.c,263 :: 		SUart0_write('N');  //add PC
 	MOVLW       78
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,263 :: 		SUart0_write('D');  //add PC
+;CONCENTRADOR.c,264 :: 		SUart0_write('D');  //add PC
 	MOVLW       68
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,264 :: 		SUart0_write('O');  //add PC
+;CONCENTRADOR.c,265 :: 		SUart0_write('O');  //add PC
 	MOVLW       79
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,265 :: 		SUart0_write('\r');  //add PC
+;CONCENTRADOR.c,266 :: 		SUart0_write('\r');  //add PC
 	MOVLW       13
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,266 :: 		SUart0_write('\n');  //add PC
+;CONCENTRADOR.c,267 :: 		SUart0_write('\n');  //add PC
 	MOVLW       10
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,267 :: 		}
-L_main53:
 ;CONCENTRADOR.c,268 :: 		}
+L_main53:
+;CONCENTRADOR.c,269 :: 		}
 	GOTO        L_main54
 L_main50:
-;CONCENTRADOR.c,271 :: 		seg_off = 0;
+;CONCENTRADOR.c,272 :: 		seg_off = 0;
 	CLRF        _seg_off+0 
 	CLRF        _seg_off+1 
 	CLRF        _seg_off+2 
 	CLRF        _seg_off+3 
-;CONCENTRADOR.c,272 :: 		DS_FUENTE = 0;
+;CONCENTRADOR.c,273 :: 		DS_FUENTE = 0;
 	BCF         PORTB+0, 5 
-;CONCENTRADOR.c,273 :: 		}
-L_main54:
 ;CONCENTRADOR.c,274 :: 		}
-	GOTO        L_main3
+L_main54:
 ;CONCENTRADOR.c,275 :: 		}
+	GOTO        L_main3
+;CONCENTRADOR.c,276 :: 		}
 L_end_main:
 	GOTO        $+0
 ; end of _main
