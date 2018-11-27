@@ -90,9 +90,8 @@ void init_setup(void){
  TRISD = 0b11011011;
  TRISE = 0b00000110;
 
-
  init_led();
- init_485();
+
  init_var();
 
  logA_reset();
@@ -111,7 +110,7 @@ void init_setup(void){
 
 void init_485(void)
 {
-#line 72 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/setup.c"
+#line 71 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/setup.c"
 }
 
 void init_var(void){
@@ -179,8 +178,7 @@ void init_led(void){
   PORTA.RA5  = 1;
 
 }
-
-
+#line 144 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/setup.c"
 char leerIdSlave(void)
 {
  if( PORTC.B1  == 0 &&  PORTC.B0  == 0)

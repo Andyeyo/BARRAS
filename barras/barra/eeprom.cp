@@ -57,7 +57,8 @@ unsigned long int read_long(unsigned int addr);
 extern char leerIdSlave(void);
 extern char idEsclavo;
 #line 3 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/eeprom.c"
-void save_data(void){
+void save_data(void)
+{
  write_long(80,ENTRAN);
  write_long(84,SALEN);
  write_long(88,BLOQUEOS);
@@ -65,7 +66,8 @@ void save_data(void){
  Delay_ms(20);
 }
 
-void read_data(void){
+void read_data(void)
+{
  ENTRAN=read_long(80);
  SALEN=read_long(84);
  BLOQUEOS=read_long(88);

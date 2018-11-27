@@ -57,23 +57,29 @@ unsigned long int read_long(unsigned int addr);
 extern char leerIdSlave(void);
 extern char idEsclavo;
 #line 4 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/block.c"
-void bloqueo(void){
+void bloqueo(void)
+{
  contador++;
- if (contador>= 14000 ){
+ if (contador>= 14000 )
+ {
  contador=0;
- if(aa+bb+cc+dd+ee<=6 && bk==1){
+ if(aa+bb+cc+dd+ee<=6 && bk==1)
+ {
  contador_seg++;
- if(contador_seg==5){
+ if(contador_seg==5)
+ {
  BLOQUEOS++;
  }
  }
  }
 
- if((contador==0 || contador==( 14000 *0.5)) && (contador_seg>=5)){
+ if((contador==0 || contador==( 14000 *0.5)) && (contador_seg>=5))
+ {
   PORTD.RD5 =0;
  }
 
- if((contador==( 14000 *0.17) || contador==( 14000 *0.67)) && (contador_seg>=5)){
+ if((contador==( 14000 *0.17) || contador==( 14000 *0.67)) && (contador_seg>=5))
+ {
   PORTD.RD5 =1;
  }
 }

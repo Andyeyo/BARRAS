@@ -10,7 +10,6 @@ main
 			write_long
 				EEPROM_Write
 		init_led
-		init_485
 		init_var
 		logA_reset
 		logB_reset

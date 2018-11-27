@@ -1,11 +1,11 @@
 
 _bloqueo:
 
-;block.c,4 :: 		void bloqueo(void){
-;block.c,5 :: 		contador++;
+;block.c,4 :: 		void bloqueo(void)
+;block.c,6 :: 		contador++;
 	INFSNZ      _contador+0, 1 
 	INCF        _contador+1, 1 
-;block.c,6 :: 		if (contador>=limit){
+;block.c,7 :: 		if (contador>=limit)
 	MOVLW       54
 	SUBWF       _contador+1, 0 
 	BTFSS       STATUS+0, 2 
@@ -15,10 +15,10 @@ _bloqueo:
 L__bloqueo21:
 	BTFSS       STATUS+0, 0 
 	GOTO        L_bloqueo0
-;block.c,7 :: 		contador=0;
+;block.c,9 :: 		contador=0;
 	CLRF        _contador+0 
 	CLRF        _contador+1 
-;block.c,8 :: 		if(aa+bb+cc+dd+ee<=6 && bk==1){
+;block.c,10 :: 		if(aa+bb+cc+dd+ee<=6 && bk==1)
 	MOVF        _bb+0, 0 
 	ADDWF       _aa+0, 0 
 	MOVWF       R0 
@@ -54,27 +54,27 @@ L__bloqueo22:
 	BTFSS       _bk+0, BitPos(_bk+0) 
 	GOTO        L_bloqueo3
 L__bloqueo19:
-;block.c,9 :: 		contador_seg++;
+;block.c,12 :: 		contador_seg++;
 	INCF        _contador_seg+0, 1 
-;block.c,10 :: 		if(contador_seg==5){
+;block.c,13 :: 		if(contador_seg==5)
 	MOVF        _contador_seg+0, 0 
 	XORLW       5
 	BTFSS       STATUS+0, 2 
 	GOTO        L_bloqueo4
-;block.c,11 :: 		BLOQUEOS++;
+;block.c,15 :: 		BLOQUEOS++;
 	MOVLW       1
 	ADDWF       _BLOQUEOS+0, 1 
 	MOVLW       0
 	ADDWFC      _BLOQUEOS+1, 1 
 	ADDWFC      _BLOQUEOS+2, 1 
 	ADDWFC      _BLOQUEOS+3, 1 
-;block.c,12 :: 		}
+;block.c,16 :: 		}
 L_bloqueo4:
-;block.c,13 :: 		}
+;block.c,17 :: 		}
 L_bloqueo3:
-;block.c,14 :: 		}
+;block.c,18 :: 		}
 L_bloqueo0:
-;block.c,16 :: 		if((contador==0 || contador==(limit*0.5)) && (contador_seg>=5)){
+;block.c,20 :: 		if((contador==0 || contador==(limit*0.5)) && (contador_seg>=5))
 	MOVLW       0
 	XORWF       _contador+1, 0 
 	BTFSS       STATUS+0, 2 
@@ -112,11 +112,11 @@ L__bloqueo18:
 	BTFSS       STATUS+0, 0 
 	GOTO        L_bloqueo9
 L__bloqueo17:
-;block.c,17 :: 		BUZZER=0;
+;block.c,22 :: 		BUZZER=0;
 	BCF         PORTD+0, 5 
-;block.c,18 :: 		}
+;block.c,23 :: 		}
 L_bloqueo9:
-;block.c,20 :: 		if((contador==(limit*0.17) || contador==(limit*0.67)) && (contador_seg>=5)){
+;block.c,25 :: 		if((contador==(limit*0.17) || contador==(limit*0.67)) && (contador_seg>=5))
 	MOVF        _contador+0, 0 
 	MOVWF       R0 
 	MOVF        _contador+1, 0 
@@ -166,11 +166,11 @@ L__bloqueo16:
 	BTFSS       STATUS+0, 0 
 	GOTO        L_bloqueo14
 L__bloqueo15:
-;block.c,21 :: 		BUZZER=1;
+;block.c,27 :: 		BUZZER=1;
 	BSF         PORTD+0, 5 
-;block.c,22 :: 		}
+;block.c,28 :: 		}
 L_bloqueo14:
-;block.c,23 :: 		}
+;block.c,29 :: 		}
 L_end_bloqueo:
 	RETURN      0
 ; end of _bloqueo

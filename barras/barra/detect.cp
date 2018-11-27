@@ -57,8 +57,8 @@ unsigned long int read_long(unsigned int addr);
 extern char leerIdSlave(void);
 extern char idEsclavo;
 #line 3 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/detect.c"
-void detect(void){
-
+void detect(void)
+{
  unsigned short int j1 = 0;
  unsigned short int j2 = 0;
  unsigned short int j3 = 0;
@@ -72,7 +72,6 @@ void detect(void){
  {
 #line 31 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/detect.c"
  }
-
 
 
  if( PORTB.RB6 ){
