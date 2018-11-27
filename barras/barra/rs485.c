@@ -4,23 +4,17 @@ void byte_send(char pkg);
 void wait_for_bus();
 void tx_prepare(char p0, char p1, char p2);
 
-/*
-// Interrupt routine
-void interrupt() {
-    RS485Slave_Receive(slave_rx_dat);
-}
-*/
-
-void rs485_slave_send(void){
+void rs485_slave_send(void)
+{
     unsigned int u;
     unsigned short e0,e1,e2,e3,s0,s1,s2,s3,b0,b1,b2,b3;
-    
-    // wait_for_bus();
+
     /*
-    ENTRAN = 0;
+    ENTRAN = 0;     //asigna valores estaticos con fines de pruebas
     SALEN = 0;
     BLOQUEOS = 0;
     */
+    
     e0=ENTRAN&0xFF;
     e1=(ENTRAN&0xFF00)>>8;
     e2=(ENTRAN&0xFF0000)>>16;
@@ -37,39 +31,14 @@ void rs485_slave_send(void){
     b3=(BLOQUEOS&0xFF000000)>>24;
     
     tx_prepare(e0,e1,e2);
-    RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);     //tiempo cambiado de 3 a 2 ms
+    RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);     //tiempo de retardo para evitar sobre carga en bus
     tx_prepare(e3,s0,s1);
     RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
     tx_prepare(s2,s3,b0);
     RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
     tx_prepare(b1,b2,b3);
     RS485Slave_Send(slave_tx_dat,3); Delay_ms(20);
-    
-    /*//ENVÍO
-    LongWordToStrWithZeros(ENTRAN,s_entran);
-    LongWordToStrWithZeros(SALEN,s_salen);
-    LongWordToStrWithZeros(BLOQUEOS,s_bloqueos);
-    tx_prepare(0);
-    wait_for_bus();
-
-    byte_send('E');
-    for(u=0;u<10;u++){ byte_send(s_entran[u]); }
-    byte_send('S');
-    for(u=0;u<10;u++){ byte_send(s_salen[u]); }
-    byte_send('B');
-    for(u=0;u<10;u++){ byte_send(s_bloqueos[u]); }
-    byte_send('#');*/
 }
-
-/*
-void wait_for_bus(){
-    unsigned int u=0;
-    while(1){
-        if(PORTC.RC7==1){u++;}else{u=0;}
-        if(u>(35+slave_id*2)){break;}
-    }
-}
-*/
 
 void byte_send(char pkg){
     //whe only have to edit msg bytes
@@ -88,7 +57,9 @@ void byte_send(char pkg){
         RS485Slave_Send(slave_tx_dat,3);
     }*/
 }
-void tx_prepare(char p0, char p1, char p2){
+
+void tx_prepare(char p0, char p1, char p2)
+{
     slave_tx_dat[0]=p0; //msg 0
     slave_tx_dat[1]=p1; //msg 1
     slave_tx_dat[2]=p2; //msg 2

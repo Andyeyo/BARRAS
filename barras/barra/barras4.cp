@@ -143,12 +143,13 @@ void main()
  GIE_bit = 1;
 
 
+
  SUart0_Write('E');
  SUart0_Write('S');
  SUart0_Write((leerIdSlave()/10)+48);
  SUart0_Write('\r');
  SUart0_Write('\n');
-
+#line 55 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  read_data();
 
  while(1)
@@ -159,7 +160,7 @@ void main()
  bloqueo();
  counter();
  }
-#line 64 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 71 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  while(! PORTD.B1 )
  {
  SUart0_Write('S');
@@ -167,7 +168,7 @@ void main()
  SUart0_Write('N');
  SUart0_Write('\r');
  SUart0_Write('\n');
-#line 76 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 86 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  if(almacenarDatos() == 1 && guardado_flag == 0)
  {
  SUart0_Write('G');
@@ -178,13 +179,13 @@ void main()
  guardado_flag = 1;
  }
  }
-#line 89 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 99 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  if( PORTD.B1 )
  {
  guardado_flag = 0;
  PORTD.B1 = 0;
  }
-#line 97 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 107 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  if(! PORTA.RA4  && ! PORTA.RA3  && ! PORTE.RE1  && ! PORTB.RB7  && ! PORTB.RB6 )
  verificarPeticion(datoRecibido);
  else
@@ -192,7 +193,7 @@ void main()
 
  }
 }
-
+#line 120 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
 void verificarPeticion(char dat[9])
 {
  if (datoRecibido[5])
@@ -219,7 +220,7 @@ void verificarPeticion(char dat[9])
  }
  }
 }
-
+#line 152 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
 int almacenarDatos(void)
 {
  unsigned long int V_in,V_sal,V_bloc;
@@ -242,11 +243,11 @@ int almacenarDatos(void)
  ENTRAN = V_in;
  SALEN = V_sal;
  BLOQUEOS = V_bloc;
-#line 155 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 175 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  return 0;
  }
 }
-
+#line 183 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
 void indicadorOcupado()
 {
  PORTB.B1 = ~PORTB.B1;

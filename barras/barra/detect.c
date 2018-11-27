@@ -1,7 +1,7 @@
 #include "extern.h"
 
-void detect(void){
-
+void detect(void)
+{
     unsigned short int j1 = 0;
     unsigned short int j2 = 0;
     unsigned short int j3 = 0;
@@ -29,7 +29,6 @@ void detect(void){
         /*dato_eeprom = 1;
         guardar_eeprom();*/
     }
-
 
    //LEDS INFRARROJOS
     if(DET5){

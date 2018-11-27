@@ -99,8 +99,8 @@ void counter(void){
                     ENTRAN++;
                     NUMPER=ENTRAN+SALEN;
                     resultadoT='X';
-                    //BUZZER=0; Delay_ms(100); BUZZER=1;
-                    //rs485_slave_send();   //cmt PC
+                    //BUZZER=0; Delay_ms(100); BUZZER=1;  //perdida de cuenta
+                    //rs485_slave_send();   //cmt PC para evitar saturar rs485
                     //save_data();          //cmt PC para evitar que se guarde cada que pasa alguna persona
                 }
                 if(resultadoT=='S'){
@@ -108,12 +108,12 @@ void counter(void){
                     NUMPER=ENTRAN+SALEN;
                     resultadoT='X';
                     /*
-                    BUZZER=0; Delay_ms(50);
+                    BUZZER=0; Delay_ms(50); //perdida de cuenta
                     BUZZER=1; Delay_ms(50);
                     BUZZER=0; Delay_ms(50); 
                     BUZZER=1;
                     */
-                    //rs485_slave_send();   //cmt PC
+                    //rs485_slave_send();   //cmt PC para evitar saturar rs485
                     //save_data();          //cmt PC para evitar que se guarde cada que pasa alguna persona
                 }
 

@@ -33,9 +33,8 @@ void init_setup(void){
     TRISD = 0b11011011;
     TRISE = 0b00000110;
 
-    //SUart0_Init_T(); //SW UART
     init_led();
-    init_485();
+    //init_485();  //por el momento se ha cambiado el contenido al main
     init_var();
     
     logA_reset();
@@ -138,6 +137,10 @@ void init_led(void){
 }
 
 //add PC
+/*
+    Obtiene el valor en binario de los pines de seleccion de esclavo para
+    asignar una direccion especifica al esclavo RS485
+*/
 char leerIdSlave(void)
 {
     if(selectSL1 == 0 && selectSL0 == 0)
