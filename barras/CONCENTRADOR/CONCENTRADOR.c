@@ -251,7 +251,7 @@ void main()
             //54480 = 1 seg en 10 min aumentan 8 seg
             //54026 = 1 seg en 10 min aumenta 1 seg (error 0.1%) +-0.05
             //T = 54026 * 60(seg) * 30(min)
-            if((seg_off > (54026 * 5)) && DS_FUENTE == 0) //1 MINUTO (4000 CYCLOS = 1 SEG)
+            if((seg_off > (54026 * 10)) && DS_FUENTE == 0) //1 MINUTO (4000 CYCLOS = 1 SEG)
             {
                 seg_off = 0;
                 DS_FUENTE = 1;
