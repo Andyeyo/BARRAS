@@ -14,7 +14,6 @@ void indicadorOcupado(void);
 int almacenarDatos(void);
 int guardado_flag;
 
-// Interrupt routine RS485
 // Rutina de interrupcion del bus RS485
 void interrupt() 
 {
