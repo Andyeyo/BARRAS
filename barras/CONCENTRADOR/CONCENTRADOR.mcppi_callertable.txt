@@ -17,8 +17,9 @@ main
 			Delay_1us
 	SUart0_Write
 		Delay_1us
-	SUart2_Write
-		Delay_1us
+	transmitirGPS
+		SUart2_Write
+			Delay_1us
 	Div_8X8_U
 interrupt
 	RS485Master_Receive

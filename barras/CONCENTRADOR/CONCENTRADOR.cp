@@ -30,41 +30,26 @@ char buffer[50],s_entran[11],s_salen[11],s_bloqueos[11];
 unsigned long int entran=0,salen=0,bloqueos=0 , cnt=0;
 char fbt=0, pbuffer=0, u=0, id_slave=0;
 
+
 char dat[10];
 char i,j;
 char esclavo = 10;
 unsigned long int seg_off = 0;
 
 
-
 unsigned long int counter1=0, counter2=0;
 short int ax=0;
 unsigned short int ee1[24]={'r','a','s','e','r','c','o','m','.','R','S','C',',','1','0','0','0','0','0','0','0',',',13,10};
 unsigned short int ee2[24]={'r','a','s','e','r','c','o','m','.','R','S','C',',','2','0','0','0','0','0','0','0',',',13,10};
-#line 48 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
-char msn[5] = {'B','U','C','L','E'};
+unsigned short int ee3[24]={'r','a','s','e','r','c','o','m','.','R','S','C',',','3','0','0','0','0','0','0','0',',',13,10};
 
 
-void imprimirAlerta(char lugar)
-{
 
- SUart0_write(lugar);
- SUart0_write('\r');
- SUart0_write('\n');
-}
-
-
-void peticion(char dirEsclavo)
-{
- dat[0] = 0xFF;
- dat[1] = 0xFF;
- dat[2] = 0xFF;
- dat[4] = 0;
- dat[5] = 0;
- dat[6] = 0;
- RS485Master_Send(dat,1,dirEsclavo);
- delay_ms(1);
-}
+void buildBuf600();
+void imprimirAlerta(char lugar);
+void imprimirMensaje(char mensaje[10]);
+void peticion(char dirEsclavo);
+void transmitirGPS(int GPS);
 
 
 void interrupt()
@@ -72,14 +57,14 @@ void interrupt()
  RS485Master_Receive(master_rx_dat);
 }
 
-
 void main()
 {
-
  ADCON1= 0b00001111;
  CMCON = 0b00000111;
  TRISA.RA3=0; TRISA.RA4=0;
  PORTA.RA3=0; PORTA.RA4=0;
+
+
  SUart0_Init_T();
  SUart2_Init_T();
 
@@ -95,6 +80,7 @@ void main()
  TXIE_bit = 0;
  PEIE_bit = 1;
  GIE_bit = 1;
+
 
  peticion(esclavo);
 
@@ -115,8 +101,8 @@ void main()
  {
  cnt++;
  }
-
- if(cnt>14000*1){
+ if(cnt>14000*1)
+ {
  cnt=0;
  fbt=0;
   PORTA.RA3 =0;
@@ -129,7 +115,8 @@ void main()
 
  if (master_rx_dat[4] && !master_rx_dat[5])
  {
- if(fbt==0){
+ if(fbt==0)
+ {
  cnt=0;
  entran=0;
   PORTA.RA3 =1;
@@ -141,19 +128,22 @@ void main()
  entran+=(((unsigned long int)master_rx_dat[2])<<16);
  fbt=1;
  }
- else if(fbt==1){
+ else if(fbt==1)
+ {
  entran+=(((unsigned long int)master_rx_dat[0])<<24);
  salen+=(unsigned long int)master_rx_dat[1];
  salen+=(((unsigned long int)master_rx_dat[2])<<8);
  fbt=2;
  }
- else if(fbt==2){
+ else if(fbt==2)
+ {
  salen+=(((unsigned long int)master_rx_dat[0])<<16);
  salen+=(((unsigned long int)master_rx_dat[1])<<24);
  bloqueos+=(unsigned long int)master_rx_dat[2];
  fbt=3;
  }
- else if(fbt==3){
+ else if(fbt==3)
+ {
  bloqueos+=(((unsigned long int)master_rx_dat[1])<<8);
  bloqueos+=(((unsigned long int)master_rx_dat[2])<<16);
  bloqueos+=(((unsigned long int)master_rx_dat[1])<<24);
@@ -175,18 +165,96 @@ void main()
  buffer[pbuffer++]='B';
  for(u=0;u<10;u++){ buffer[pbuffer++]=s_bloqueos[u]; }
  buffer[pbuffer++]='#';
- SUart0_RstrNout(buffer,36);
 
+ SUart0_RstrNout(buffer,36);
+ SUart0_write('\r'); SUart0_write('\n');
+
+
+
+
+ transmitirGPS(300);
+
+ fbt=0; pbuffer=0;
+
+ entran=0; salen=0; bloqueos=0;
+ cnt=0;
+ }
+#line 189 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+ counter2++;
+ if(counter2>(140000*3))
+ {
+ counter2=0;
+
+
+ imprimirAlerta((esclavo/10)+48);
+ peticion(esclavo);
+ esclavo += 10;
+ if(esclavo > 30){esclavo = 10;}
+ }
+#line 207 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+ counter1++;
+ if(counter1>(140000*20))
+ {
+ counter1=0;
+
+ }
+#line 219 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+ if( PORTC.RC0 )
+ {
+ seg_off++;
+
+
+
+
+ if((seg_off > (54026 * 10)) &&  PORTB.RB5  == 0)
+ {
+ seg_off = 0;
+  PORTB.RB5  = 1;
+ SUart0_write('O'); SUart0_write('F'); SUart0_write('F');
  SUart0_write('\r');
  SUart0_write('\n');
-
-
- for(u=0;u<36;u++)
- {
- Suart2_write((char)buffer[u]);
  }
 
-
+ }
+ else
+ {
+ seg_off = 0;
+  PORTB.RB5  = 0;
+ }
+ }
+}
+#line 250 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+void imprimirAlerta(char lugar)
+{
+ SUart0_write(lugar);
+ SUart0_write('\r');
+ SUart0_write('\n');
+}
+void imprimirMensaje(char mensaje[10])
+{
+ int u = 0;
+ for(u = 0; u < 10; u++)
+ {
+ SUart0_write(mensaje[u]);
+ }
+ SUart0_write('\r');
+ SUart0_write('\n');
+}
+#line 277 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+void peticion(char dirEsclavo)
+{
+ dat[0] = 0xFF;
+ dat[1] = 0xFF;
+ dat[2] = 0xFF;
+ dat[4] = 0;
+ dat[5] = 0;
+ dat[6] = 0;
+ RS485Master_Send(dat,1,dirEsclavo);
+ delay_ms(1);
+}
+#line 297 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+void buildBuf600()
+{
  if(id_slave == 10)
  {
  for(u=3;u<10;u++){ ee1[11+u]=s_entran[u]; }
@@ -195,39 +263,47 @@ void main()
  {
  for(u=3;u<10;u++){ ee2[11+u]=s_entran[u]; }
  }
-
- fbt=0; pbuffer=0;
-
- entran=0; salen=0; bloqueos=0;
- cnt=0;
+ if(id_slave == 30)
+ {
+ for(u=3;u<10;u++){ ee3[11+u]=s_entran[u]; }
+ }
+}
+#line 324 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+void transmitirGPS(int GPS)
+{
+ if(GPS == 300)
+ {
+ for(u=0;u<36;u++)
+ {
+ Suart2_write((char)buffer[u]);
+ }
  }
 
-
-
- counter2++;
- if(counter2>(140000*20))
+ else if(GPS == 600)
  {
- counter2=0;
  if(ax==0)
  {
- ax=1;
- }
- else
+ ax = 1;
+ for(u=0;u<24;u++)
  {
- ax=0;
+ Suart2_write((char)ee1[u]);
  }
-
-
-
- imprimirAlerta((esclavo/10)+48);
- peticion(esclavo);
- esclavo += 10;
- if(esclavo > 30)
+ }
+ else if (ax == 1)
  {
- esclavo = 10;
+ ax = 2;
+ for(u=0;u<24;u++)
+ {
+ Suart2_write((char)ee2[u]);
  }
-
  }
-#line 284 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+ else if (ax == 2)
+ {
+ ax = 0;
+ for(u=0;u<24;u++)
+ {
+ Suart2_write((char)ee3[u]);
+ }
+ }
  }
 }

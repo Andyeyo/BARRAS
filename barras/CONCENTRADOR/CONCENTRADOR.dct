@@ -296,6 +296,7 @@ btsee_bit
 btsef
 btsef_bit
 buffer
+buildbuf600
 button
 byte2double
 bytetohex
@@ -525,6 +526,7 @@ eccpase
 eccpase_bit
 ee1
 ee2
+ee3
 eeadr
 eecon1
 eecon2
@@ -825,6 +827,7 @@ idleif_bit
 idlen
 idlen_bit
 imprimiralerta
+imprimirmensaje
 indf0
 indf1
 indf2
@@ -1071,7 +1074,6 @@ mmc_read_csd
 mmc_read_sector
 mmc_write_sector
 modf
-msn
 mul_16x16_s
 mul_16x16_u
 mul_32x32_fp
@@ -2012,6 +2014,7 @@ toutps2
 toutps2_bit
 toutps3
 toutps3_bit
+transmitirgps
 trisa
 trisa0
 trisa0_bit

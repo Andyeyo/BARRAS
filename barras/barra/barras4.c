@@ -121,6 +121,8 @@ void main()
     Metodo obtiene la peticion de llegada del BUS 485 y verifica si la peticion
     es 0XFF(mensaje de peticion enviado por el master). De comprobarse envia una
     respuesta que contiene el numero de entradas, salidas y BLOQUEOS.
+    Obtiene:    array de caracteres con el mensaje RS485
+    Retorna:    nada
 */
 void verificarPeticion(char dat[9])
 {
@@ -153,6 +155,8 @@ void verificarPeticion(char dat[9])
     Almacena los datos almacenados en las variables ENTRAN, SALEN Y BLOQUEOS en
     la memoria EEPROM. En caso de ser exitoso retorna un valor de UNO y de
     presentarse un error, retorna un valor de CERO.
+    Obtiene:    Nada
+    Retorna:    Respuesta del almacenamiento Uno o Cero
 */
 int almacenarDatos(void)
 {
