@@ -67,8 +67,8 @@ void counter(void){
  }
  if(pp==1){
 
- if(logC>=2){
 
+ if(logC>0){
 
 
  if(Apm!=-1 && Apn!=-1 && Apx!=-1 && Apy!=-1){

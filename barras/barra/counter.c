@@ -10,8 +10,8 @@ void counter(void){
         }
         if(pp==1){ //flanco descendente
 
-            if(logC>=2){ //piso plano
-            //if(logC>0){ //gradas
+            //if(logC>=2){ //piso plano
+            if(logC>0){ //gradas
                 //analizar log A
 
                 if(Apm!=-1 && Apn!=-1 && Apx!=-1 && Apy!=-1){

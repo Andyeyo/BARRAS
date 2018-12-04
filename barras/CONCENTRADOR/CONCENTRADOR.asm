@@ -73,7 +73,7 @@ _interrupt:
 	CALL        _RS485Master_Receive+0, 0
 ;CONCENTRADOR.c,76 :: 		}
 L_end_interrupt:
-L__interrupt60:
+L__interrupt48:
 	RETFIE      1
 ; end of _interrupt
 
@@ -201,18 +201,18 @@ L_main7:
 	MOVF        _cnt+3, 0 
 	SUBLW       0
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main62
+	GOTO        L__main50
 	MOVF        _cnt+2, 0 
 	SUBLW       0
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main62
+	GOTO        L__main50
 	MOVF        _cnt+1, 0 
 	SUBLW       54
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main62
+	GOTO        L__main50
 	MOVF        _cnt+0, 0 
 	SUBLW       176
-L__main62:
+L__main50:
 	BTFSC       STATUS+0, 0 
 	GOTO        L_main8
 ;CONCENTRADOR.c,123 :: 		cnt=0;
@@ -252,7 +252,7 @@ L_main8:
 	MOVF        _master_rx_dat+5, 1 
 	BTFSS       STATUS+0, 2 
 	GOTO        L_main11
-L__main56:
+L__main44:
 ;CONCENTRADOR.c,135 :: 		if(fbt==0){
 	MOVF        _fbt+0, 0 
 	XORLW       0
@@ -780,19 +780,43 @@ L_main27:
 	MOVLW       10
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,187 :: 		if(id_slave == 10)
+;CONCENTRADOR.c,187 :: 		for(u=0;u<36;u++)
+	CLRF        _u+0 
+L_main29:
+	MOVLW       36
+	SUBWF       _u+0, 0 
+	BTFSC       STATUS+0, 0 
+	GOTO        L_main30
+;CONCENTRADOR.c,189 :: 		Suart2_write((char)buffer[u]); //transmitir por RS232 puerto J2(RJ45) pc
+	MOVLW       _buffer+0
+	MOVWF       FSR0 
+	MOVLW       hi_addr(_buffer+0)
+	MOVWF       FSR0H 
+	MOVF        _u+0, 0 
+	ADDWF       FSR0, 1 
+	BTFSC       STATUS+0, 0 
+	INCF        FSR0H, 1 
+	MOVF        POSTINC0+0, 0 
+	MOVWF       FARG_SUart2_Write_tch+0 
+	CALL        _SUart2_Write+0, 0
+;CONCENTRADOR.c,187 :: 		for(u=0;u<36;u++)
+	INCF        _u+0, 1 
+;CONCENTRADOR.c,190 :: 		}
+	GOTO        L_main29
+L_main30:
+;CONCENTRADOR.c,193 :: 		if(id_slave == 10)
 	MOVF        _id_slave+0, 0 
 	XORLW       10
 	BTFSS       STATUS+0, 2 
-	GOTO        L_main29
-;CONCENTRADOR.c,189 :: 		for(u=3;u<10;u++){ ee1[11+u]=s_entran[u]; }
+	GOTO        L_main32
+;CONCENTRADOR.c,195 :: 		for(u=3;u<10;u++){ ee1[11+u]=s_entran[u]; }
 	MOVLW       3
 	MOVWF       _u+0 
-L_main30:
+L_main33:
 	MOVLW       10
 	SUBWF       _u+0, 0 
 	BTFSC       STATUS+0, 0 
-	GOTO        L_main31
+	GOTO        L_main34
 	MOVF        _u+0, 0 
 	ADDLW       11
 	MOVWF       R0 
@@ -816,23 +840,23 @@ L_main30:
 	MOVF        POSTINC0+0, 0 
 	MOVWF       POSTINC1+0 
 	INCF        _u+0, 1 
-	GOTO        L_main30
-L_main31:
-;CONCENTRADOR.c,190 :: 		}
-L_main29:
-;CONCENTRADOR.c,191 :: 		if(id_slave == 20)
+	GOTO        L_main33
+L_main34:
+;CONCENTRADOR.c,196 :: 		}
+L_main32:
+;CONCENTRADOR.c,197 :: 		if(id_slave == 20)
 	MOVF        _id_slave+0, 0 
 	XORLW       20
 	BTFSS       STATUS+0, 2 
-	GOTO        L_main33
-;CONCENTRADOR.c,193 :: 		for(u=3;u<10;u++){ ee2[11+u]=s_entran[u]; }
+	GOTO        L_main36
+;CONCENTRADOR.c,199 :: 		for(u=3;u<10;u++){ ee2[11+u]=s_entran[u]; }
 	MOVLW       3
 	MOVWF       _u+0 
-L_main34:
+L_main37:
 	MOVLW       10
 	SUBWF       _u+0, 0 
 	BTFSC       STATUS+0, 0 
-	GOTO        L_main35
+	GOTO        L_main38
 	MOVF        _u+0, 0 
 	ADDLW       11
 	MOVWF       R0 
@@ -856,14 +880,14 @@ L_main34:
 	MOVF        POSTINC0+0, 0 
 	MOVWF       POSTINC1+0 
 	INCF        _u+0, 1 
-	GOTO        L_main34
-L_main35:
-;CONCENTRADOR.c,194 :: 		}
-L_main33:
-;CONCENTRADOR.c,196 :: 		fbt=0; pbuffer=0;
+	GOTO        L_main37
+L_main38:
+;CONCENTRADOR.c,200 :: 		}
+L_main36:
+;CONCENTRADOR.c,202 :: 		fbt=0; pbuffer=0;
 	CLRF        _fbt+0 
 	CLRF        _pbuffer+0 
-;CONCENTRADOR.c,198 :: 		entran=0; salen=0; bloqueos=0;
+;CONCENTRADOR.c,204 :: 		entran=0; salen=0; bloqueos=0;
 	CLRF        _entran+0 
 	CLRF        _entran+1 
 	CLRF        _entran+2 
@@ -876,59 +900,59 @@ L_main33:
 	CLRF        _bloqueos+1 
 	CLRF        _bloqueos+2 
 	CLRF        _bloqueos+3 
-;CONCENTRADOR.c,199 :: 		cnt=0;
+;CONCENTRADOR.c,205 :: 		cnt=0;
 	CLRF        _cnt+0 
 	CLRF        _cnt+1 
 	CLRF        _cnt+2 
 	CLRF        _cnt+3 
-;CONCENTRADOR.c,200 :: 		}
+;CONCENTRADOR.c,206 :: 		}
 L_main19:
-;CONCENTRADOR.c,203 :: 		counter2++;
+;CONCENTRADOR.c,210 :: 		counter2++;
 	MOVLW       1
 	ADDWF       _counter2+0, 1 
 	MOVLW       0
 	ADDWFC      _counter2+1, 1 
 	ADDWFC      _counter2+2, 1 
 	ADDWFC      _counter2+3, 1 
-;CONCENTRADOR.c,204 :: 		if(counter2>(14000*20))
+;CONCENTRADOR.c,211 :: 		if(counter2>(140000*20))
 	MOVF        _counter2+3, 0 
 	SUBLW       0
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main63
+	GOTO        L__main51
 	MOVF        _counter2+2, 0 
-	SUBLW       4
+	SUBLW       42
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main63
+	GOTO        L__main51
 	MOVF        _counter2+1, 0 
-	SUBLW       69
+	SUBLW       185
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main63
+	GOTO        L__main51
 	MOVF        _counter2+0, 0 
-	SUBLW       192
-L__main63:
+	SUBLW       128
+L__main51:
 	BTFSC       STATUS+0, 0 
-	GOTO        L_main37
-;CONCENTRADOR.c,206 :: 		counter2=0;
+	GOTO        L_main40
+;CONCENTRADOR.c,213 :: 		counter2=0;
 	CLRF        _counter2+0 
 	CLRF        _counter2+1 
 	CLRF        _counter2+2 
 	CLRF        _counter2+3 
-;CONCENTRADOR.c,207 :: 		if(ax==0)
+;CONCENTRADOR.c,214 :: 		if(ax==0)
 	MOVF        _ax+0, 0 
 	XORLW       0
 	BTFSS       STATUS+0, 2 
-	GOTO        L_main38
-;CONCENTRADOR.c,209 :: 		ax=1;
+	GOTO        L_main41
+;CONCENTRADOR.c,216 :: 		ax=1;
 	MOVLW       1
 	MOVWF       _ax+0 
-;CONCENTRADOR.c,210 :: 		}
-	GOTO        L_main39
-L_main38:
-;CONCENTRADOR.c,213 :: 		ax=0;
+;CONCENTRADOR.c,217 :: 		}
+	GOTO        L_main42
+L_main41:
+;CONCENTRADOR.c,220 :: 		ax=0;
 	CLRF        _ax+0 
-;CONCENTRADOR.c,214 :: 		}
-L_main39:
-;CONCENTRADOR.c,217 :: 		imprimirAlerta((esclavo/10)+48);
+;CONCENTRADOR.c,221 :: 		}
+L_main42:
+;CONCENTRADOR.c,225 :: 		imprimirAlerta((esclavo/10)+48);
 	MOVLW       10
 	MOVWF       R4 
 	MOVF        _esclavo+0, 0 
@@ -938,213 +962,31 @@ L_main39:
 	ADDWF       R0, 0 
 	MOVWF       FARG_imprimirAlerta_lugar+0 
 	CALL        _imprimirAlerta+0, 0
-;CONCENTRADOR.c,218 :: 		peticion(esclavo); //pedido de envio de información
+;CONCENTRADOR.c,226 :: 		peticion(esclavo); //pedido de envio de información
 	MOVF        _esclavo+0, 0 
 	MOVWF       FARG_peticion_dirEsclavo+0 
 	CALL        _peticion+0, 0
-;CONCENTRADOR.c,219 :: 		esclavo += 10;
+;CONCENTRADOR.c,227 :: 		esclavo += 10;
 	MOVLW       10
 	ADDWF       _esclavo+0, 0 
 	MOVWF       R1 
 	MOVF        R1, 0 
 	MOVWF       _esclavo+0 
-;CONCENTRADOR.c,220 :: 		if(esclavo > 30)
+;CONCENTRADOR.c,228 :: 		if(esclavo > 30)
 	MOVF        R1, 0 
 	SUBLW       30
 	BTFSC       STATUS+0, 0 
-	GOTO        L_main40
-;CONCENTRADOR.c,222 :: 		esclavo = 10;
+	GOTO        L_main43
+;CONCENTRADOR.c,230 :: 		esclavo = 10;
 	MOVLW       10
 	MOVWF       _esclavo+0 
-;CONCENTRADOR.c,223 :: 		}
-L_main40:
-;CONCENTRADOR.c,225 :: 		}
-L_main37:
-;CONCENTRADOR.c,227 :: 		counter1++;
-	MOVLW       1
-	ADDWF       _counter1+0, 1 
-	MOVLW       0
-	ADDWFC      _counter1+1, 1 
-	ADDWFC      _counter1+2, 1 
-	ADDWFC      _counter1+3, 1 
-;CONCENTRADOR.c,228 :: 		if(counter1>(14000*1))
-	MOVF        _counter1+3, 0 
-	SUBLW       0
-	BTFSS       STATUS+0, 2 
-	GOTO        L__main64
-	MOVF        _counter1+2, 0 
-	SUBLW       0
-	BTFSS       STATUS+0, 2 
-	GOTO        L__main64
-	MOVF        _counter1+1, 0 
-	SUBLW       54
-	BTFSS       STATUS+0, 2 
-	GOTO        L__main64
-	MOVF        _counter1+0, 0 
-	SUBLW       176
-L__main64:
-	BTFSC       STATUS+0, 0 
-	GOTO        L_main41
-;CONCENTRADOR.c,230 :: 		counter1=0;
-	CLRF        _counter1+0 
-	CLRF        _counter1+1 
-	CLRF        _counter1+2 
-	CLRF        _counter1+3 
-;CONCENTRADOR.c,231 :: 		if(ax==0)
-	MOVF        _ax+0, 0 
-	XORLW       0
-	BTFSS       STATUS+0, 2 
-	GOTO        L_main42
-;CONCENTRADOR.c,233 :: 		for(u=0;u<24;u++)
-	CLRF        _u+0 
+;CONCENTRADOR.c,231 :: 		}
 L_main43:
-	MOVLW       24
-	SUBWF       _u+0, 0 
-	BTFSC       STATUS+0, 0 
-	GOTO        L_main44
-;CONCENTRADOR.c,235 :: 		Suart2_write((char)ee1[u]); //transmitir por RS232 puerto J2(RJ45) pc
-	MOVLW       _ee1+0
-	MOVWF       FSR0 
-	MOVLW       hi_addr(_ee1+0)
-	MOVWF       FSR0H 
-	MOVF        _u+0, 0 
-	ADDWF       FSR0, 1 
-	BTFSC       STATUS+0, 0 
-	INCF        FSR0H, 1 
-	MOVF        POSTINC0+0, 0 
-	MOVWF       FARG_SUart2_Write_tch+0 
-	CALL        _SUart2_Write+0, 0
-;CONCENTRADOR.c,233 :: 		for(u=0;u<24;u++)
-	INCF        _u+0, 1 
-;CONCENTRADOR.c,236 :: 		}
-	GOTO        L_main43
-L_main44:
-;CONCENTRADOR.c,237 :: 		}
-	GOTO        L_main46
-L_main42:
-;CONCENTRADOR.c,240 :: 		for(u=0;u<24;u++)
-	CLRF        _u+0 
-L_main47:
-	MOVLW       24
-	SUBWF       _u+0, 0 
-	BTFSC       STATUS+0, 0 
-	GOTO        L_main48
-;CONCENTRADOR.c,242 :: 		Suart2_write((char)ee2[u]); //transmitir por RS232 puerto J2(RJ45) pc
-	MOVLW       _ee2+0
-	MOVWF       FSR0 
-	MOVLW       hi_addr(_ee2+0)
-	MOVWF       FSR0H 
-	MOVF        _u+0, 0 
-	ADDWF       FSR0, 1 
-	BTFSC       STATUS+0, 0 
-	INCF        FSR0H, 1 
-	MOVF        POSTINC0+0, 0 
-	MOVWF       FARG_SUart2_Write_tch+0 
-	CALL        _SUart2_Write+0, 0
-;CONCENTRADOR.c,240 :: 		for(u=0;u<24;u++)
-	INCF        _u+0, 1 
-;CONCENTRADOR.c,243 :: 		}
-	GOTO        L_main47
-L_main48:
-;CONCENTRADOR.c,244 :: 		}
-L_main46:
-;CONCENTRADOR.c,245 :: 		}
-L_main41:
-;CONCENTRADOR.c,247 :: 		if(SWITCH_ON)   //bucle de lectura de switch_on
-	BTFSS       PORTC+0, 0 
-	GOTO        L_main50
-;CONCENTRADOR.c,249 :: 		seg_off++;
-	MOVLW       1
-	ADDWF       _seg_off+0, 1 
-	MOVLW       0
-	ADDWFC      _seg_off+1, 1 
-	ADDWFC      _seg_off+2, 1 
-	ADDWFC      _seg_off+3, 1 
-;CONCENTRADOR.c,254 :: 		if((seg_off > (54026 * 5)) && DS_FUENTE == 0) //1 MINUTO (4000 CYCLOS = 1 SEG)
-	MOVF        _seg_off+3, 0 
-	SUBLW       0
-	BTFSS       STATUS+0, 2 
-	GOTO        L__main65
-	MOVF        _seg_off+2, 0 
-	SUBLW       4
-	BTFSS       STATUS+0, 2 
-	GOTO        L__main65
-	MOVF        _seg_off+1, 0 
-	SUBLW       31
-	BTFSS       STATUS+0, 2 
-	GOTO        L__main65
-	MOVF        _seg_off+0, 0 
-	SUBLW       50
-L__main65:
-	BTFSC       STATUS+0, 0 
-	GOTO        L_main53
-	BTFSC       PORTB+0, 5 
-	GOTO        L_main53
-L__main55:
-;CONCENTRADOR.c,256 :: 		seg_off = 0;
-	CLRF        _seg_off+0 
-	CLRF        _seg_off+1 
-	CLRF        _seg_off+2 
-	CLRF        _seg_off+3 
-;CONCENTRADOR.c,257 :: 		DS_FUENTE = 1;
-	BSF         PORTB+0, 5 
-;CONCENTRADOR.c,258 :: 		SUart0_write('A');  //add PC
-	MOVLW       65
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,259 :: 		SUart0_write('P');  //add PC
-	MOVLW       80
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,260 :: 		SUart0_write('A');  //add PC
-	MOVLW       65
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,261 :: 		SUart0_write('G');  //add PC
-	MOVLW       71
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,262 :: 		SUart0_write('A');  //add PC
-	MOVLW       65
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,263 :: 		SUart0_write('N');  //add PC
-	MOVLW       78
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,264 :: 		SUart0_write('D');  //add PC
-	MOVLW       68
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,265 :: 		SUart0_write('O');  //add PC
-	MOVLW       79
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,266 :: 		SUart0_write('\r');  //add PC
-	MOVLW       13
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,267 :: 		SUart0_write('\n');  //add PC
-	MOVLW       10
-	MOVWF       FARG_SUart0_Write_tch+0 
-	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,268 :: 		}
-L_main53:
-;CONCENTRADOR.c,269 :: 		}
-	GOTO        L_main54
-L_main50:
-;CONCENTRADOR.c,272 :: 		seg_off = 0;
-	CLRF        _seg_off+0 
-	CLRF        _seg_off+1 
-	CLRF        _seg_off+2 
-	CLRF        _seg_off+3 
-;CONCENTRADOR.c,273 :: 		DS_FUENTE = 0;
-	BCF         PORTB+0, 5 
-;CONCENTRADOR.c,274 :: 		}
-L_main54:
-;CONCENTRADOR.c,275 :: 		}
+;CONCENTRADOR.c,233 :: 		}
+L_main40:
+;CONCENTRADOR.c,284 :: 		}
 	GOTO        L_main3
-;CONCENTRADOR.c,276 :: 		}
+;CONCENTRADOR.c,285 :: 		}
 L_end_main:
 	GOTO        $+0
 ; end of _main

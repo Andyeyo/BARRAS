@@ -17,9 +17,9 @@ main
 			Delay_1us
 	SUart0_Write
 		Delay_1us
-	Div_8X8_U
 	SUart2_Write
 		Delay_1us
+	Div_8X8_U
 interrupt
 	RS485Master_Receive
 		____DoIFC

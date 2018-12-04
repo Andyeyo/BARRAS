@@ -38,10 +38,10 @@ L_counter3:
 ;counter.c,11 :: 		if(pp==1){ //flanco descendente
 	BTFSS       _pp+0, BitPos(_pp+0) 
 	GOTO        L_counter4
-;counter.c,13 :: 		if(logC>=2){ //piso plano
-	MOVLW       2
-	SUBWF       _logC+0, 0 
-	BTFSS       STATUS+0, 0 
+;counter.c,14 :: 		if(logC>0){ //gradas
+	MOVF        _logC+0, 0 
+	SUBLW       0
+	BTFSC       STATUS+0, 0 
 	GOTO        L_counter5
 ;counter.c,17 :: 		if(Apm!=-1 && Apn!=-1 && Apx!=-1 && Apy!=-1){
 	MOVF        _Apm+0, 0 

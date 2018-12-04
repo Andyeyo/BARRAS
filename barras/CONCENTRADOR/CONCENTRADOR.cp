@@ -181,6 +181,12 @@ void main()
  SUart0_write('\n');
 
 
+ for(u=0;u<36;u++)
+ {
+ Suart2_write((char)buffer[u]);
+ }
+
+
  if(id_slave == 10)
  {
  for(u=3;u<10;u++){ ee1[11+u]=s_entran[u]; }
@@ -197,8 +203,9 @@ void main()
  }
 
 
+
  counter2++;
- if(counter2>(14000*20))
+ if(counter2>(140000*20))
  {
  counter2=0;
  if(ax==0)
@@ -211,6 +218,7 @@ void main()
  }
 
 
+
  imprimirAlerta((esclavo/10)+48);
  peticion(esclavo);
  esclavo += 10;
@@ -220,54 +228,6 @@ void main()
  }
 
  }
-
- counter1++;
- if(counter1>(14000*1))
- {
- counter1=0;
- if(ax==0)
- {
- for(u=0;u<24;u++)
- {
- Suart2_write((char)ee1[u]);
- }
- }
- else
- {
- for(u=0;u<24;u++)
- {
- Suart2_write((char)ee2[u]);
- }
- }
- }
-
- if( PORTC.RC0 )
- {
- seg_off++;
-
-
-
-
- if((seg_off > (54026 * 5)) &&  PORTB.RB5  == 0)
- {
- seg_off = 0;
-  PORTB.RB5  = 1;
- SUart0_write('A');
- SUart0_write('P');
- SUart0_write('A');
- SUart0_write('G');
- SUart0_write('A');
- SUart0_write('N');
- SUart0_write('D');
- SUart0_write('O');
- SUart0_write('\r');
- SUart0_write('\n');
- }
- }
- else
- {
- seg_off = 0;
-  PORTB.RB5  = 0;
- }
+#line 284 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  }
 }

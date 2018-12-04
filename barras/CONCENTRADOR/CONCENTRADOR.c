@@ -182,6 +182,12 @@ void main()
 
             SUart0_write('\r');  //add PC
             SUart0_write('\n');  //add PC
+            
+            //mod PC para GV300
+            for(u=0;u<36;u++)
+            {
+                Suart2_write((char)buffer[u]); //transmitir por RS232 puerto J2(RJ45) pc
+            }
 
             //especificar '#entran' por barra
             if(id_slave == 10)
@@ -200,8 +206,9 @@ void main()
         }
 
         //tx
+        //bucle de transmision, se utiliza para enviar el dato cada N segundos
         counter2++;
-        if(counter2>(14000*20))
+        if(counter2>(140000*20))
         {
             counter2=0;
             if(ax==0)
@@ -214,6 +221,7 @@ void main()
             }
             
             //add PC
+            //Realizar pedido de informacion al esclavo de forma ordenada
             imprimirAlerta((esclavo/10)+48);
             peticion(esclavo); //pedido de envio de información
             esclavo += 10;
@@ -223,7 +231,7 @@ void main()
             }
 
         }
-        
+        /*
         counter1++;
         if(counter1>(14000*1))
         {
@@ -272,5 +280,6 @@ void main()
             seg_off = 0;
             DS_FUENTE = 0;
         }
+        */
     }
 }

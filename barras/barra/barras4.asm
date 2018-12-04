@@ -43,7 +43,7 @@ L_main0:
 	BRA         L_main0
 	NOP
 	NOP
-;barras4.c,30 :: 		RS485Slave_Init(leerIdSlave());    // Inicia RS485 con la direccion seteada por DPSW
+;barras4.c,30 :: 		RS485Slave_Init(leerIdSlave());    // Inicia RS485 con la direccion seteada por Dipswitch
 	CALL        _leerIdSlave+0, 0
 	MOVF        R0, 0 
 	MOVWF       FARG_RS485Slave_Init_slave_address+0 
@@ -177,17 +177,17 @@ L_main8:
 ;barras4.c,95 :: 		}
 	GOTO        L_main4
 L_main5:
-;barras4.c,101 :: 		if(voltaje_in)
+;barras4.c,102 :: 		if(voltaje_in)
 	BTFSS       PORTD+0, 1 
 	GOTO        L_main9
-;barras4.c,103 :: 		guardado_flag = 0;
+;barras4.c,104 :: 		guardado_flag = 0;
 	CLRF        _guardado_flag+0 
 	CLRF        _guardado_flag+1 
-;barras4.c,104 :: 		PORTD.B1 = 0;
+;barras4.c,105 :: 		PORTD.B1 = 0;
 	BCF         PORTD+0, 1 
-;barras4.c,105 :: 		}
+;barras4.c,106 :: 		}
 L_main9:
-;barras4.c,111 :: 		if(!DET1 && !DET2 && !DET3 && !DET4 && !DET5)
+;barras4.c,112 :: 		if(!DET1 && !DET2 && !DET3 && !DET4 && !DET5)
 	BTFSC       PORTA+0, 4 
 	GOTO        L_main12
 	BTFSC       PORTA+0, 3 
@@ -199,7 +199,7 @@ L_main9:
 	BTFSC       PORTB+0, 6 
 	GOTO        L_main12
 L__main22:
-;barras4.c,112 :: 		verificarPeticion(datoRecibido);          //leer bus 485
+;barras4.c,113 :: 		verificarPeticion(datoRecibido);          //leer bus 485 en busca de dato entrante
 	MOVLW       _datoRecibido+0
 	MOVWF       FARG_verificarPeticion_dat+0 
 	MOVLW       hi_addr(_datoRecibido+0)
@@ -207,60 +207,60 @@ L__main22:
 	CALL        _verificarPeticion+0, 0
 	GOTO        L_main13
 L_main12:
-;barras4.c,114 :: 		indicadorOcupado();                       //indicar que esta ocupado
+;barras4.c,115 :: 		indicadorOcupado();                       //indicar que esta ocupado
 	CALL        _indicadorOcupado+0, 0
 L_main13:
-;barras4.c,116 :: 		}
-	GOTO        L_main1
 ;barras4.c,117 :: 		}
+	GOTO        L_main1
+;barras4.c,118 :: 		}
 L_end_main:
 	GOTO        $+0
 ; end of _main
 
 _verificarPeticion:
 
-;barras4.c,124 :: 		void verificarPeticion(char dat[9])
-;barras4.c,126 :: 		if (datoRecibido[5])  //msm error
+;barras4.c,125 :: 		void verificarPeticion(char dat[9])
+;barras4.c,127 :: 		if (datoRecibido[5])  //msm error
 	MOVF        _datoRecibido+5, 1 
 	BTFSC       STATUS+0, 2 
 	GOTO        L_verificarPeticion14
-;barras4.c,128 :: 		datoRecibido[5] = 0;         //limpiar bandera
+;barras4.c,129 :: 		datoRecibido[5] = 0;         //limpiar bandera
 	CLRF        _datoRecibido+5 
-;barras4.c,129 :: 		}
+;barras4.c,130 :: 		}
 L_verificarPeticion14:
-;barras4.c,130 :: 		if (datoRecibido[4])  //msm OK
+;barras4.c,131 :: 		if (datoRecibido[4])  //msm OK
 	MOVF        _datoRecibido+4, 1 
 	BTFSC       STATUS+0, 2 
 	GOTO        L_verificarPeticion15
-;barras4.c,132 :: 		PORTB.B1 = 1; PORTB.B2 = 1; //indicador visual de peticion
+;barras4.c,133 :: 		PORTB.B1 = 1; PORTB.B2 = 1; //indicador visual de peticion
 	BSF         PORTB+0, 1 
 	BSF         PORTB+0, 2 
-;barras4.c,133 :: 		datoRecibido[4] = 0;        //limpiar bandera
+;barras4.c,134 :: 		datoRecibido[4] = 0;        //limpiar bandera
 	CLRF        _datoRecibido+4 
-;barras4.c,134 :: 		j = datoRecibido[0];        //obtengo dato entrante
+;barras4.c,135 :: 		j = datoRecibido[0];        //obtengo dato entrante
 	MOVF        _datoRecibido+0, 0 
 	MOVWF       _j+0 
-;barras4.c,135 :: 		if(j = 0xFF)                //comprueba que la peticion del maestro es correcta
+;barras4.c,136 :: 		if(j = 0xFF)                //comprueba que la peticion del maestro es correcta
 	MOVLW       255
 	MOVWF       _j+0 
-;barras4.c,137 :: 		rs485_slave_send();     //responde al maestro con in, out y blk
+;barras4.c,138 :: 		rs485_slave_send();     //responde al maestro con in, out y blk
 	CALL        _rs485_slave_send+0, 0
-;barras4.c,138 :: 		PORTB.B1 = 0; PORTB.B2 = 0; //apaga indicadores visuales
+;barras4.c,139 :: 		PORTB.B1 = 0; PORTB.B2 = 0; //apaga indicadores visuales
 	BCF         PORTB+0, 1 
 	BCF         PORTB+0, 2 
-;barras4.c,147 :: 		}
-L_verificarPeticion17:
 ;barras4.c,148 :: 		}
-L_verificarPeticion15:
+L_verificarPeticion17:
 ;barras4.c,149 :: 		}
+L_verificarPeticion15:
+;barras4.c,150 :: 		}
 L_end_verificarPeticion:
 	RETURN      0
 ; end of _verificarPeticion
 
 _almacenarDatos:
 
-;barras4.c,156 :: 		int almacenarDatos(void)
-;barras4.c,160 :: 		V_in   = ENTRAN;
+;barras4.c,157 :: 		int almacenarDatos(void)
+;barras4.c,161 :: 		V_in   = ENTRAN;
 	MOVF        _ENTRAN+0, 0 
 	MOVWF       almacenarDatos_V_in_L0+0 
 	MOVF        _ENTRAN+1, 0 
@@ -269,7 +269,7 @@ _almacenarDatos:
 	MOVWF       almacenarDatos_V_in_L0+2 
 	MOVF        _ENTRAN+3, 0 
 	MOVWF       almacenarDatos_V_in_L0+3 
-;barras4.c,161 :: 		V_sal  = SALEN;
+;barras4.c,162 :: 		V_sal  = SALEN;
 	MOVF        _SALEN+0, 0 
 	MOVWF       almacenarDatos_V_sal_L0+0 
 	MOVF        _SALEN+1, 0 
@@ -278,7 +278,7 @@ _almacenarDatos:
 	MOVWF       almacenarDatos_V_sal_L0+2 
 	MOVF        _SALEN+3, 0 
 	MOVWF       almacenarDatos_V_sal_L0+3 
-;barras4.c,162 :: 		V_bloc = BLOQUEOS;
+;barras4.c,163 :: 		V_bloc = BLOQUEOS;
 	MOVF        _BLOQUEOS+0, 0 
 	MOVWF       almacenarDatos_V_bloc_L0+0 
 	MOVF        _BLOQUEOS+1, 0 
@@ -287,11 +287,11 @@ _almacenarDatos:
 	MOVWF       almacenarDatos_V_bloc_L0+2 
 	MOVF        _BLOQUEOS+3, 0 
 	MOVWF       almacenarDatos_V_bloc_L0+3 
-;barras4.c,164 :: 		save_data();
+;barras4.c,165 :: 		save_data();
 	CALL        _save_data+0, 0
-;barras4.c,167 :: 		read_data();
+;barras4.c,168 :: 		read_data();
 	CALL        _read_data+0, 0
-;barras4.c,169 :: 		if(ENTRAN == V_in && SALEN == V_sal && BLOQUEOS == V_bloc)
+;barras4.c,170 :: 		if(ENTRAN == V_in && SALEN == V_sal && BLOQUEOS == V_bloc)
 	MOVF        _ENTRAN+3, 0 
 	XORWF       almacenarDatos_V_in_L0+3, 0 
 	BTFSS       STATUS+0, 2 
@@ -344,15 +344,15 @@ L__almacenarDatos34:
 	BTFSS       STATUS+0, 2 
 	GOTO        L_almacenarDatos20
 L__almacenarDatos24:
-;barras4.c,171 :: 		return 1; /*si es verdadero, retorna 1 correspondiente a existoso*/
+;barras4.c,172 :: 		return 1; /*si es verdadero, retorna 1 correspondiente a existoso*/
 	MOVLW       1
 	MOVWF       R0 
 	MOVLW       0
 	MOVWF       R1 
 	GOTO        L_end_almacenarDatos
-;barras4.c,172 :: 		}
+;barras4.c,173 :: 		}
 L_almacenarDatos20:
-;barras4.c,175 :: 		ENTRAN   = V_in;
+;barras4.c,176 :: 		ENTRAN   = V_in;
 	MOVF        almacenarDatos_V_in_L0+0, 0 
 	MOVWF       _ENTRAN+0 
 	MOVF        almacenarDatos_V_in_L0+1, 0 
@@ -361,7 +361,7 @@ L_almacenarDatos20:
 	MOVWF       _ENTRAN+2 
 	MOVF        almacenarDatos_V_in_L0+3, 0 
 	MOVWF       _ENTRAN+3 
-;barras4.c,176 :: 		SALEN    = V_sal;
+;barras4.c,177 :: 		SALEN    = V_sal;
 	MOVF        almacenarDatos_V_sal_L0+0, 0 
 	MOVWF       _SALEN+0 
 	MOVF        almacenarDatos_V_sal_L0+1, 0 
@@ -370,7 +370,7 @@ L_almacenarDatos20:
 	MOVWF       _SALEN+2 
 	MOVF        almacenarDatos_V_sal_L0+3, 0 
 	MOVWF       _SALEN+3 
-;barras4.c,177 :: 		BLOQUEOS = V_bloc;
+;barras4.c,178 :: 		BLOQUEOS = V_bloc;
 	MOVF        almacenarDatos_V_bloc_L0+0, 0 
 	MOVWF       _BLOQUEOS+0 
 	MOVF        almacenarDatos_V_bloc_L0+1, 0 
@@ -379,20 +379,20 @@ L_almacenarDatos20:
 	MOVWF       _BLOQUEOS+2 
 	MOVF        almacenarDatos_V_bloc_L0+3, 0 
 	MOVWF       _BLOQUEOS+3 
-;barras4.c,179 :: 		sobreescritos y retorna un 0 correspondiente a error*/
+;barras4.c,180 :: 		sobreescritos y retorna un 0 correspondiente a error*/
 	CLRF        R0 
 	CLRF        R1 
-;barras4.c,181 :: 		}
+;barras4.c,182 :: 		}
 L_end_almacenarDatos:
 	RETURN      0
 ; end of _almacenarDatos
 
 _indicadorOcupado:
 
-;barras4.c,187 :: 		void indicadorOcupado()
-;barras4.c,189 :: 		PORTB.B1 = ~PORTB.B1;
+;barras4.c,188 :: 		void indicadorOcupado()
+;barras4.c,190 :: 		PORTB.B1 = ~PORTB.B1;
 	BTG         PORTB+0, 1 
-;barras4.c,190 :: 		}
+;barras4.c,191 :: 		}
 L_end_indicadorOcupado:
 	RETURN      0
 ; end of _indicadorOcupado

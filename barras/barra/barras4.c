@@ -27,7 +27,7 @@ void main()
     // inicio el 485 aparte
     UART1_Init(9600);                  // Iniciar modulo UART
     Delay_ms(100);
-    RS485Slave_Init(leerIdSlave());    // Inicia RS485 con la direccion seteada por DPSW
+    RS485Slave_Init(leerIdSlave());    // Inicia RS485 con la direccion seteada por Dipswitch
     //RS485Slave_Init(slave_id);       // Inicia RS485 con direccion seteada en extern
 
     slave_rx_dat[4] = 0;               // Limpiar banderas de comunicacion 485
@@ -98,6 +98,7 @@ void main()
             De comprobarse que el estado del suministro electrico a cambiado 
             reinicia la bandera de almacenamiento.
         */
+        
         if(voltaje_in)
         {
             guardado_flag = 0;
@@ -109,7 +110,7 @@ void main()
             a peticion del mestro
         */
         if(!DET1 && !DET2 && !DET3 && !DET4 && !DET5)
-            verificarPeticion(datoRecibido);          //leer bus 485
+            verificarPeticion(datoRecibido);          //leer bus 485 en busca de dato entrante
         else
             indicadorOcupado();                       //indicar que esta ocupado
 
