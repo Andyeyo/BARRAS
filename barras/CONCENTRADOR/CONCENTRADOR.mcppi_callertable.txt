@@ -17,6 +17,7 @@ main
 			Delay_1us
 	SUart0_Write
 		Delay_1us
+	buildBuf600
 	transmitirGPS
 		SUart2_Write
 			Delay_1us

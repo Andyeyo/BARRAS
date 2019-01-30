@@ -56,6 +56,18 @@ void main()
 
     while(1)
     {
+        /*
+            SUart0_Write('V');
+            SUart0_Write('I');
+            SUart0_Write(':');
+            if(OPTO == 1)
+                SUart0_Write('I');
+            else
+                SUart0_Write('0');
+            SUart0_Write('\r');
+            SUart0_Write('\n');
+        */
+
         detect();
         if(RJ45)
         {
@@ -67,14 +79,23 @@ void main()
             Verificar que es suministro electrico de las barras, en caso de que 
             no exista suministro: almacenar el conteo y verificar que se haya 
             almacenado.
+            NOTA: logica inversa actualmente cuando hay energía
+            voltaje_in = 0
+            cuando no hay energia
+            voltaje_in = 1
         */
-        while(!voltaje_in)
+        while(OPTO == 1)
         {
+        
+            LED_A = ~LED_A;
+
             SUart0_Write('S');
             SUart0_Write('I');
             SUart0_Write('N');
             SUart0_Write('\r');
             SUart0_Write('\n');
+            
+
             
             /*
                 Se almacenan los datos de la memoria FLASH usando el metodo
@@ -83,6 +104,9 @@ void main()
                 Ademas, se agrego una bandera de guardado para que no reintente
                 hacerlo nuevamente si la tarea fue exitosa.
             */
+            almacenarDatos();  //redundancia para asegurar el almacenamiento de 
+                               //los datos
+            delay_ms(100);
             if(almacenarDatos() == 1 && guardado_flag == 0)
             {
                 SUart0_Write('G');
@@ -91,6 +115,7 @@ void main()
                 SUart0_Write('\r');
                 SUart0_Write('\n');
                 guardado_flag = 1;
+                LED_V = ~LED_V;
             }
         }
 
@@ -99,10 +124,11 @@ void main()
             reinicia la bandera de almacenamiento.
         */
         
-        if(voltaje_in)
+        if(OPTO == 0)
         {
+            read_data();
             guardado_flag = 0;
-            PORTD.B1 = 0;
+            PORTB.B1 = 0;
         }
         
         /*

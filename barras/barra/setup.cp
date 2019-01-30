@@ -1,6 +1,6 @@
 #line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/setup.c"
 #line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
-#line 34 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 36 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -87,7 +87,7 @@ void init_setup(void){
  TRISA = 0b11011011;
  TRISB = 0b11111001;
  TRISC = 0b11011011;
- TRISD = 0b11011011;
+ TRISD = 0b11111011;
  TRISE = 0b00000110;
 
  init_led();
@@ -153,8 +153,9 @@ void init_var(void){
 
 }
 
-void init_led(void){
-  PORTD.RD5  = 1;
+void init_led(void)
+{
+  PORTD.RD2  = 0;
   PORTE.RE0  = 1;
   PORTC.RC5  = 0;
   PORTA.RA5  = 0;
@@ -178,7 +179,7 @@ void init_led(void){
   PORTA.RA5  = 1;
 
 }
-#line 144 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/setup.c"
+#line 145 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/setup.c"
 char leerIdSlave(void)
 {
  if( PORTC.B1  == 0 &&  PORTC.B0  == 0)

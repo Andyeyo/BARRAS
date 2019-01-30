@@ -1,6 +1,6 @@
 #line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
 #line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
-#line 34 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 36 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -59,37 +59,56 @@ extern char idEsclavo;
 #line 3 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
 void counter(void){
 
- if(aa!=0 && bb!=0 && cc!=0 && dd!=0 && ee!=0){
- if(bk==1){
+ if(aa!=0 && bb!=0 && cc!=0 && dd!=0 && ee!=0)
+ {
+ if(bk==1)
+ {
  contador_seg=0;
-  PORTD.RD5  = 1;
+  PORTD.RD2  = 0;
  bk=0;
  }
- if(pp==1){
+ if(pp==1)
+ {
+
+ if( PORTD.B5 ==1 && logC>0)
+ {
+
+ SUart0_Write('\r');
+ SUart0_Write('\n');
+ SUart0_Write('-');
+ SUart0_Write('G');
+ SUart0_Write('R');
+ SUart0_Write('A');
+ SUart0_Write('-');
+ SUart0_Write('\r');
+ SUart0_Write('\n');
 
 
- if(logC>0){
+ if(Apm!=-1 && Apn!=-1 && Apx!=-1 && Apy!=-1)
+ {
+ if(Apm>Apx)
+ {
 
-
- if(Apm!=-1 && Apn!=-1 && Apx!=-1 && Apy!=-1){
- if(Apm>Apx){
-
- if(Apn>Apy){
+ if(Apn>Apy)
+ {
 
  resultadoA='E';
  }
- else{
+ else
+ {
 
  resultadoA='Q';
  }
  }
  else{
 
- if(Apn>Apy){
+ if(Apn>Apy)
+ {
 
  resultadoA='P';
  }
- else{
+ else
+ {
 
  resultadoA='S';
  }
@@ -97,37 +116,46 @@ void counter(void){
  }
 
 
+ if(Bpm!=-1 && Bpn!=-1 && Bpx!=-1 && Bpy!=-1)
+ {
+ if(Bpm>Bpx)
+ {
 
- if(Bpm!=-1 && Bpn!=-1 && Bpx!=-1 && Bpy!=-1){
- if(Bpm>Bpx){
-
- if(Bpn>Bpy){
+ if(Bpn>Bpy)
+ {
 
  resultadoB='E';
  }
- else{
+ else
+ {
 
  resultadoB='Q';
  }
  }
- else{
+ else
+ {
 
- if(Bpn>Bpy){
+ if(Bpn>Bpy)
+ {
 
  resultadoB='P';
  }
- else{
+ else
+ {
 
  resultadoB='S';
  }
  }
  }
 
- if(resultadoA!='X' && resultadoB!='X'){
- if(resultadoB=='S' || (resultadoA=='S' && resultadoB=='P')){
+ if(resultadoA!='X' && resultadoB!='X')
+ {
+ if(resultadoB=='S' || (resultadoA=='S' && resultadoB=='P'))
+ {
  resultadoT='S';
  }
- if(resultadoB=='E' || (resultadoA=='E' && resultadoB=='Q')){
+ if(resultadoB=='E' || (resultadoA=='E' && resultadoB=='Q'))
+ {
  resultadoT='E';
  }
  }
@@ -164,7 +192,133 @@ void counter(void){
  SALEN++;
  NUMPER=ENTRAN+SALEN;
  resultadoT='X';
-#line 118 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
+#line 146 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
+ }
+
+ }
+ else if( PORTD.B5  == 0 && logC>=2)
+ {
+
+ SUart0_Write('\r');
+ SUart0_Write('\n');
+ SUart0_Write('-');
+ SUart0_Write('P');
+ SUart0_Write('L');
+ SUart0_Write('A');
+ SUart0_Write('-');
+ SUart0_Write('\r');
+ SUart0_Write('\n');
+
+
+ if(Apm!=-1 && Apn!=-1 && Apx!=-1 && Apy!=-1)
+ {
+ if(Apm>Apx)
+ {
+
+ if(Apn>Apy)
+ {
+
+ resultadoA='E';
+ }
+ else
+ {
+
+ resultadoA='Q';
+ }
+ }
+ else{
+
+ if(Apn>Apy)
+ {
+
+ resultadoA='P';
+ }
+ else
+ {
+
+ resultadoA='S';
+ }
+ }
+ }
+
+
+ if(Bpm!=-1 && Bpn!=-1 && Bpx!=-1 && Bpy!=-1)
+ {
+ if(Bpm>Bpx)
+ {
+
+ if(Bpn>Bpy)
+ {
+
+ resultadoB='E';
+ }
+ else
+ {
+
+ resultadoB='Q';
+ }
+ }
+ else
+ {
+
+ if(Bpn>Bpy)
+ {
+
+ resultadoB='P';
+ }
+ else
+ {
+
+ resultadoB='S';
+ }
+ }
+ }
+
+ if(resultadoA!='X' && resultadoB!='X')
+ {
+ if(resultadoB=='S' || (resultadoA=='S' && resultadoB=='P'))
+ {
+ resultadoT='S';
+ }
+ if(resultadoB=='E' || (resultadoA=='E' && resultadoB=='Q'))
+ {
+ resultadoT='E';
+ }
+ }
+
+ if(pos==1){
+ if(resultadoT=='E'){ resultadoT='X'; }
+ }
+ else if(pos==11){
+ if(resultadoT=='S'){ resultadoT='X'; }
+ }
+ else if(pos==111){
+ if(resultadoT=='E'){ resultadoT='S'; }
+ else if(resultadoT=='S'){ resultadoT='E'; }
+ }
+ else if(pos==110){
+ if(resultadoT=='E'){ resultadoT='S'; }
+ else if(resultadoT=='S'){ resultadoT='X'; }
+ }
+ else if(pos==100){
+ if(resultadoT=='E'){ resultadoT='X'; }
+ else if(resultadoT=='S'){ resultadoT='E'; }
+ }
+
+
+ if(resultadoT=='E'){
+ ENTRAN++;
+ NUMPER=ENTRAN+SALEN;
+ resultadoT='X';
+
+
+
+ }
+ if(resultadoT=='S'){
+ SALEN++;
+ NUMPER=ENTRAN+SALEN;
+ resultadoT='X';
+#line 279 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
  }
 
  }

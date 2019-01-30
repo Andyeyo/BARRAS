@@ -31,6 +31,8 @@ main
 		SUart0_Write
 			Delay_1us
 	bloqueo
+		SUart0_Write
+			Delay_1us
 		word2double
 			NRM3232
 				RES032
@@ -38,6 +40,8 @@ main
 				FIXSIGN32
 		Equals_Double
 	counter
+		SUart0_Write
+			Delay_1us
 	almacenarDatos
 		save_data
 			write_long

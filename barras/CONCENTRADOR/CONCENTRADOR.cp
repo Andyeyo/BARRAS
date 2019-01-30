@@ -170,9 +170,9 @@ void main()
  SUart0_write('\r'); SUart0_write('\n');
 
 
+ buildBuf600();
+ transmitirGPS(600);
 
-
- transmitirGPS(300);
 
  fbt=0; pbuffer=0;
 

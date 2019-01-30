@@ -716,10 +716,12 @@ L_main26:
 	MOVLW       10
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;CONCENTRADOR.c,174 :: 		transmitirGPS(300);               //ENVIAR POR GV300
-	MOVLW       44
+;CONCENTRADOR.c,172 :: 		buildBuf600();                      //Construir BUffer para MVT600
+	CALL        _buildBuf600+0, 0
+;CONCENTRADOR.c,173 :: 		transmitirGPS(600);                 //ENVIAR POR MVT600
+	MOVLW       88
 	MOVWF       FARG_transmitirGPS_GPS+0 
-	MOVLW       1
+	MOVLW       2
 	MOVWF       FARG_transmitirGPS_GPS+1 
 	CALL        _transmitirGPS+0, 0
 ;CONCENTRADOR.c,176 :: 		fbt=0; pbuffer=0;

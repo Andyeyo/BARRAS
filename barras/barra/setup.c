@@ -30,7 +30,7 @@ void init_setup(void){
     TRISA = 0b11011011; // salidas =0  entradas=1
     TRISB = 0b11111001;
     TRISC = 0b11011011;
-    TRISD = 0b11011011;
+    TRISD = 0b11111011;
     TRISE = 0b00000110;
 
     init_led();
@@ -110,13 +110,14 @@ void init_var(void){
 
 }
 
-void init_led(void){
-    BUZZER = 1; //ADD PC
+void init_led(void)
+{
+    BUZZER = 0; //ADD PC
     LED_V = 1;
     LED_A = 0;
     LED_R = 0;
- //   BUZZER = 0;
-   Delay_ms(500);
+//    BUZZER = 0;
+    Delay_ms(500);
 
     LED_V = 0;
     LED_A = 1;

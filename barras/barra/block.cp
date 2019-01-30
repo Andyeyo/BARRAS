@@ -1,6 +1,6 @@
 #line 1 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/block.c"
 #line 1 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
-#line 34 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
+#line 36 "d:/vicente/downloads/pc/algoritmos_codigos/git_github/barras/barras/barra/extern.h"
 extern unsigned long int NUMPER;
 extern unsigned long int ENTRAN;
 extern unsigned long int SALEN;
@@ -60,11 +60,15 @@ extern char idEsclavo;
 void bloqueo(void)
 {
  contador++;
- if (contador>= 14000 )
+ if (contador>= 28000 )
  {
  contador=0;
  if(aa+bb+cc+dd+ee<=6 && bk==1)
  {
+ SUart0_Write('B');
+ SUart0_Write('\r');
+ SUart0_Write('\n');
+
  contador_seg++;
  if(contador_seg==5)
  {
@@ -73,13 +77,13 @@ void bloqueo(void)
  }
  }
 
- if((contador==0 || contador==( 14000 *0.5)) && (contador_seg>=5))
+ if((contador==0 || contador==( 28000 *0.5)) && (contador_seg>=5))
  {
-  PORTD.RD5 =0;
+  PORTD.RD2 =1;
  }
 
- if((contador==( 14000 *0.17) || contador==( 14000 *0.67)) && (contador_seg>=5))
+ if((contador==( 28000 *0.17) || contador==( 28000 *0.67)) && (contador_seg>=5))
  {
-  PORTD.RD5 =1;
+  PORTD.RD2 =0;
  }
 }

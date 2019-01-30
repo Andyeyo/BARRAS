@@ -169,9 +169,9 @@ void main()
             SUart0_write('\r'); SUart0_write('\n'); //add PC salto de linea
             
             //Envio a traves del GPS
-            //buildBuf600();                      //Construir BUffer para MVT600
-            //transmitirGPS(600);                 //ENVIAR POR MVT600
-            transmitirGPS(300);               //ENVIAR POR GV300
+            buildBuf600();                      //Construir BUffer para MVT600
+            transmitirGPS(600);                 //ENVIAR POR MVT600
+            //transmitirGPS(300);               //ENVIAR POR GV300
             
             fbt=0; pbuffer=0;
 

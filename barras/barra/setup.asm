@@ -80,8 +80,8 @@ L_init_setup1:
 ;setup.c,32 :: 		TRISC = 0b11011011;
 	MOVLW       219
 	MOVWF       TRISC+0 
-;setup.c,33 :: 		TRISD = 0b11011011;
-	MOVLW       219
+;setup.c,33 :: 		TRISD = 0b11111011;
+	MOVLW       251
 	MOVWF       TRISD+0 
 ;setup.c,34 :: 		TRISE = 0b00000110;
 	MOVLW       6
@@ -228,16 +228,16 @@ L_end_init_var:
 
 _init_led:
 
-;setup.c,113 :: 		void init_led(void){
-;setup.c,114 :: 		BUZZER = 1; //ADD PC
-	BSF         PORTD+0, 5 
-;setup.c,115 :: 		LED_V = 1;
+;setup.c,113 :: 		void init_led(void)
+;setup.c,115 :: 		BUZZER = 0; //ADD PC
+	BCF         PORTD+0, 2 
+;setup.c,116 :: 		LED_V = 1;
 	BSF         PORTE+0, 0 
-;setup.c,116 :: 		LED_A = 0;
+;setup.c,117 :: 		LED_A = 0;
 	BCF         PORTC+0, 5 
-;setup.c,117 :: 		LED_R = 0;
+;setup.c,118 :: 		LED_R = 0;
 	BCF         PORTA+0, 5 
-;setup.c,119 :: 		Delay_ms(500);
+;setup.c,120 :: 		Delay_ms(500);
 	MOVLW       26
 	MOVWF       R11, 0
 	MOVLW       94
@@ -252,13 +252,13 @@ L_init_led3:
 	DECFSZ      R11, 1, 1
 	BRA         L_init_led3
 	NOP
-;setup.c,121 :: 		LED_V = 0;
+;setup.c,122 :: 		LED_V = 0;
 	BCF         PORTE+0, 0 
-;setup.c,122 :: 		LED_A = 1;
+;setup.c,123 :: 		LED_A = 1;
 	BSF         PORTC+0, 5 
-;setup.c,123 :: 		LED_R = 0;
+;setup.c,124 :: 		LED_R = 0;
 	BCF         PORTA+0, 5 
-;setup.c,125 :: 		Delay_ms(500);
+;setup.c,126 :: 		Delay_ms(500);
 	MOVLW       26
 	MOVWF       R11, 0
 	MOVLW       94
@@ -273,13 +273,13 @@ L_init_led4:
 	DECFSZ      R11, 1, 1
 	BRA         L_init_led4
 	NOP
-;setup.c,127 :: 		LED_V = 0;
+;setup.c,128 :: 		LED_V = 0;
 	BCF         PORTE+0, 0 
-;setup.c,128 :: 		LED_A = 0;
+;setup.c,129 :: 		LED_A = 0;
 	BCF         PORTC+0, 5 
-;setup.c,129 :: 		LED_R = 1;
+;setup.c,130 :: 		LED_R = 1;
 	BSF         PORTA+0, 5 
-;setup.c,131 :: 		Delay_ms(500);
+;setup.c,132 :: 		Delay_ms(500);
 	MOVLW       26
 	MOVWF       R11, 0
 	MOVLW       94
@@ -294,74 +294,74 @@ L_init_led5:
 	DECFSZ      R11, 1, 1
 	BRA         L_init_led5
 	NOP
-;setup.c,133 :: 		LED_V = 1;
+;setup.c,134 :: 		LED_V = 1;
 	BSF         PORTE+0, 0 
-;setup.c,134 :: 		LED_A = 1;
+;setup.c,135 :: 		LED_A = 1;
 	BSF         PORTC+0, 5 
-;setup.c,135 :: 		LED_R = 1;
+;setup.c,136 :: 		LED_R = 1;
 	BSF         PORTA+0, 5 
-;setup.c,137 :: 		}
+;setup.c,138 :: 		}
 L_end_init_led:
 	RETURN      0
 ; end of _init_led
 
 _leerIdSlave:
 
-;setup.c,144 :: 		char leerIdSlave(void)
-;setup.c,146 :: 		if(selectSL1 == 0 && selectSL0 == 0)
+;setup.c,145 :: 		char leerIdSlave(void)
+;setup.c,147 :: 		if(selectSL1 == 0 && selectSL0 == 0)
 	BTFSC       PORTC+0, 1 
 	GOTO        L_leerIdSlave8
 	BTFSC       PORTC+0, 0 
 	GOTO        L_leerIdSlave8
 L__leerIdSlave24:
-;setup.c,148 :: 		idEsclavo = 10;
+;setup.c,149 :: 		idEsclavo = 10;
 	MOVLW       10
 	MOVWF       _idEsclavo+0 
-;setup.c,149 :: 		}
+;setup.c,150 :: 		}
 	GOTO        L_leerIdSlave9
 L_leerIdSlave8:
-;setup.c,150 :: 		else if(selectSL1 == 0 && selectSL0 == 1)
+;setup.c,151 :: 		else if(selectSL1 == 0 && selectSL0 == 1)
 	BTFSC       PORTC+0, 1 
 	GOTO        L_leerIdSlave12
 	BTFSS       PORTC+0, 0 
 	GOTO        L_leerIdSlave12
 L__leerIdSlave23:
-;setup.c,152 :: 		idEsclavo = 20;
+;setup.c,153 :: 		idEsclavo = 20;
 	MOVLW       20
 	MOVWF       _idEsclavo+0 
-;setup.c,153 :: 		}
+;setup.c,154 :: 		}
 	GOTO        L_leerIdSlave13
 L_leerIdSlave12:
-;setup.c,154 :: 		else if(selectSL1 == 1 && selectSL0 == 0)
+;setup.c,155 :: 		else if(selectSL1 == 1 && selectSL0 == 0)
 	BTFSS       PORTC+0, 1 
 	GOTO        L_leerIdSlave16
 	BTFSC       PORTC+0, 0 
 	GOTO        L_leerIdSlave16
 L__leerIdSlave22:
-;setup.c,156 :: 		idEsclavo = 30;
+;setup.c,157 :: 		idEsclavo = 30;
 	MOVLW       30
 	MOVWF       _idEsclavo+0 
-;setup.c,157 :: 		}
+;setup.c,158 :: 		}
 	GOTO        L_leerIdSlave17
 L_leerIdSlave16:
-;setup.c,158 :: 		else if(selectSL1 == 1 && selectSL0 == 1)
+;setup.c,159 :: 		else if(selectSL1 == 1 && selectSL0 == 1)
 	BTFSS       PORTC+0, 1 
 	GOTO        L_leerIdSlave20
 	BTFSS       PORTC+0, 0 
 	GOTO        L_leerIdSlave20
 L__leerIdSlave21:
-;setup.c,160 :: 		idEsclavo = 40;
+;setup.c,161 :: 		idEsclavo = 40;
 	MOVLW       40
 	MOVWF       _idEsclavo+0 
-;setup.c,161 :: 		}
+;setup.c,162 :: 		}
 L_leerIdSlave20:
 L_leerIdSlave17:
 L_leerIdSlave13:
 L_leerIdSlave9:
-;setup.c,162 :: 		return idEsclavo;
+;setup.c,163 :: 		return idEsclavo;
 	MOVF        _idEsclavo+0, 0 
 	MOVWF       R0 
-;setup.c,163 :: 		}
+;setup.c,164 :: 		}
 L_end_leerIdSlave:
 	RETURN      0
 ; end of _leerIdSlave

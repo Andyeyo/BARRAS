@@ -1,6 +1,6 @@
 //define
 #define slave_id 10
-#define BUZZER PORTD.RD5
+#define BUZZER PORTD.RD2
 #define DET1 PORTA.RA4
 #define DET2 PORTA.RA3
 #define DET3 PORTE.RE1
@@ -16,10 +16,12 @@
 #define jumper1 PORTD.RD3 // PARA QUE SE ELIJA EL SENTIDO DE LAS DIRECCIONES
 #define jumper2 PORTC.RC4 // PARA QUE CUENTE SOLO EN UNA DIRECCION
 #define jumper3 PORTD.RD4 // PARA QUE CUENTE SOLO EN UNA DIRECCION original pin d4
+#define jumper4 PORTD.B5  //add PC Entrada para setear si es piso plano o gradas
 
 #define selectSL0  PORTC.B0  //add PC Switch para seleccionar id de slave
 #define selectSL1  PORTC.B1  //add PC Switch para seleccionar id de slave
-#define voltaje_in PORTD.B1    //add PC Entrada para sensar el suministro
+#define voltaje_in PORTD.B1  //add PC Entrada para sensar el suministro
+
 
 ///////////////////////////////////////////////////////////////77
 //extern hace a las variables que se puedan usar globalmente
