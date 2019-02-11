@@ -186,13 +186,14 @@ void counter(void){
  resultadoT='X';
 
 
-
+ save_data();
  }
  if(resultadoT=='S'){
  SALEN++;
  NUMPER=ENTRAN+SALEN;
  resultadoT='X';
-#line 146 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
+#line 145 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
+ save_data();
  }
 
  }
@@ -312,13 +313,14 @@ void counter(void){
  resultadoT='X';
 
 
-
+ save_data();
  }
  if(resultadoT=='S'){
  SALEN++;
  NUMPER=ENTRAN+SALEN;
  resultadoT='X';
-#line 279 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
+#line 278 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/counter.c"
+ save_data();
  }
 
  }

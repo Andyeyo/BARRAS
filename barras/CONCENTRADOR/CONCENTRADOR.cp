@@ -193,7 +193,7 @@ void main()
  }
 #line 207 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  counter1++;
- if(counter1>(140000*20))
+ if(counter1>(140000*10))
  {
  counter1=0;
 

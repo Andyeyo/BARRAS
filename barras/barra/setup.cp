@@ -196,7 +196,7 @@ char leerIdSlave(void)
  }
  else if( PORTC.B1  == 1 &&  PORTC.B0  == 1)
  {
- idEsclavo = 40;
+ idEsclavo = 30;
  }
  return idEsclavo;
 }

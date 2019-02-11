@@ -427,6 +427,8 @@ L_counter41:
 ;counter.c,129 :: 		resultadoT='X';
 	MOVLW       88
 	MOVWF       _resultadoT+0 
+;counter.c,132 :: 		save_data();          //cmt PC para evitar que se guarde cada que pasa alguna persona
+	CALL        _save_data+0, 0
 ;counter.c,133 :: 		}
 L_counter59:
 ;counter.c,134 :: 		if(resultadoT=='S'){
@@ -457,6 +459,8 @@ L_counter59:
 ;counter.c,137 :: 		resultadoT='X';
 	MOVLW       88
 	MOVWF       _resultadoT+0 
+;counter.c,145 :: 		save_data();          //cmt PC para evitar que se guarde cada que pasa alguna persona
+	CALL        _save_data+0, 0
 ;counter.c,146 :: 		}
 L_counter60:
 ;counter.c,148 :: 		}
@@ -851,6 +855,8 @@ L_counter98:
 ;counter.c,262 :: 		resultadoT='X';
 	MOVLW       88
 	MOVWF       _resultadoT+0 
+;counter.c,265 :: 		save_data();          //cmt PC para evitar que se guarde cada que pasa alguna persona
+	CALL        _save_data+0, 0
 ;counter.c,266 :: 		}
 L_counter116:
 ;counter.c,267 :: 		if(resultadoT=='S'){
@@ -881,6 +887,8 @@ L_counter116:
 ;counter.c,270 :: 		resultadoT='X';
 	MOVLW       88
 	MOVWF       _resultadoT+0 
+;counter.c,278 :: 		save_data();          //cmt PC para evitar que se guarde cada que pasa alguna persona
+	CALL        _save_data+0, 0
 ;counter.c,279 :: 		}
 L_counter117:
 ;counter.c,281 :: 		}

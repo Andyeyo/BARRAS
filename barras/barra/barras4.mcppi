@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=barras4.c
+Value=counter.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -33,10 +33,9 @@ File0=lib\p18_SwUart-4.mcl
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
+Count=2
 File0=barras4.c
-File1=extern.h
-File2=detect.c
+File1=counter.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

@@ -350,8 +350,8 @@ L_leerIdSlave16:
 	BTFSS       PORTC+0, 0 
 	GOTO        L_leerIdSlave20
 L__leerIdSlave21:
-;setup.c,161 :: 		idEsclavo = 40;
-	MOVLW       40
+;setup.c,161 :: 		idEsclavo = 30;
+	MOVLW       30
 	MOVWF       _idEsclavo+0 
 ;setup.c,162 :: 		}
 L_leerIdSlave20:

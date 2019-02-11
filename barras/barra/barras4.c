@@ -86,16 +86,11 @@ void main()
         */
         while(OPTO == 1)
         {
-        
-            LED_A = ~LED_A;
-
             SUart0_Write('S');
             SUart0_Write('I');
             SUart0_Write('N');
             SUart0_Write('\r');
             SUart0_Write('\n');
-            
-
             
             /*
                 Se almacenan los datos de la memoria FLASH usando el metodo
@@ -104,9 +99,6 @@ void main()
                 Ademas, se agrego una bandera de guardado para que no reintente
                 hacerlo nuevamente si la tarea fue exitosa.
             */
-            almacenarDatos();  //redundancia para asegurar el almacenamiento de 
-                               //los datos
-            delay_ms(100);
             if(almacenarDatos() == 1 && guardado_flag == 0)
             {
                 SUart0_Write('G');
@@ -115,7 +107,22 @@ void main()
                 SUart0_Write('\r');
                 SUart0_Write('\n');
                 guardado_flag = 1;
-                LED_V = ~LED_V;
+            }
+            while(1) //bucle para descarga del capacitor
+            {
+                LED_R = ~LED_R;
+                Delay_ms(250);
+                if(guardado_flag == 1)
+                {
+                    SUart0_Write('G');
+                    SUart0_Write('\r');
+                    SUart0_Write('\n');
+                }
+                
+                if(OPTO == 0)
+                {
+                    break;
+                }
             }
         }
 
@@ -124,7 +131,7 @@ void main()
             reinicia la bandera de almacenamiento.
         */
         
-        if(OPTO == 0)
+        if(OPTO == 0 && guardado_flag == 1)
         {
             read_data();
             guardado_flag = 0;

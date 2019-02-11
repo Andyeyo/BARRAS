@@ -42,6 +42,9 @@ main
 	counter
 		SUart0_Write
 			Delay_1us
+		save_data
+			write_long
+				EEPROM_Write
 	almacenarDatos
 		save_data
 			write_long

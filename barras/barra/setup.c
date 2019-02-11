@@ -158,7 +158,7 @@ char leerIdSlave(void)
     }
     else if(selectSL1 == 1 && selectSL0 == 1)
     {
-        idEsclavo = 40;
+        idEsclavo = 30;
     }
     return idEsclavo;
 }

@@ -171,7 +171,7 @@ void main()
             //Envio a traves del GPS
             buildBuf600();                      //Construir BUffer para MVT600
             transmitirGPS(600);                 //ENVIAR POR MVT600
-            //transmitirGPS(300);               //ENVIAR POR GV300
+            //transmitirGPS(300);                 //ENVIAR POR GV300
             
             fbt=0; pbuffer=0;
 
@@ -205,7 +205,7 @@ void main()
             de cada una de las barras.
         */
         counter1++;
-        if(counter1>(140000*20))
+        if(counter1>(140000*10))
         {
             counter1=0;
             //transmitirGPS(600); //INVOCAR ENVIO GPS MVT600

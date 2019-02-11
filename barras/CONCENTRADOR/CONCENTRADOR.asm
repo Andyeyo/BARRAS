@@ -814,21 +814,21 @@ L_main28:
 	ADDWFC      _counter1+1, 1 
 	ADDWFC      _counter1+2, 1 
 	ADDWFC      _counter1+3, 1 
-;CONCENTRADOR.c,208 :: 		if(counter1>(140000*20))
+;CONCENTRADOR.c,208 :: 		if(counter1>(140000*10))
 	MOVF        _counter1+3, 0 
 	SUBLW       0
 	BTFSS       STATUS+0, 2 
 	GOTO        L__main79
 	MOVF        _counter1+2, 0 
-	SUBLW       42
+	SUBLW       21
 	BTFSS       STATUS+0, 2 
 	GOTO        L__main79
 	MOVF        _counter1+1, 0 
-	SUBLW       185
+	SUBLW       92
 	BTFSS       STATUS+0, 2 
 	GOTO        L__main79
 	MOVF        _counter1+0, 0 
-	SUBLW       128
+	SUBLW       192
 L__main79:
 	BTFSC       STATUS+0, 0 
 	GOTO        L_main30

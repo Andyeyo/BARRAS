@@ -4,10 +4,10 @@ diagnostics: 0	122	Compilation Started	CONCENTRADOR.c
 diagnostics: 361	123	Compiled Successfully	CONCENTRADOR.c
 diagnostics: 0	122	Compilation Started	pic_SwUart_Baud.c
 diagnostics: 60	123	Compiled Successfully	pic_SwUart_Baud.c
-diagnostics: 0	127	All files Compiled in 281 ms	 
+diagnostics: 0	127	All files Compiled in 406 ms	 
 hint: 0	1144	Used RAM (bytes): 296 (15%)  Free RAM (bytes): 1731 (85%)	Used RAM (bytes): 296 (15%)  Free RAM (bytes): 1731 (85%)
 hint: 0	1144	Used ROM (bytes): 4595 (14%)  Free ROM (bytes): 28173 (86%)	Used ROM (bytes): 4595 (14%)  Free ROM (bytes): 28173 (86%)
 diagnostics: 0	125	Project Linked Successfully	CONCENTRADOR.mcppi
-diagnostics: 0	128	Linked in 172 ms	 
-diagnostics: 0	129	Project 'CONCENTRADOR.mcppi' completed: 563 ms	 
-diagnostics: 0	103	Finished successfully: 29 ene. 2019, 16:49:40	CONCENTRADOR.mcppi
+diagnostics: 0	128	Linked in 344 ms	 
+diagnostics: 0	129	Project 'CONCENTRADOR.mcppi' completed: 953 ms	 
+diagnostics: 0	103	Finished successfully: 31 ene. 2019, 09:00:01	CONCENTRADOR.mcppi
