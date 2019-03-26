@@ -190,6 +190,7 @@ acqt1
 acqt1_bit
 acqt2
 acqt2_bit
+actual
 actvie
 actvie_bit
 actvif
@@ -249,6 +250,7 @@ an3
 an3_bit
 an4
 an4_bit
+anterior
 asin
 atan
 atan2
@@ -418,6 +420,8 @@ cmif_bit
 cmip
 cmip_bit
 cnt
+cnt1
+cnt2
 comfrem
 compare_double
 cos
@@ -637,6 +641,7 @@ epstall_uep8_bit
 epstall_uep9_bit
 equals_double
 esclavo
+esclavo_ant
 exp
 expander_init
 expander_init_advanced
@@ -1339,6 +1344,8 @@ re3_bit
 read_write
 read_write_bit
 res032
+reset
+response
 resume_
 resume__bit
 ri
@@ -1468,7 +1475,11 @@ setjmp
 shorttohex
 shorttostr
 sin
+sine1
+sine2
+sine3
 sinh
+sinrespuesta
 smp
 smp_bit
 sofie
@@ -1830,6 +1841,7 @@ suart3_readt
 suart3_readw
 suart3_write
 sub_32x32_fp
+suma
 suspnd
 suspnd_bit
 swap
@@ -2167,6 +2179,7 @@ uteye
 uteye_bit
 utrdis
 utrdis_bit
+vandalismo
 vcfg0
 vcfg0_bit
 vcfg1

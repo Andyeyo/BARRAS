@@ -35,6 +35,14 @@ char dat[10];
 char i,j;
 char esclavo = 10;
 unsigned long int seg_off = 0;
+int sinRespuesta = 0;
+char response[11];
+char esclavo_ant = 0;
+unsigned long anterior = 0, actual = 0, cnt1 = 0, cnt2 = 0;
+unsigned long sinE1 = 0, sinE2 = 0, sinE3 = 0;
+char vandalismo = 0x41;
+int suma = 0, reset = 0;
+
 
 
 unsigned long int counter1=0, counter2=0;
@@ -164,41 +172,161 @@ void main()
  for(u=0;u<10;u++){ buffer[pbuffer++]=s_salen[u]; }
  buffer[pbuffer++]='B';
  for(u=0;u<10;u++){ buffer[pbuffer++]=s_bloqueos[u]; }
+ buffer[pbuffer++]='V';
+ buffer[pbuffer++]=vandalismo;
  buffer[pbuffer++]='#';
 
- SUart0_RstrNout(buffer,36);
+ SUart0_RstrNout(buffer,38);
  SUart0_write('\r'); SUart0_write('\n');
 
 
- buildBuf600();
- transmitirGPS(600);
 
+
+ transmitirGPS(300);
 
  fbt=0; pbuffer=0;
 
  entran=0; salen=0; bloqueos=0;
  cnt=0;
+
+
+ cnt1 = cnt2 = 0;
+ suma = 0;
+ reset = 1;
+
  }
-#line 189 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+ else
+ {
+ cnt1++;
+ if(cnt1 > 140000)
+ {
+ if(esclavo == 10)
+ esclavo_ant = 30;
+ else if(esclavo == 20)
+ esclavo_ant = 10;
+ else if(esclavo == 30)
+ esclavo_ant = 20;
+
+
+
+
+
+
+ response[0] = '1';response[1] = sinE1+48;
+ response[2] = '2';response[3] = sinE2+48;
+ response[4] = '3';response[5] = sinE3+48;
+ response[6] = ' ';response[7] = 'S';
+ response[8] = (esclavo_ant/10)+48;response[9] = ' ';
+ response[10] = cnt2+48;
+ imprimirMensaje(&response);
+
+ cnt1 = 0;
+ cnt2++;
+
+ if(cnt2 > 9)
+ {
+ if(esclavo_ant == 10)
+ {
+ sinE1++;
+ if(sinE1 > 4)
+ {
+ vandalismo.B1 = 1;
+ response[0]='F';response[1]='A';response[2]='L';
+ response[3]='L';response[4]='A';response[5]=' ';
+ response[6]='E';response[7]='N';response[8]=' ';
+ response[9]='S';response[10]=((esclavo_ant/10)+48);
+ imprimirMensaje(&response);
+ }
+ }
+ else if(esclavo_ant == 20)
+ {
+ sinE2++;
+ if(sinE2 > 4)
+ {
+ vandalismo.B2 = 1;
+ response[0]='F';response[1]='A';response[2]='L';
+ response[3]='L';response[4]='A';response[5]=' ';
+ response[6]='E';response[7]='N';response[8]=' ';
+ response[9]='S';response[10]=((esclavo_ant/10)+48);
+ imprimirMensaje(&response);
+ }
+ }
+ else if(esclavo_ant == 30)
+ {
+ sinE3++;
+ if(sinE3 > 4)
+ {
+ vandalismo.B3 = 1;
+ response[0]='F';response[1]='A';response[2]='L';
+ response[3]='L';response[4]='A';response[5]=' ';
+ response[6]='E';response[7]='N';response[8]=' ';
+ response[9]='S';response[10]=((esclavo_ant/10)+48);
+ imprimirMensaje(&response);
+ }
+ }
+ cnt2=0;
+ }
+ else if(reset)
+ {
+ if(esclavo_ant == 10)
+ {
+ sinE1 = 0;
+ vandalismo.B1 = 0;
+ response[0]='R';response[1]='E';response[2]='S';
+ response[3]='E';response[4]='T';response[5]=' ';
+ response[6]='S';response[7]=' ';response[8]=' ';
+ response[9]=' ';response[10]=((esclavo_ant/10)+48);
+ imprimirMensaje(&response);
+ }
+ else if(esclavo_ant == 20)
+ {
+ sinE2 = 0;
+ vandalismo.B2 = 0;
+ response[0]='R';response[1]='E';response[2]='S';
+ response[3]='E';response[4]='T';response[5]=' ';
+ response[6]='S';response[7]=' ';response[8]=' ';
+ response[9]=' ';response[10]=((esclavo_ant/10)+48);
+ imprimirMensaje(&response);
+ }
+ else if(esclavo_ant == 30)
+ {
+ sinE3 = 0;
+ vandalismo.B3 = 0;
+ response[0]='R';response[1]='E';response[2]='S';
+ response[3]='E';response[4]='T';response[5]=' ';
+ response[6]='S';response[7]=' ';response[8]=' ';
+ response[9]=' ';response[10]=((esclavo_ant/10)+48);
+ imprimirMensaje(&response);
+ }
+ reset = 0;
+ }
+ }
+ }
+#line 314 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  counter2++;
- if(counter2>(140000*3))
+ if(counter2>(140000*10))
  {
  counter2=0;
 
 
- imprimirAlerta((esclavo/10)+48);
+
+
+ response[0] = 'E';response[1] = 'S';response[2] = 'C';response[3] = 'L';
+ response[4] = 'A';response[5] = 'V';response[6] = 'O';response[7] = ' ';
+ response[8] = '>';response[9] = ' ';response[10] = ((esclavo/10)+48);
+ imprimirMensaje(&response);
  peticion(esclavo);
  esclavo += 10;
  if(esclavo > 30){esclavo = 10;}
  }
-#line 207 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 337 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  counter1++;
  if(counter1>(140000*10))
  {
  counter1=0;
 
  }
-#line 219 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 349 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  if( PORTC.RC0 )
  {
  seg_off++;
@@ -223,24 +351,24 @@ void main()
  }
  }
 }
-#line 250 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 380 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void imprimirAlerta(char lugar)
 {
  SUart0_write(lugar);
  SUart0_write('\r');
  SUart0_write('\n');
 }
-void imprimirMensaje(char mensaje[10])
+void imprimirMensaje(char mensaje[11])
 {
  int u = 0;
- for(u = 0; u < 10; u++)
+ for(u = 0; u < 11; u++)
  {
  SUart0_write(mensaje[u]);
  }
  SUart0_write('\r');
  SUart0_write('\n');
 }
-#line 277 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 407 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void peticion(char dirEsclavo)
 {
  dat[0] = 0xFF;
@@ -252,7 +380,7 @@ void peticion(char dirEsclavo)
  RS485Master_Send(dat,1,dirEsclavo);
  delay_ms(1);
 }
-#line 297 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 427 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void buildBuf600()
 {
  if(id_slave == 10)
@@ -268,12 +396,12 @@ void buildBuf600()
  for(u=3;u<10;u++){ ee3[11+u]=s_entran[u]; }
  }
 }
-#line 324 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 454 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void transmitirGPS(int GPS)
 {
  if(GPS == 300)
  {
- for(u=0;u<36;u++)
+ for(u=0;u<38;u++)
  {
  Suart2_write((char)buffer[u]);
  }

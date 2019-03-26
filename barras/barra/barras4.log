@@ -25,10 +25,10 @@ diagnostics: 46	123	Compiled Successfully	eeprom.c
 hint: 25	1164	Variable 'fth_byte' has been eliminated by optimizer	eeprom.c
 diagnostics: 0	122	Compilation Started	pic_SwUart_Baud.c
 diagnostics: 60	123	Compiled Successfully	pic_SwUart_Baud.c
-diagnostics: 0	127	All files Compiled in 1031 ms	 
+diagnostics: 0	127	All files Compiled in 1219 ms	 
 hint: 0	1144	Used RAM (bytes): 340 (9%)  Free RAM (bytes): 3607 (91%)	Used RAM (bytes): 340 (9%)  Free RAM (bytes): 3607 (91%)
-hint: 0	1144	Used ROM (bytes): 6890 (11%)  Free ROM (bytes): 58646 (89%)	Used ROM (bytes): 6890 (11%)  Free ROM (bytes): 58646 (89%)
+hint: 0	1144	Used ROM (bytes): 6886 (11%)  Free ROM (bytes): 58650 (89%)	Used ROM (bytes): 6886 (11%)  Free ROM (bytes): 58650 (89%)
 diagnostics: 0	125	Project Linked Successfully	barras4.mcppi
-diagnostics: 0	128	Linked in 250 ms	 
-diagnostics: 0	129	Project 'barras4.mcppi' completed: 1390 ms	 
-diagnostics: 0	103	Finished successfully: 31 ene. 2019, 09:03:05	barras4.mcppi
+diagnostics: 0	128	Linked in 235 ms	 
+diagnostics: 0	129	Project 'barras4.mcppi' completed: 1563 ms	 
+diagnostics: 0	103	Finished successfully: 25 mar. 2019, 12:03:56	barras4.mcppi

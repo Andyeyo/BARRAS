@@ -24,9 +24,6 @@ main
 	SUart0_Write
 		Delay_1us
 	Div_8X8_U
-	read_data
-		read_long
-			EEPROM_Read
 	detect
 		SUart0_Write
 			Delay_1us
@@ -52,6 +49,9 @@ main
 		read_data
 			read_long
 				EEPROM_Read
+	read_data
+		read_long
+			EEPROM_Read
 	verificarPeticion
 		rs485_slave_send
 			tx_prepare

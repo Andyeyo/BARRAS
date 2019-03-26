@@ -52,7 +52,7 @@ void main()
         Funcion asigna a variables ENTRAN, SALEN y BLOQUEOS los valores almacenados
         en la EEPROM
     */
-    read_data();
+    //read_data();
 
     while(1)
     {

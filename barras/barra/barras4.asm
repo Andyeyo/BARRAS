@@ -87,8 +87,6 @@ L_main0:
 	MOVLW       10
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;barras4.c,55 :: 		read_data();
-	CALL        _read_data+0, 0
 ;barras4.c,57 :: 		while(1)
 L_main1:
 ;barras4.c,71 :: 		detect();

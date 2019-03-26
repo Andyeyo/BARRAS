@@ -149,9 +149,7 @@ void main()
  SUart0_Write((leerIdSlave()/10)+48);
  SUart0_Write('\r');
  SUart0_Write('\n');
-#line 55 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
- read_data();
-
+#line 57 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  while(1)
  {
 #line 71 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"

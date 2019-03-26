@@ -29,11 +29,19 @@ char buffer[50],s_entran[11],s_salen[11],s_bloqueos[11];
 unsigned long int entran=0,salen=0,bloqueos=0 , cnt=0;
 char fbt=0, pbuffer=0, u=0,  id_slave=0;
 
-//Add PC
+//***************************Add PC***************************
 char dat[10];
 char i,j;
 char esclavo = 10;
 unsigned long int seg_off = 0;
+int sinRespuesta = 0;
+char response[11];
+char esclavo_ant = 0;
+unsigned long anterior = 0, actual = 0, cnt1 = 0, cnt2 = 0;
+unsigned long sinE1 = 0, sinE2 = 0, sinE3 = 0;
+char vandalismo = 0x41;
+int suma = 0, reset = 0;
+//************************************************************
 
 //Array for rs232 tx MVT600 de rasercom
 unsigned long int counter1=0, counter2=0; //1 for periodic tx - 2 for periodic change data tx
@@ -163,21 +171,138 @@ void main()
             for(u=0;u<10;u++){ buffer[pbuffer++]=s_salen[u]; }
             buffer[pbuffer++]='B';
             for(u=0;u<10;u++){ buffer[pbuffer++]=s_bloqueos[u]; }
+            buffer[pbuffer++]='V';          //add para vandalismo
+            buffer[pbuffer++]=vandalismo;   //add para vandalismo
             buffer[pbuffer++]='#';
-            
-            SUart0_RstrNout(buffer,36);             //Transmitir por bluetooth
+                                // modificado de 36 a 38
+            SUart0_RstrNout(buffer,38);             //Transmitir por bluetooth
             SUart0_write('\r'); SUart0_write('\n'); //add PC salto de linea
             
             //Envio a traves del GPS
-            buildBuf600();                      //Construir BUffer para MVT600
-            transmitirGPS(600);                 //ENVIAR POR MVT600
-            //transmitirGPS(300);                 //ENVIAR POR GV300
+            //buildBuf600();                      //Construir BUffer para MVT600
+            //transmitirGPS(600);                 //ENVIAR POR MVT600
+            transmitirGPS(300);                 //ENVIAR POR GV300
             
             fbt=0; pbuffer=0;
 
             entran=0; salen=0; bloqueos=0;
             cnt=0;
+            
+            /**********************************/
+            cnt1 = cnt2 = 0;
+            suma = 0;
+            reset = 1;
+            /**********************************/
         }
+        else //cuando un esclavo no responde el cnt2 supera 10
+        {
+            cnt1++;
+            if(cnt1 > 140000)
+            {
+                if(esclavo == 10)
+                    esclavo_ant = 30;
+                else if(esclavo == 20)
+                    esclavo_ant = 10;
+                else if(esclavo == 30)
+                    esclavo_ant = 20;
+                    
+                //response[0] = 'R';response[1] = ' ';response[2] = 'S';response[3] = 'L';
+                //response[4] = 'A';response[5] = 'V';response[6] = 'E';response[7] = ' ';
+                //response[8] = '>';response[9] = ' ';response[10] = ((esclavo_ant/10)+48);
+                //imprimirMensaje(&response);
+
+                response[0] = '1';response[1] = sinE1+48;
+                response[2] = '2';response[3] = sinE2+48;
+                response[4] = '3';response[5] = sinE3+48;
+                response[6] = ' ';response[7] = 'S';
+                response[8] = (esclavo_ant/10)+48;response[9] = ' ';
+                response[10] = cnt2+48;
+                imprimirMensaje(&response);
+                
+                cnt1 = 0;
+                cnt2++;
+
+                if(cnt2 > 9)
+                {
+                    if(esclavo_ant == 10) //esclavo 10
+                    {
+                        sinE1++;
+                        if(sinE1 > 4)
+                        {
+                          vandalismo.B1 = 1;
+                          response[0]='F';response[1]='A';response[2]='L';
+                          response[3]='L';response[4]='A';response[5]=' ';
+                          response[6]='E';response[7]='N';response[8]=' ';
+                          response[9]='S';response[10]=((esclavo_ant/10)+48);
+                          imprimirMensaje(&response);
+                        }
+                    }
+                    else if(esclavo_ant == 20) //esclavo 20
+                    {
+                        sinE2++;
+                        if(sinE2 > 4)
+                        {
+                          vandalismo.B2 = 1;
+                          response[0]='F';response[1]='A';response[2]='L';
+                          response[3]='L';response[4]='A';response[5]=' ';
+                          response[6]='E';response[7]='N';response[8]=' ';
+                          response[9]='S';response[10]=((esclavo_ant/10)+48);
+                          imprimirMensaje(&response);
+                        }
+                    }
+                    else if(esclavo_ant == 30) //esclavo 30
+                    {
+                        sinE3++;
+                        if(sinE3 > 4)
+                        {
+                          vandalismo.B3 = 1;
+                          response[0]='F';response[1]='A';response[2]='L';
+                          response[3]='L';response[4]='A';response[5]=' ';
+                          response[6]='E';response[7]='N';response[8]=' ';
+                          response[9]='S';response[10]=((esclavo_ant/10)+48);
+                          imprimirMensaje(&response);
+                        }
+                    }
+                    cnt2=0;
+                } 
+                else if(reset)
+                {
+                    if(esclavo_ant == 10)
+                    {
+                        sinE1 = 0;
+                        vandalismo.B1 = 0;
+                        response[0]='R';response[1]='E';response[2]='S';
+                        response[3]='E';response[4]='T';response[5]=' ';
+                        response[6]='S';response[7]=' ';response[8]=' ';
+                        response[9]=' ';response[10]=((esclavo_ant/10)+48);
+                        imprimirMensaje(&response);
+                    }
+                    else if(esclavo_ant == 20)
+                    {
+                        sinE2 = 0;
+                        vandalismo.B2 = 0;
+                        response[0]='R';response[1]='E';response[2]='S';
+                        response[3]='E';response[4]='T';response[5]=' ';
+                        response[6]='S';response[7]=' ';response[8]=' ';
+                        response[9]=' ';response[10]=((esclavo_ant/10)+48);
+                        imprimirMensaje(&response);
+                    }
+                    else if(esclavo_ant == 30)
+                    {
+                        sinE3 = 0;
+                        vandalismo.B3 = 0;
+                        response[0]='R';response[1]='E';response[2]='S';
+                        response[3]='E';response[4]='T';response[5]=' ';
+                        response[6]='S';response[7]=' ';response[8]=' ';
+                        response[9]=' ';response[10]=((esclavo_ant/10)+48);
+                        imprimirMensaje(&response);
+                    }
+                    reset = 0;
+                } 
+            }
+        }
+        
+
 
         /*
             Se utiliza para enviar solicitud a los esclavos de forma ordenada
@@ -187,12 +312,17 @@ void main()
             A mayor tiempo, mayor retardo en el envio por GPS y viceversa.
         */
         counter2++;
-        if(counter2>(140000*3))
+        if(counter2>(140000*10))
         {
             counter2=0;
             
             //Realizar pedido de informacion al esclavo de forma ordenada
-            imprimirAlerta((esclavo/10)+48);
+            //imprimirAlerta('E');
+            //imprimirAlerta((esclavo/10)+48);
+            response[0] = 'E';response[1] = 'S';response[2] = 'C';response[3] = 'L';
+            response[4] = 'A';response[5] = 'V';response[6] = 'O';response[7] = ' ';
+            response[8] = '>';response[9] = ' ';response[10] = ((esclavo/10)+48);
+            imprimirMensaje(&response);
             peticion(esclavo);              //pedido de información al esclavo
             esclavo += 10;                  //incrementar direccion de esclavo
             if(esclavo > 30){esclavo = 10;} //control desborde de esclavos
@@ -253,10 +383,10 @@ void imprimirAlerta(char lugar)
     SUart0_write('\r');
     SUart0_write('\n');
 }
-void imprimirMensaje(char mensaje[10])
+void imprimirMensaje(char mensaje[11])
 {
     int u = 0;
-    for(u = 0; u < 10; u++)
+    for(u = 0; u < 11; u++)
     {
         SUart0_write(mensaje[u]);
     }
@@ -325,7 +455,7 @@ void transmitirGPS(int GPS)
 {
     if(GPS == 300)      // PARA GV300
     {
-        for(u=0;u<36;u++)
+        for(u=0;u<38;u++) //modificado de 36 a 38
         {
             Suart2_write((char)buffer[u]); //TX por RS232 puerto J2(RJ45) pc
         }
