@@ -21,12 +21,12 @@ void bloqueo(void)
             }
         }
 
-        if((contador==0 || contador==(limit*0.5)) && (contador_seg>=5))
+        if((contador==0 || contador==(limit*0.5)) && (contador_seg>=3))
         {
             BUZZER=1;
         }
 
-        if((contador==(limit*0.17) || contador==(limit*0.67)) && (contador_seg>=5))
+        if((contador==(limit*0.17) || contador==(limit*0.67)) && (contador_seg>=3))
         {
             BUZZER=0;
         }

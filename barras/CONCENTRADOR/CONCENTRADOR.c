@@ -3,6 +3,7 @@
 
 #define SWITCH_ON PORTC.RC0 //add PC para leer el estado del Switch de encendido
 #define DS_FUENTE PORTB.RB5 //add PC control de desenergización del sistema
+#define IN_AUX1   PORTC.RC2
 
 //SOFTWARE UART SERIAL
 sbit Stx0_pin  at PORTB.B1;
@@ -79,6 +80,9 @@ void main()
     PORTC.RC0 = 0;
     TRISB.RB5 = 0;
     PORTB.RB5 = 0;
+    
+    TRISC.RC2 = 1;
+    PORTC.RC2 = 1;
 
     //Configuraciones RS485 (acceso al bus como master)
     UART1_Init(9600); Delay_ms(100);      // initialize UART1 module
@@ -211,13 +215,13 @@ void main()
                 //response[8] = '>';response[9] = ' ';response[10] = ((esclavo_ant/10)+48);
                 //imprimirMensaje(&response);
 
-                response[0] = '1';response[1] = sinE1+48;
-                response[2] = '2';response[3] = sinE2+48;
-                response[4] = '3';response[5] = sinE3+48;
-                response[6] = ' ';response[7] = 'S';
-                response[8] = (esclavo_ant/10)+48;response[9] = ' ';
-                response[10] = cnt2+48;
-                imprimirMensaje(&response);
+                //response[0] = '1';response[1] = sinE1+48;
+                //response[2] = '2';response[3] = sinE2+48;
+                //response[4] = '3';response[5] = sinE3+48;
+                //response[6] = ' ';response[7] = 'S';
+                //response[8] = (esclavo_ant/10)+48;response[9] = ' ';
+                //response[10] = cnt2+48;
+                //imprimirMensaje(&response);
                 
                 cnt1 = 0;
                 cnt2++;
@@ -235,6 +239,8 @@ void main()
                           response[6]='E';response[7]='N';response[8]=' ';
                           response[9]='S';response[10]=((esclavo_ant/10)+48);
                           imprimirMensaje(&response);
+                          if(sinE1 > 9)
+                            sinE1 = 5;
                         }
                     }
                     else if(esclavo_ant == 20) //esclavo 20
@@ -248,6 +254,8 @@ void main()
                           response[6]='E';response[7]='N';response[8]=' ';
                           response[9]='S';response[10]=((esclavo_ant/10)+48);
                           imprimirMensaje(&response);
+                          if(sinE2 > 9)
+                            sinE2 = 5;
                         }
                     }
                     else if(esclavo_ant == 30) //esclavo 30
@@ -261,6 +269,8 @@ void main()
                           response[6]='E';response[7]='N';response[8]=' ';
                           response[9]='S';response[10]=((esclavo_ant/10)+48);
                           imprimirMensaje(&response);
+                          if(sinE3 > 9)
+                            sinE3 = 5;
                         }
                     }
                     cnt2=0;
@@ -271,31 +281,31 @@ void main()
                     {
                         sinE1 = 0;
                         vandalismo.B1 = 0;
-                        response[0]='R';response[1]='E';response[2]='S';
-                        response[3]='E';response[4]='T';response[5]=' ';
-                        response[6]='S';response[7]=' ';response[8]=' ';
-                        response[9]=' ';response[10]=((esclavo_ant/10)+48);
-                        imprimirMensaje(&response);
+                        //response[0]='R';response[1]='E';response[2]='S';
+                        //response[3]='E';response[4]='T';response[5]=' ';
+                        //response[6]='S';response[7]=' ';response[8]=' ';
+                        //response[9]=' ';response[10]=((esclavo_ant/10)+48);
+                        //imprimirMensaje(&response);
                     }
                     else if(esclavo_ant == 20)
                     {
                         sinE2 = 0;
                         vandalismo.B2 = 0;
-                        response[0]='R';response[1]='E';response[2]='S';
-                        response[3]='E';response[4]='T';response[5]=' ';
-                        response[6]='S';response[7]=' ';response[8]=' ';
-                        response[9]=' ';response[10]=((esclavo_ant/10)+48);
-                        imprimirMensaje(&response);
+                        //response[0]='R';response[1]='E';response[2]='S';
+                        //response[3]='E';response[4]='T';response[5]=' ';
+                        //response[6]='S';response[7]=' ';response[8]=' ';
+                        //response[9]=' ';response[10]=((esclavo_ant/10)+48);
+                        //imprimirMensaje(&response);
                     }
                     else if(esclavo_ant == 30)
                     {
                         sinE3 = 0;
                         vandalismo.B3 = 0;
-                        response[0]='R';response[1]='E';response[2]='S';
-                        response[3]='E';response[4]='T';response[5]=' ';
-                        response[6]='S';response[7]=' ';response[8]=' ';
-                        response[9]=' ';response[10]=((esclavo_ant/10)+48);
-                        imprimirMensaje(&response);
+                        //response[0]='R';response[1]='E';response[2]='S';
+                        //response[3]='E';response[4]='T';response[5]=' ';
+                        //response[6]='S';response[7]=' ';response[8]=' ';
+                        //response[9]=' ';response[10]=((esclavo_ant/10)+48);
+                        //imprimirMensaje(&response);
                     }
                     reset = 0;
                 } 
@@ -319,8 +329,10 @@ void main()
             //Realizar pedido de informacion al esclavo de forma ordenada
             //imprimirAlerta('E');
             //imprimirAlerta((esclavo/10)+48);
-            response[0] = 'E';response[1] = 'S';response[2] = 'C';response[3] = 'L';
-            response[4] = 'A';response[5] = 'V';response[6] = 'O';response[7] = ' ';
+            response[0] = 'B';response[1] = 'A';
+            response[2] = 'R';response[3] = 'R';
+            response[4] = 'A';response[5] = ' ';
+            response[6] = ' ';response[7] = ' ';
             response[8] = '>';response[9] = ' ';response[10] = ((esclavo/10)+48);
             imprimirMensaje(&response);
             peticion(esclavo);              //pedido de información al esclavo

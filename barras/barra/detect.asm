@@ -519,11 +519,43 @@ L_detect34:
 	MOVLW       67
 	MOVWF       FARG_SUart0_Write_tch+0 
 	CALL        _SUart0_Write+0, 0
-;detect.c,205 :: 		}
+;detect.c,206 :: 		SUart0_Write('E');
+	MOVLW       69
+	MOVWF       FARG_SUart0_Write_tch+0 
+	CALL        _SUart0_Write+0, 0
+;detect.c,207 :: 		SUart0_Write(ENTRAN);
+	MOVF        _ENTRAN+0, 0 
+	MOVWF       FARG_SUart0_Write_tch+0 
+	CALL        _SUart0_Write+0, 0
+;detect.c,208 :: 		SUart0_Write('S');
+	MOVLW       83
+	MOVWF       FARG_SUart0_Write_tch+0 
+	CALL        _SUart0_Write+0, 0
+;detect.c,209 :: 		SUart0_Write(SALEN);
+	MOVF        _SALEN+0, 0 
+	MOVWF       FARG_SUart0_Write_tch+0 
+	CALL        _SUart0_Write+0, 0
+;detect.c,210 :: 		SUart0_Write('B');
+	MOVLW       66
+	MOVWF       FARG_SUart0_Write_tch+0 
+	CALL        _SUart0_Write+0, 0
+;detect.c,211 :: 		SUart0_Write(BLOQUEOS);
+	MOVF        _BLOQUEOS+0, 0 
+	MOVWF       FARG_SUart0_Write_tch+0 
+	CALL        _SUart0_Write+0, 0
+;detect.c,212 :: 		SUart0_Write('\r');
+	MOVLW       13
+	MOVWF       FARG_SUart0_Write_tch+0 
+	CALL        _SUart0_Write+0, 0
+;detect.c,213 :: 		SUart0_Write('\n');
+	MOVLW       10
+	MOVWF       FARG_SUart0_Write_tch+0 
+	CALL        _SUart0_Write+0, 0
+;detect.c,215 :: 		}
 L_detect37:
-;detect.c,206 :: 		}
+;detect.c,216 :: 		}
 L_detect36:
-;detect.c,209 :: 		if(aa==0 || bb==0 || cc==0 || dd==0 || ee==0){
+;detect.c,222 :: 		if(aa==0 || bb==0 || cc==0 || dd==0 || ee==0){
 	MOVF        _aa+0, 0 
 	XORLW       0
 	BTFSC       STATUS+0, 2 
@@ -546,24 +578,24 @@ L_detect36:
 	GOTO        L__detect48
 	GOTO        L_detect40
 L__detect48:
-;detect.c,210 :: 		LED_V=0;
+;detect.c,223 :: 		LED_V=0;
 	BCF         PORTE+0, 0 
-;detect.c,211 :: 		LED_A=0;
+;detect.c,224 :: 		LED_A=0;
 	BCF         PORTC+0, 5 
-;detect.c,212 :: 		LED_R=1;
+;detect.c,225 :: 		LED_R=1;
 	BSF         PORTA+0, 5 
-;detect.c,213 :: 		}
+;detect.c,226 :: 		}
 	GOTO        L_detect41
 L_detect40:
-;detect.c,215 :: 		LED_V=1;
+;detect.c,228 :: 		LED_V=1;
 	BSF         PORTE+0, 0 
-;detect.c,216 :: 		LED_A=1;
+;detect.c,229 :: 		LED_A=1;
 	BSF         PORTC+0, 5 
-;detect.c,217 :: 		LED_R=0;
+;detect.c,230 :: 		LED_R=0;
 	BCF         PORTA+0, 5 
-;detect.c,218 :: 		}
+;detect.c,231 :: 		}
 L_detect41:
-;detect.c,220 :: 		if(jumper1){ j1 = 100;}else{ j1 = 0; }
+;detect.c,233 :: 		if(jumper1){ j1 = 100;}else{ j1 = 0; }
 	BTFSS       PORTD+0, 3 
 	GOTO        L_detect42
 	MOVLW       100
@@ -572,7 +604,7 @@ L_detect41:
 L_detect42:
 	CLRF        detect_j1_L0+0 
 L_detect43:
-;detect.c,222 :: 		if(jumper2){ j2 = 10; }else{ j2 = 0; }
+;detect.c,235 :: 		if(jumper2){ j2 = 10; }else{ j2 = 0; }
 	BTFSS       PORTC+0, 4 
 	GOTO        L_detect44
 	MOVLW       10
@@ -581,7 +613,7 @@ L_detect43:
 L_detect44:
 	CLRF        detect_j2_L0+0 
 L_detect45:
-;detect.c,224 :: 		if(jumper3){ j3 = 1;  }else{ j3 = 0; }
+;detect.c,237 :: 		if(jumper3){ j3 = 1;  }else{ j3 = 0; }
 	BTFSS       PORTD+0, 4 
 	GOTO        L_detect46
 	MOVLW       1
@@ -590,13 +622,13 @@ L_detect45:
 L_detect46:
 	CLRF        detect_j3_L0+0 
 L_detect47:
-;detect.c,226 :: 		pos = j1 + j2 + j3;
+;detect.c,239 :: 		pos = j1 + j2 + j3;
 	MOVF        detect_j2_L0+0, 0 
 	ADDWF       detect_j1_L0+0, 0 
 	MOVWF       _pos+0 
 	MOVF        detect_j3_L0+0, 0 
 	ADDWF       _pos+0, 1 
-;detect.c,227 :: 		}
+;detect.c,240 :: 		}
 L_end_detect:
 	RETURN      0
 ; end of _detect

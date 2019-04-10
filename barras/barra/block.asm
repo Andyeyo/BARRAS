@@ -86,7 +86,7 @@ L_bloqueo4:
 L_bloqueo3:
 ;block.c,22 :: 		}
 L_bloqueo0:
-;block.c,24 :: 		if((contador==0 || contador==(limit*0.5)) && (contador_seg>=5))
+;block.c,24 :: 		if((contador==0 || contador==(limit*0.5)) && (contador_seg>=3))
 	MOVLW       0
 	XORWF       _contador+1, 0 
 	BTFSS       STATUS+0, 2 
@@ -119,7 +119,7 @@ L__bloqueo23:
 	GOTO        L__bloqueo18
 	GOTO        L_bloqueo9
 L__bloqueo18:
-	MOVLW       5
+	MOVLW       3
 	SUBWF       _contador_seg+0, 0 
 	BTFSS       STATUS+0, 0 
 	GOTO        L_bloqueo9
@@ -128,7 +128,7 @@ L__bloqueo17:
 	BSF         PORTD+0, 2 
 ;block.c,27 :: 		}
 L_bloqueo9:
-;block.c,29 :: 		if((contador==(limit*0.17) || contador==(limit*0.67)) && (contador_seg>=5))
+;block.c,29 :: 		if((contador==(limit*0.17) || contador==(limit*0.67)) && (contador_seg>=3))
 	MOVF        _contador+0, 0 
 	MOVWF       R0 
 	MOVF        _contador+1, 0 
@@ -173,7 +173,7 @@ L_bloqueo9:
 	GOTO        L__bloqueo16
 	GOTO        L_bloqueo14
 L__bloqueo16:
-	MOVLW       5
+	MOVLW       3
 	SUBWF       _contador_seg+0, 0 
 	BTFSS       STATUS+0, 0 
 	GOTO        L_bloqueo14

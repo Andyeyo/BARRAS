@@ -149,59 +149,16 @@ void main()
  SUart0_Write((leerIdSlave()/10)+48);
  SUart0_Write('\r');
  SUart0_Write('\n');
-#line 57 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 58 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  while(1)
  {
-#line 71 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  detect();
  if( PORTD.RD6 )
  {
  bloqueo();
  counter();
  }
-#line 87 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
- while( PORTE.RE2  == 1)
- {
- SUart0_Write('S');
- SUart0_Write('I');
- SUart0_Write('N');
- SUart0_Write('\r');
- SUart0_Write('\n');
-#line 102 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
- if(almacenarDatos() == 1 && guardado_flag == 0)
- {
- SUart0_Write('G');
- SUart0_Write('O');
- SUart0_Write('K');
- SUart0_Write('\r');
- SUart0_Write('\n');
- guardado_flag = 1;
- }
- while(1)
- {
-  PORTA.RA5  = ~ PORTA.RA5 ;
- Delay_ms(250);
- if(guardado_flag == 1)
- {
- SUart0_Write('G');
- SUart0_Write('\r');
- SUart0_Write('\n');
- }
-
- if( PORTE.RE2  == 0)
- {
- break;
- }
- }
- }
-#line 134 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
- if( PORTE.RE2  == 0 && guardado_flag == 1)
- {
- read_data();
- guardado_flag = 0;
- PORTB.B1 = 0;
- }
-#line 145 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 139 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  if(! PORTA.RA4  && ! PORTA.RA3  && ! PORTE.RE1  && ! PORTB.RB7  && ! PORTB.RB6 )
  verificarPeticion(datoRecibido);
  else
@@ -209,7 +166,7 @@ void main()
 
  }
 }
-#line 160 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 154 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
 void verificarPeticion(char dat[9])
 {
  if (datoRecibido[5])
@@ -236,21 +193,25 @@ void verificarPeticion(char dat[9])
  }
  }
 }
-#line 194 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 188 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
 int almacenarDatos(void)
 {
  unsigned long int V_in,V_sal,V_bloc;
+
 
  V_in = ENTRAN;
  V_sal = SALEN;
  V_bloc = BLOQUEOS;
 
+
  save_data();
 
 
+ delay_ms(10);
+
  read_data();
 
- if(ENTRAN == V_in && SALEN == V_sal && BLOQUEOS == V_bloc)
+ if(V_in == ENTRAN && V_sal == SALEN && V_bloc == BLOQUEOS)
  {
  return 1;
  }
@@ -259,11 +220,11 @@ int almacenarDatos(void)
  ENTRAN = V_in;
  SALEN = V_sal;
  BLOQUEOS = V_bloc;
-#line 217 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 215 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
  return 0;
  }
 }
-#line 225 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
+#line 223 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/barra/barras4.c"
 void indicadorOcupado()
 {
  PORTB.B1 = ~PORTB.B1;

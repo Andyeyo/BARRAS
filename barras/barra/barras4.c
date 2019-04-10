@@ -53,21 +53,10 @@ void main()
         en la EEPROM
     */
     //read_data();
+    //delay_ms(10);
 
     while(1)
     {
-        /*
-            SUart0_Write('V');
-            SUart0_Write('I');
-            SUart0_Write(':');
-            if(OPTO == 1)
-                SUart0_Write('I');
-            else
-                SUart0_Write('0');
-            SUart0_Write('\r');
-            SUart0_Write('\n');
-        */
-
         detect();
         if(RJ45)
         {
@@ -84,6 +73,7 @@ void main()
             cuando no hay energia
             voltaje_in = 1
         */
+        /*
         while(OPTO == 1)
         {
             SUart0_Write('S');
@@ -91,14 +81,15 @@ void main()
             SUart0_Write('N');
             SUart0_Write('\r');
             SUart0_Write('\n');
-            
-            /*
-                Se almacenan los datos de la memoria FLASH usando el metodo
-                almacenar datos que retorna un 1 o 0 dependiendo de si fue 
-                exitoso o no.
-                Ademas, se agrego una bandera de guardado para que no reintente
-                hacerlo nuevamente si la tarea fue exitosa.
-            */
+
+
+            //    Se almacenan los datos de la memoria FLASH usando el metodo
+            //    almacenar datos que retorna un 1 o 0 dependiendo de si fue
+            //    exitoso o no.
+            //    Ademas, se agrego una bandera de guardado para que no reintente
+            //    hacerlo nuevamente si la tarea fue exitosa.
+
+
             if(almacenarDatos() == 1 && guardado_flag == 0)
             {
                 SUart0_Write('G');
@@ -108,7 +99,8 @@ void main()
                 SUart0_Write('\n');
                 guardado_flag = 1;
             }
-            while(1) //bucle para descarga del capacitor
+
+            while(guardado_flag) //bucle para descarga del capacitor
             {
                 LED_R = ~LED_R;
                 Delay_ms(250);
@@ -118,26 +110,28 @@ void main()
                     SUart0_Write('\r');
                     SUart0_Write('\n');
                 }
-                
+
                 if(OPTO == 0)
                 {
                     break;
                 }
             }
         }
+        */
+
 
         /*
             De comprobarse que el estado del suministro electrico a cambiado 
             reinicia la bandera de almacenamiento.
         */
-        
+        /*
         if(OPTO == 0 && guardado_flag == 1)
         {
             read_data();
             guardado_flag = 0;
             PORTB.B1 = 0;
         }
-        
+        */
         /*
             Verificar que no exista interrupciones en los sensores para atender
             a peticion del mestro
@@ -194,25 +188,29 @@ void verificarPeticion(char dat[9])
 int almacenarDatos(void)
 {
     unsigned long int V_in,V_sal,V_bloc;
+    
     //guardar los datos de la flash en variables volatiles
     V_in   = ENTRAN;
     V_sal  = SALEN;
     V_bloc = BLOQUEOS;
+    
     //almacenar los datos en memoria EEPROM
     save_data();
+    
     //leer los datos almacenados a la EEPROM y se asignan en las variables
-    //ENTRAN, SALEN, BLOQUEOS
-    read_data();
+    delay_ms(10);
+    
+    read_data(); //ENTRAN, SALEN, BLOQUEOS
     //comprobar si los datos almacenados son los mismos de la memoria flash
-    if(ENTRAN == V_in && SALEN == V_sal && BLOQUEOS == V_bloc)
+    if(V_in == ENTRAN && V_sal == SALEN && V_bloc == BLOQUEOS)
     {
         return 1; /*si es verdadero, retorna 1 correspondiente a existoso*/
     }
     else
     {
-        ENTRAN   = V_in;
-        SALEN    = V_sal;
-        BLOQUEOS = V_bloc;
+        ENTRAN   =  V_in;
+        SALEN    =  V_sal;
+        BLOQUEOS =  V_bloc;
         return 0; /*Si es falso, reasigna los valores de la flash anteriormente
                     sobreescritos y retorna un 0 correspondiente a error*/
     }

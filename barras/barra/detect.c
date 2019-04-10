@@ -202,9 +202,22 @@ void detect(void)
             logC++;
             aa = 1;
             SUart0_Write('C');
+            
+    SUart0_Write('E');
+    SUart0_Write(ENTRAN);
+    SUart0_Write('S');
+    SUart0_Write(SALEN);
+    SUart0_Write('B');
+    SUart0_Write(BLOQUEOS);
+    SUart0_Write('\r');
+    SUart0_Write('\n');
+            
         }
     }
 
+
+    
+    
     //LED RGB
     if(aa==0 || bb==0 || cc==0 || dd==0 || ee==0){
         LED_V=0;

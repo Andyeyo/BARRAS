@@ -77,12 +77,12 @@ void bloqueo(void)
  }
  }
 
- if((contador==0 || contador==( 28000 *0.5)) && (contador_seg>=5))
+ if((contador==0 || contador==( 28000 *0.5)) && (contador_seg>=3))
  {
   PORTD.RD2 =1;
  }
 
- if((contador==( 28000 *0.17) || contador==( 28000 *0.67)) && (contador_seg>=5))
+ if((contador==( 28000 *0.17) || contador==( 28000 *0.67)) && (contador_seg>=3))
  {
   PORTD.RD2 =0;
  }

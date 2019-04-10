@@ -42,16 +42,6 @@ main
 		save_data
 			write_long
 				EEPROM_Write
-	almacenarDatos
-		save_data
-			write_long
-				EEPROM_Write
-		read_data
-			read_long
-				EEPROM_Read
-	read_data
-		read_long
-			EEPROM_Read
 	verificarPeticion
 		rs485_slave_send
 			tx_prepare

@@ -33,9 +33,8 @@ File0=lib\p18_SwUart-4.mcl
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=1
 File0=barras4.c
-File1=counter.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

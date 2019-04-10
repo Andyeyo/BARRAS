@@ -6,6 +6,7 @@
 
 
 
+
 sbit Stx0_pin at PORTB.B1;
 sbit Srx0_pin at PORTB.B2;
 sbit Scts0_pin at Stx0_pin;
@@ -80,6 +81,9 @@ void main()
  PORTC.RC0 = 0;
  TRISB.RB5 = 0;
  PORTB.RB5 = 0;
+
+ TRISC.RC2 = 1;
+ PORTC.RC2 = 1;
 
 
  UART1_Init(9600); Delay_ms(100);
@@ -206,20 +210,7 @@ void main()
  esclavo_ant = 10;
  else if(esclavo == 30)
  esclavo_ant = 20;
-
-
-
-
-
-
- response[0] = '1';response[1] = sinE1+48;
- response[2] = '2';response[3] = sinE2+48;
- response[4] = '3';response[5] = sinE3+48;
- response[6] = ' ';response[7] = 'S';
- response[8] = (esclavo_ant/10)+48;response[9] = ' ';
- response[10] = cnt2+48;
- imprimirMensaje(&response);
-
+#line 226 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  cnt1 = 0;
  cnt2++;
 
@@ -236,6 +227,8 @@ void main()
  response[6]='E';response[7]='N';response[8]=' ';
  response[9]='S';response[10]=((esclavo_ant/10)+48);
  imprimirMensaje(&response);
+ if(sinE1 > 9)
+ sinE1 = 5;
  }
  }
  else if(esclavo_ant == 20)
@@ -249,6 +242,8 @@ void main()
  response[6]='E';response[7]='N';response[8]=' ';
  response[9]='S';response[10]=((esclavo_ant/10)+48);
  imprimirMensaje(&response);
+ if(sinE2 > 9)
+ sinE2 = 5;
  }
  }
  else if(esclavo_ant == 30)
@@ -262,6 +257,8 @@ void main()
  response[6]='E';response[7]='N';response[8]=' ';
  response[9]='S';response[10]=((esclavo_ant/10)+48);
  imprimirMensaje(&response);
+ if(sinE3 > 9)
+ sinE3 = 5;
  }
  }
  cnt2=0;
@@ -272,37 +269,37 @@ void main()
  {
  sinE1 = 0;
  vandalismo.B1 = 0;
- response[0]='R';response[1]='E';response[2]='S';
- response[3]='E';response[4]='T';response[5]=' ';
- response[6]='S';response[7]=' ';response[8]=' ';
- response[9]=' ';response[10]=((esclavo_ant/10)+48);
- imprimirMensaje(&response);
+
+
+
+
+
  }
  else if(esclavo_ant == 20)
  {
  sinE2 = 0;
  vandalismo.B2 = 0;
- response[0]='R';response[1]='E';response[2]='S';
- response[3]='E';response[4]='T';response[5]=' ';
- response[6]='S';response[7]=' ';response[8]=' ';
- response[9]=' ';response[10]=((esclavo_ant/10)+48);
- imprimirMensaje(&response);
+
+
+
+
+
  }
  else if(esclavo_ant == 30)
  {
  sinE3 = 0;
  vandalismo.B3 = 0;
- response[0]='R';response[1]='E';response[2]='S';
- response[3]='E';response[4]='T';response[5]=' ';
- response[6]='S';response[7]=' ';response[8]=' ';
- response[9]=' ';response[10]=((esclavo_ant/10)+48);
- imprimirMensaje(&response);
+
+
+
+
+
  }
  reset = 0;
  }
  }
  }
-#line 314 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 324 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  counter2++;
  if(counter2>(140000*10))
  {
@@ -311,22 +308,24 @@ void main()
 
 
 
- response[0] = 'E';response[1] = 'S';response[2] = 'C';response[3] = 'L';
- response[4] = 'A';response[5] = 'V';response[6] = 'O';response[7] = ' ';
+ response[0] = 'B';response[1] = 'A';
+ response[2] = 'R';response[3] = 'R';
+ response[4] = 'A';response[5] = ' ';
+ response[6] = ' ';response[7] = ' ';
  response[8] = '>';response[9] = ' ';response[10] = ((esclavo/10)+48);
  imprimirMensaje(&response);
  peticion(esclavo);
  esclavo += 10;
  if(esclavo > 30){esclavo = 10;}
  }
-#line 337 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 349 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  counter1++;
  if(counter1>(140000*10))
  {
  counter1=0;
 
  }
-#line 349 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 361 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  if( PORTC.RC0 )
  {
  seg_off++;
@@ -351,7 +350,7 @@ void main()
  }
  }
 }
-#line 380 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 392 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void imprimirAlerta(char lugar)
 {
  SUart0_write(lugar);
@@ -368,7 +367,7 @@ void imprimirMensaje(char mensaje[11])
  SUart0_write('\r');
  SUart0_write('\n');
 }
-#line 407 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 419 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void peticion(char dirEsclavo)
 {
  dat[0] = 0xFF;
@@ -380,7 +379,7 @@ void peticion(char dirEsclavo)
  RS485Master_Send(dat,1,dirEsclavo);
  delay_ms(1);
 }
-#line 427 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 439 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void buildBuf600()
 {
  if(id_slave == 10)
@@ -396,7 +395,7 @@ void buildBuf600()
  for(u=3;u<10;u++){ ee3[11+u]=s_entran[u]; }
  }
 }
-#line 454 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 466 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void transmitirGPS(int GPS)
 {
  if(GPS == 300)
