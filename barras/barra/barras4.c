@@ -7,6 +7,7 @@ int cntax = 0;
 char cadenaF[4];
 unsigned long xx=0;
 char DIN, i, j;
+int salto = 0;
 
 char datoRecibido[9];
 void verificarPeticion(char dat[9]);
@@ -22,6 +23,8 @@ void interrupt()
 
 void main() 
 {
+    inicio:
+    
     init_setup();
     
     // inicio el 485 aparte
@@ -141,6 +144,26 @@ void main()
         else
             indicadorOcupado();                       //indicar que esta ocupado
 
+        if(salto == 1)
+        {
+            salto = 0;
+            SUart0_Write('*');SUart0_Write('*');
+            SUart0_Write('*');SUart0_Write('*');
+            SUart0_Write('*');SUart0_Write('*');
+            SUart0_Write('*');SUart0_Write('*');
+            SUart0_Write('R');
+            SUart0_Write('I');
+            SUart0_Write('N');
+            SUart0_Write('I');
+            SUart0_Write('*');SUart0_Write('*');
+            SUart0_Write('*');SUart0_Write('*');
+            SUart0_Write('*');SUart0_Write('*');
+            SUart0_Write('*');SUart0_Write('*');
+            SUart0_Write('\r');
+            SUart0_Write('\n');
+            guardado_flag = 1;
+            goto inicio;
+        }
     }
 }
 
@@ -162,18 +185,50 @@ void verificarPeticion(char dat[9])
         PORTB.B1 = 1; PORTB.B2 = 1; //indicador visual de peticion
         datoRecibido[4] = 0;        //limpiar bandera
         j = datoRecibido[0];        //obtengo dato entrante
-        if(j = 0xFF)                //comprueba que la peticion del maestro es correcta
+        
+        //comprueba que la peticion del maestro sobre retorno de cuenta
+        if(j == 0xFF)
         {
             rs485_slave_send();     //responde al maestro con in, out y blk
             PORTB.B1 = 0; PORTB.B2 = 0; //apaga indicadores visuales
         }
-        else
+        //se agrega el if para verificar la peticion de reset 0xFA
+        else if(j == 0xFA)
         {
-            SUart0_Write('N');
-            SUart0_Write('P');
-            SUart0_Write('I');
+            SUart0_Write('R');
+            SUart0_Write('S');
+            SUart0_Write('T');
             SUart0_Write('\r');
             SUart0_Write('\n');
+            for(i=0;i<5;i++)
+            {
+                LED_R = 1;
+                delay_ms(100);
+                LED_R = 0;
+                delay_ms(100);
+            }
+            salto = 1;
+        }
+        //se agrega el if para verificar la peticion de restaurar contador 0xFB
+        else if(j == 0xFB)
+        {
+            SUart0_Write('R');
+            SUart0_Write('T');
+            SUart0_Write('U');
+            SUart0_Write('\r');
+            SUart0_Write('\n');
+            for(i=0;i<5;i++)
+            {
+                LED_V = 1;
+                delay_ms(100);
+                LED_V = 0;
+                delay_ms(100);
+            }
+            ENTRAN = 0;    //pongo en cero las variables
+            SALEN = 0;
+            BLOQUEOS = 0;
+            save_data();      //escribir en la eeprom
+            salto = 1;
         }
     }
 }

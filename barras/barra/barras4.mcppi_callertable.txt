@@ -47,6 +47,11 @@ main
 			tx_prepare
 			RS485Slave_Send
 				____DoIFC
+		SUart0_Write
+			Delay_1us
+		save_data
+			write_long
+				EEPROM_Write
 	indicadorOcupado
 interrupt
 	RS485Slave_Receive

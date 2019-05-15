@@ -7,6 +7,7 @@
 
 
 
+
 sbit Stx0_pin at PORTB.B1;
 sbit Srx0_pin at PORTB.B2;
 sbit Scts0_pin at Stx0_pin;
@@ -43,6 +44,7 @@ unsigned long anterior = 0, actual = 0, cnt1 = 0, cnt2 = 0;
 unsigned long sinE1 = 0, sinE2 = 0, sinE3 = 0;
 char vandalismo = 0x41;
 int suma = 0, reset = 0;
+unsigned long controlGPS = 0;
 
 
 
@@ -58,7 +60,10 @@ void buildBuf600();
 void imprimirAlerta(char lugar);
 void imprimirMensaje(char mensaje[10]);
 void peticion(char dirEsclavo);
+void reiniciarEsclavos();
+void restaurarEsclavos();
 void transmitirGPS(int GPS);
+
 
 
 void interrupt()
@@ -82,7 +87,9 @@ void main()
  TRISB.RB5 = 0;
  PORTB.RB5 = 0;
 
- TRISC.RC2 = 1;
+ TRISC.TRISC1 = 1;
+ PORTC.RC1 = 1;
+ TRISC.TRISC2 = 1;
  PORTC.RC2 = 1;
 
 
@@ -210,7 +217,7 @@ void main()
  esclavo_ant = 10;
  else if(esclavo == 30)
  esclavo_ant = 20;
-#line 226 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 233 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  cnt1 = 0;
  cnt2++;
 
@@ -299,7 +306,7 @@ void main()
  }
  }
  }
-#line 324 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 331 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  counter2++;
  if(counter2>(140000*10))
  {
@@ -318,14 +325,14 @@ void main()
  esclavo += 10;
  if(esclavo > 30){esclavo = 10;}
  }
-#line 349 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 356 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  counter1++;
  if(counter1>(140000*10))
  {
  counter1=0;
 
  }
-#line 361 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 368 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  if( PORTC.RC0 )
  {
  seg_off++;
@@ -348,9 +355,10 @@ void main()
  seg_off = 0;
   PORTB.RB5  = 0;
  }
+#line 425 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
  }
 }
-#line 392 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 434 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void imprimirAlerta(char lugar)
 {
  SUart0_write(lugar);
@@ -367,7 +375,7 @@ void imprimirMensaje(char mensaje[11])
  SUart0_write('\r');
  SUart0_write('\n');
 }
-#line 419 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 461 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void peticion(char dirEsclavo)
 {
  dat[0] = 0xFF;
@@ -379,7 +387,31 @@ void peticion(char dirEsclavo)
  RS485Master_Send(dat,1,dirEsclavo);
  delay_ms(1);
 }
-#line 439 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 483 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+void reiniciarEsclavos()
+{
+ dat[0] = 0xFA;
+ dat[1] = 0xFA;
+ dat[2] = 0xFA;
+ dat[4] = 0;
+ dat[5] = 0;
+ dat[6] = 0;
+ RS485Master_Send(dat,1,50);
+ delay_ms(10);
+}
+#line 504 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+void restaurarEsclavos()
+{
+ dat[0] = 0xFB;
+ dat[1] = 0xFB;
+ dat[2] = 0xFB;
+ dat[4] = 0;
+ dat[5] = 0;
+ dat[6] = 0;
+ RS485Master_Send(dat,1,50);
+ delay_ms(10);
+}
+#line 523 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void buildBuf600()
 {
  if(id_slave == 10)
@@ -395,7 +427,7 @@ void buildBuf600()
  for(u=3;u<10;u++){ ee3[11+u]=s_entran[u]; }
  }
 }
-#line 466 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
+#line 550 "D:/VICENTE/Downloads/PC/ALGORITMOS_CODIGOS/GIT_GITHUB/BARRAS/barras/CONCENTRADOR/CONCENTRADOR.c"
 void transmitirGPS(int GPS)
 {
  if(GPS == 300)

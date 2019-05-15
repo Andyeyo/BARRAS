@@ -3,7 +3,8 @@
 
 #define SWITCH_ON PORTC.RC0 //add PC para leer el estado del Switch de encendido
 #define DS_FUENTE PORTB.RB5 //add PC control de desenergización del sistema
-#define IN_AUX1   PORTC.RC2
+#define IN_AUX1   PORTC.RC1
+#define IN_AUX2   PORTC.RC2
 
 //SOFTWARE UART SERIAL
 sbit Stx0_pin  at PORTB.B1;
@@ -42,6 +43,7 @@ unsigned long anterior = 0, actual = 0, cnt1 = 0, cnt2 = 0;
 unsigned long sinE1 = 0, sinE2 = 0, sinE3 = 0;
 char vandalismo = 0x41;
 int suma = 0, reset = 0;
+unsigned long controlGPS = 0;
 //************************************************************
 
 //Array for rs232 tx MVT600 de rasercom
@@ -57,7 +59,10 @@ void buildBuf600();
 void imprimirAlerta(char lugar);
 void imprimirMensaje(char mensaje[10]);
 void peticion(char dirEsclavo);
+void reiniciarEsclavos(); // metodo agregado 10 de abril 2019 para reiniciar
+void restaurarEsclavos(); // metodo agregado 10 de abril 2019 para restaurar
 void transmitirGPS(int GPS);
+
 
 //Interrupcion del bus RS485
 void interrupt()
@@ -81,7 +86,9 @@ void main()
     TRISB.RB5 = 0;
     PORTB.RB5 = 0;
     
-    TRISC.RC2 = 1;
+    TRISC.TRISC1 = 1;
+    PORTC.RC1 = 1;
+    TRISC.TRISC2 = 1;
     PORTC.RC2 = 1;
 
     //Configuraciones RS485 (acceso al bus como master)
@@ -380,6 +387,41 @@ void main()
             seg_off = 0;
             DS_FUENTE = 0;
         }
+        //condicionamiento para el reseteo de barras a traves de GPS
+        /*
+        if(IN_AUX1)
+        {
+            controlGPS = 0;
+            while(IN_AUX1) //control antirrebote
+            {
+                controlGPS++; // contar la cantidad de veces que a permanecido activado
+            }
+
+            if(controlGPS > 140000 * 3)
+            {
+                response[0] = 'R';response[1] = ' ';
+                response[2] = 'Z';response[3] = 'E';
+                response[4] = 'R';response[5] = '0';
+                response[6] = ' ';response[7] = ' ';
+                response[8] = ' ';response[9] = ' ';
+                response[10]= ' ';
+                imprimirMensaje(&response);
+                restaurarEsclavos(); //RESTAURAR CUENTA DE ESCLAVOS
+                delay_ms(2000);
+            }
+            
+            response[0] = 'R';response[1] = ' ';
+            response[2] = 'R';response[3] = 'E';
+            response[4] = 'S';response[5] = 'E';
+            response[6] = 'T';response[7] = ' ';
+            response[8] = ' ';response[9] = ' ';
+            response[10]= ' ';
+            imprimirMensaje(&response);
+            
+            reiniciarEsclavos();    //REINICIAR CUENTA DE ESCLAVOS
+        }
+        */
+
     }
 }
 
@@ -428,6 +470,48 @@ void peticion(char dirEsclavo)
     delay_ms(1);
 }
 
+
+/*--------------peticion de reseteo de sistema de conteo------------------
+    Cada esclavo obtiene un mensaje de verificacion de reinicio, que
+    actualmente es el valor 0xFA en la posicion ZERO del mensaje de peticion.
+    En el esclavo, el mensaje es validado y de comprobarse el valor 0xFA
+    retorna a un marcador para reiniciar.
+    Obtiene:    direccion del esclavo en formato caracter
+                0x50 es la direccion de broadcast
+    Retorna:    Nada
+*/
+void reiniciarEsclavos()
+{
+    dat[0] = 0xFA;
+    dat[1] = 0xFA;
+    dat[2] = 0xFA;
+    dat[4] = 0;
+    dat[5] = 0;
+    dat[6] = 0;
+    RS485Master_Send(dat,1,50);  //ENVIO DE MENSAJE DE RESET A BROADCAST dir = 50
+    delay_ms(10);
+}
+
+/*--------------peticion de restauracion de sistema de conteo------------------
+    Cada esclavo obtiene un mensaje de verificacion de reinicio, que
+    actualmente es el valor 0xFB en la posicion ZERO del mensaje de peticion.
+    En el esclavo, el mensaje es validado y de comprobarse el valor 0xFB
+    RETORNO LA CUENTA DE LAS BARRAS A CERO.
+    Obtiene:    direccion del esclavo en formato caracter
+                0x50 es la direccion de broadcast
+    Retorna:    Nada
+*/
+void restaurarEsclavos()
+{
+    dat[0] = 0xFB;
+    dat[1] = 0xFB;
+    dat[2] = 0xFB;
+    dat[4] = 0;
+    dat[5] = 0;
+    dat[6] = 0;
+    RS485Master_Send(dat,1,50);  //ENVIO DE MENSAJE DE RESET A BROADCAST dir = 50
+    delay_ms(10);
+}
 
 /*
     Construir buffer de transmision para GPS MVT600 de rasercom,
